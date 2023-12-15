@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+outputs
+results
+.DS_Store
+.rmd_snakemake
+.snakemake
+logs
+geo-spatial
+

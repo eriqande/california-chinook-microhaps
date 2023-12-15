@@ -1,0 +1,22 @@
+
+# These are for the genetic-marker-resolvable genomic backgrounds
+repunit_colors <- c(
+  `Klamath-Trinity` = "#6e8b3d",
+  `Coastal` = "#79cdcd",
+  `CV-Winter` = "#CC99FF",            # a "cool-ish" color for winter
+  `CV-Spring` = "#99CC33",             # green like spring
+  `CV-Fall` = "#F06292",
+  `CV-Late-Fall` = "#cd9b1d"
+)
+
+
+# These are for the "nominal run timing groups" colored like they
+# are in the Science paper
+run_time_colors <- c(
+  `Winter run` = "#ffff99",
+  `Spring run` = "gold",
+  `Fall run` = "blue",
+  `Late-fall run` = "#a6cee3"
+)
+
+

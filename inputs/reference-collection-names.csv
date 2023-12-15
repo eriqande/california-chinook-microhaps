@@ -1,0 +1,15 @@
+old_name,collection,repunit,run_timing_group
+TRHsp,TRS,Klamath-Trinity,Spring run
+TRHfall,TRF,Klamath-Trinity,Fall run
+RussianWSH,RRF,Coastal,Fall run
+SacWin,SRW,CV-Winter,Winter run
+ButteSp,BCS,CV-Spring,Spring run
+MillSp,MDS,CV-Spring,Spring run
+DeerSp,MDS,CV-Spring,Spring run
+FRHsp,FRHS,CV-Fall,Spring run
+FRHfall,FRHF,CV-Fall,Fall run
+ButteFall,BCF,CV-Fall,Fall run
+MillFall,MDF,CV-Fall,Fall run
+DeerFall,MDF,CV-Fall,Fall run
+SanJoaquinFall,SJRF,CV-Fall,Fall run
+ColemanLF,CHLF,CV-Late-Fall,Late-fall run
