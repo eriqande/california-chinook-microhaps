@@ -1,0 +1,152 @@
+\documentclass[twoside,10pt,twocolumn]{article}
+
+% this stuff just has to be in here so it doesn't choke
+% on the stuff that I put in for typesetting the submission version.
+\newcommand{\AuthorAddresses}{}
+\newcommand{\KeyWords}{}
+\newcommand{\CorrespondingAuthor}{}
+\newcommand{\RunningTitle}{}
+
+
+\input{author-title-etc}  % Put all the author title stuff in there
+
+% ------
+% Fonts and typesetting settings
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\linespread{1.05} % Palatino needs more space between lines
+
+\usepackage{microtype}
+% ------
+% Page layout
+\usepackage[labelfont=bf,labelformat=simple,labelsep=quad]{caption}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage{xspace}
+\usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{cuted}
+\usepackage{flushend}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{scalerel}
+
+\input{newcomms.tex}
+
+
+
+%% some handy things for making bold math
+\def\bm#1{\mathpalette\bmstyle{#1}}
+\def\bmstyle#1#2{\mbox{\boldmath$#1#2$}}
+\newcommand{\thh}{^\mathrm{th}}
+
+
+%% Some pretty etc.'s, etc...
+\newcommand{\cf}{{\em cf.}\xspace }
+\newcommand{\eg}{{\em e.g.},\xspace }
+\newcommand{\ie}{{\em i.e.},\xspace }
+\newcommand{\etal}{{\em et al.}\ }
+\newcommand{\etc}{{\em etc.}\@\xspace}
+
+
+
+%% the page dimensions
+\textwidth = 6.5 in
+\textheight = 9 in
+\oddsidemargin = -0.01 in
+\evensidemargin = -0.01 in
+\topmargin = -0.7 in
+\headheight = 0.25 in
+\headsep = 0.25 in
+\parskip = 0.0in
+\parindent = 0.25in
+
+\setlength{\columnsep}{.4in}
+
+
+%% change section heading styles
+\makeatletter
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {1.5ex \@plus 0ex}%
+                                   {\normalfont\normalsize\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\itshape}}
+\makeatother
+
+%% modify the abstract environment
+\renewenvironment{abstract}
+{\begin{quote}{\bf Abstract}\end{quote}\begin{quote}\bfseries\small}
+{\end{quote}}
+
+
+\fancypagestyle{firststyle}
+{
+   \fancyhf{}
+   \chead[]{\vspace*{.1in}\includegraphics[width=\textwidth]{images/banner.pdf}}
+   \lfoot[]{\footnotesize \myCopyright}
+}
+
+%% here is what I hope will be fancyplain
+\fancyhead{} % clear all header fields
+\fancyhead[LE]{{\bf \thepage}~~{\sl \myRunningTitle}}
+\fancyfoot[RE,LO]{{\footnotesize \myCopyright}}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[RO]{{\sl \myRunningAuthor}~~{\bf \thepage}}
+\cfoot[]{}
+
+
+
+\begin{document}
+
+
+\pagestyle{fancyplain}
+\thispagestyle{firststyle}
+
+
+
+   \begin{strip}
+   \mbox{}\\
+        {\LARGE\bf \myTitle \par}
+    \mbox{}\\
+    \uppercase{\myAuthors}\\
+       \mbox{}\\
+    {\em \myAffiliations}\\
+    \mbox{}\\
+    {\small \myEmailFootnote Correspondence: \myEmailAddress}
+
+   \begin{abstract}
+   	\input{abstract}    %% Put abstract text in here
+    \end{abstract}
+   \end{strip}
+
+{\small
+\input{body-text-of-paper}
+}
+
+\bibliographystyle{men}
+{\footnotesize
+\bibliography{citation}}
+
+{\small
+\input{data-accessibility}
+}
+
+%\appendix
+%
+%{
+%\small
+%\input{appendix}
+%}
+
+\end{document}
+
+

@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+
+% Fonts and typesetting settings
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{epsfig} % for postscript graphics
+\usepackage[usenames]{color}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage{eca_molecolres}
+\usepackage{xspace}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{enumerate}
+\usepackage[draft]{hyperref}
+\usepackage[nolists,tablesfirst]{endfloat}
+\usepackage{url}
+\usepackage{scalerel}
+
+\input{newcomms.tex}
+
+\usepackage{subcaption}
+\captionsetup[subfigure]{position=top, singlelinecheck=off, labelfont=bf, justification=raggedright, font=singlespacing} 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% A bunch of Mol Ecol Res Formatting
+% change the way captions are displayed beneath figures (Only display figure number)
+\makeatletter
+\renewcommand{\@makecaption}[2]{{\centering   \vskip\abovecaptionskip \bfseries #1} #2}
+\newcommand{\@makecaptionZ}[2]{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1\par
+\else
+\global \@minipagefalse
+\hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+\fi
+\vskip\belowcaptionskip}
+\makeatother
+
+\setcitestyle{aysep={}}
+\AtBeginDelayedFloats{\renewcommand{\baselinestretch}{1.6}}
+
+
+\textwidth = 6.5 in
+\textheight = 8.622 in
+\oddsidemargin = 0.0 in
+\evensidemargin = 0.0 in
+\topmargin = 0.378 in
+\headheight = 0.0 in
+\headsep = 0.0 in
+\parskip = 0.2in
+\parindent = 0.0in
+
+
+\input{author-title-etc}
+
+% let \cite be the same as \citep
+\renewcommand{\cite}{\citep}
+
+\setlength{\parindent}{2em}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textwidth=6.5in \textheight= 8.0in \evensidemargin=0in
+\oddsidemargin=0in
+\parskip=.2ex
+
+
+%% some handy things for making bold math
+\def\bm#1{\mathpalette\bmstyle{#1}}
+\def\bmstyle#1#2{\mbox{\boldmath$#1#2$}}
+\newcommand{\thh}{^\mathrm{th}}
+
+
+%% Some pretty etc.'s, etc...
+\newcommand{\cf}{{\em cf.}\xspace }
+\newcommand{\eg}{{\em e.g.},\xspace }
+\newcommand{\ie}{{\em i.e.},\xspace }
+\newcommand{\etal}{{\em et al.}\ }
+\newcommand{\etc}{{\em etc.}\@\xspace}
+
+
+
+
+% in this document if you say \sometimes{\acpation} then 
+% it returns nothing.
+\newcommand{\sometimes}[1]{}
+
+
+\begin{document}
+
+
+
+\renewcommand{\baselinestretch}{1.66}
+\normalsize
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\input{body-text-of-paper}
+
+
+\renewcommand{\baselinestretch}{1.0}\normalsize
+\bibliography{citation}
+\bibliographystyle{men}
+
+\renewcommand{\baselinestretch}{1.66}\normalsize
+\input{data-accessibility}
+
+\appendix
+
+{
+\small
+\input{appendix}
+}
+
+
+\newpage
+\renewcommand{\baselinestretch}{1.0}\normalsize
+\listoffigures
+\newpage
+
+\end{document}

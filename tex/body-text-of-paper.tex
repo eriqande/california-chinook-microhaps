@@ -1,0 +1,30 @@
+%!TEX root = main.tex
+
+\section*{Introduction}
+
+Some verbiage here
+
+\section*{Methods}
+
+More verbiage
+
+\subsection*{Population Assignment}
+
+More Verbiage.
+
+
+\subsection*{Fisher Information and Effective Sample Size}
+
+\begin{figure*}
+\newcommand{\esssimscap}{\footnotesize {\bf a)} An example figure Observed information calculated for simulated data summarized either as fully observed genotypes (purple)
+or as genotype likelihoods (orange) computed from sequencing read data of different depths simulated from the genotypes. Fully observed genotype data is not affected by read depth, but an independent set of fully observed genotypes was simulated for each different value of read depth, and these are all shown in the figure.  {\bf b)} Effective sample sizes calculated for simulated genotype likelihood data.
+In each figure the facet headers give the true population allele frequency, the $x$-axis gives the
+average read depth in the simulations, and the distribution of quantities in the $y$ direction are summarized
+as boxplots showing the median (dark line) the first and third quartiles (the edges of the boxes)  the largest (or smallest) value no further than $1.5 \times\mbox{}$ the interquartile range from the first (third) quartiles (the
+whiskers) and outliers beyond the whiskers (individual points). All simulations had 100 individuals.}
+\begin{center}
+\includegraphics[width=\textwidth]{images/info_and_eff_size.pdf}
+\end{center}
+\caption[\esssimscap]{\esssimscap}
+\label{fig:ess_sims}
+\end{figure*}

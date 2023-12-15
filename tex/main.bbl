@@ -1,0 +1,248 @@
+\begin{thebibliography}{41}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[\protect\citeauthoryear{Bay, Karp, Saracco, Anderegg, Frishkoff,
+  Wiedenfeld, Smith, \& Ruegg}{Bay {\em et~al.\/}}{2021}]{bay2021genetic}
+Bay RA, Karp DS, Saracco JF, Anderegg WR, Frishkoff LO, Wiedenfeld D, Smith TB,
+  Ruegg K (2021) Genetic variation reveals individual-level climate tracking
+  across the annual cycle of a migratory bird. {\em Ecology Letters\/}, {\bf
+  24}, 819--828.
+
+\bibitem[\protect\citeauthoryear{Benestan, Gosselin, Perrier, Sainte-Marie,
+  Rochette, \& Bernatchez}{Benestan {\em et~al.\/}}{2015}]{benestan2015rad}
+Benestan L, Gosselin T, Perrier C, Sainte-Marie B, Rochette R, Bernatchez L
+  (2015) RAD genotyping reveals fine-scale genetic structuring and provides
+  powerful population assignment in a widely distributed marine species, the
+  American Lobster (Homarus americanus). {\em Molecular ecology\/}, {\bf 24},
+  3299--3315.
+
+\bibitem[\protect\citeauthoryear{Buerkle \& Gompert}{Buerkle \&
+  Gompert}{2013}]{alex2013population}
+Buerkle AC, Gompert Z (2013) Population genomics based on low coverage
+  sequencing: how low should we go? {\em Molecular ecology\/}, {\bf 22},
+  3028--3035.
+
+\bibitem[\protect\citeauthoryear{Casella \& Berger}{Casella \&
+  Berger}{2021}]{casella2021statistical}
+Casella G, Berger RL (2021) {\em Statistical inference\/}, Cengage Learning.
+
+\bibitem[\protect\citeauthoryear{Cornuet, Piry, Luikart, Estoup, \&
+  Solignac}{Cornuet {\em et~al.\/}}{1999}]{cornuet1999new}
+Cornuet JM, Piry S, Luikart G, Estoup A, Solignac M (1999) New methods
+  employing multilocus genotypes to select or exclude populations as origins of
+  individuals. {\em Genetics\/}, {\bf 153}, 1989--2000.
+
+\bibitem[\protect\citeauthoryear{Danecek, Bonfield, Liddle, Marshall, Ohan,
+  Pollard, Whitwham, Keane, McCarthy, Davies {\em et~al.\/}}{Danecek {\em
+  et~al.\/}}{2021}]{danecek2021twelve}
+Danecek P, Bonfield JK, Liddle J, Marshall J, Ohan V, Pollard MO, Whitwham A,
+  Keane T, McCarthy SA, Davies RM, {\em et~al.\/} (2021) Twelve years of
+  SAMtools and BCFtools. {\em Gigascience\/}, {\bf 10}, giab008.
+
+\bibitem[\protect\citeauthoryear{Dempster, Laird, \& Rubin}{Dempster {\em
+  et~al.\/}}{1977}]{Dempsteretal1977}
+Dempster AP, Laird NM, Rubin DB (1977) {Maximum likelihood from incomplete data
+  via the EM algorithm (with discussion)}. {\em Journal of the Royal
+  Statistical Society, Series B\/}, {\bf 39}, 1--38.
+
+\bibitem[\protect\citeauthoryear{DeSaix, Bulluck, Eckert, Viverette, Boves,
+  Reese, Tonra, \& Dyer}{DeSaix {\em et~al.\/}}{2019}]{desaix2019population}
+DeSaix MG, Bulluck LP, Eckert AJ, Viverette CB, Boves TJ, Reese JA, Tonra CM,
+  Dyer RJ (2019) Population assignment reveals low migratory connectivity in a
+  weakly structured songbird. {\em Molecular Ecology\/}, {\bf 28}, 2122--2135.
+
+\bibitem[\protect\citeauthoryear{Falush, Stephens, \& Pritchard}{Falush {\em
+  et~al.\/}}{2003}]{falush2003inference}
+Falush D, Stephens M, Pritchard JK (2003) Inference of population structure
+  using multilocus genotype data: linked loci and correlated allele
+  frequencies. {\em Genetics\/}, {\bf 164}, 1567--1587.
+
+\bibitem[\protect\citeauthoryear{Fisher}{Fisher}{1922}]{fisher1922mathematical}
+Fisher RA (1922) On the mathematical foundations of theoretical statistics.
+  {\em Philosophical transactions of the Royal Society of London. Series A,
+  containing papers of a mathematical or physical character\/}, {\bf 222},
+  309--368.
+
+\bibitem[\protect\citeauthoryear{Fumagalli}{Fumagalli}{2013}]{fumagalli2013assessing}
+Fumagalli M (2013) Assessing the effect of sequencing depth and sample size in
+  population genetics inferences. {\em PloS one\/}, {\bf 8}, e79667.
+
+\bibitem[\protect\citeauthoryear{Fumagalli, Vieira, Korneliussen, Linderoth,
+  Huerta-S{\'a}nchez, Albrechtsen, \& Nielsen}{Fumagalli {\em
+  et~al.\/}}{2013}]{fumagalli2013quantifying}
+Fumagalli M, Vieira FG, Korneliussen TS, Linderoth T, Huerta-S{\'a}nchez E,
+  Albrechtsen A, Nielsen R (2013) Quantifying population genetic
+  differentiation from next-generation sequencing data. {\em Genetics\/}, {\bf
+  195}, 979--992.
+
+\bibitem[\protect\citeauthoryear{Fumagalli, Vieira, Linderoth, \&
+  Nielsen}{Fumagalli {\em et~al.\/}}{2014}]{fumagalli2014ngstools}
+Fumagalli M, Vieira FG, Linderoth T, Nielsen R (2014) ngsTools: methods for
+  population genetics analyses from next-generation sequencing data. {\em
+  Bioinformatics\/}, {\bf 30}, 1486--1487.
+
+\bibitem[\protect\citeauthoryear{Gibbs, Dawson, \& Hobson}{Gibbs {\em
+  et~al.\/}}{2000}]{gibbs2000limited}
+Gibbs HL, Dawson RJ, Hobson KA (2000) Limited differentiation in microsatellite
+  DNA variation among northern populations of the yellow warbler: evidence for
+  male-biased gene flow? {\em Molecular Ecology\/}, {\bf 9}, 2137--2147.
+
+\bibitem[\protect\citeauthoryear{Kelleher, Etheridge, \& McVean}{Kelleher {\em
+  et~al.\/}}{2016}]{kelleher2016efficient}
+Kelleher J, Etheridge AM, McVean G (2016) Efficient coalescent simulation and
+  genealogical analysis for large sample sizes. {\em PLoS computational
+  biology\/}, {\bf 12}, e1004842.
+
+\bibitem[\protect\citeauthoryear{Kim, Lohmueller, Albrechtsen, Li,
+  Korneliussen, Tian, Grarup, Jiang, Andersen, Witte {\em et~al.\/}}{Kim {\em
+  et~al.\/}}{2011}]{kim2011estimation}
+Kim SY, Lohmueller KE, Albrechtsen A, Li Y, Korneliussen T, Tian G, Grarup N,
+  Jiang T, Andersen G, Witte D, {\em et~al.\/} (2011) Estimation of allele
+  frequency and association mapping using next-generation sequencing data. {\em
+  BMC bioinformatics\/}, {\bf 12}, 1--16.
+
+\bibitem[\protect\citeauthoryear{Korneliussen, Albrechtsen, \&
+  Nielsen}{Korneliussen {\em et~al.\/}}{2014}]{korneliussen2014angsd}
+Korneliussen TS, Albrechtsen A, Nielsen R (2014) ANGSD: analysis of next
+  generation sequencing data. {\em BMC bioinformatics\/}, {\bf 15}, 1--13.
+
+\bibitem[\protect\citeauthoryear{Korneliussen \& Moltke}{Korneliussen \&
+  Moltke}{2015}]{korneliussen2015ngsrelate}
+Korneliussen TS, Moltke I (2015) NgsRelate: a software tool for estimating
+  pairwise relatedness from next-generation sequencing data. {\em
+  Bioinformatics\/}, {\bf 31}, 4009--4011.
+
+\bibitem[\protect\citeauthoryear{Larribe \& Fearnhead}{Larribe \&
+  Fearnhead}{2011}]{larribe2011composite}
+Larribe F, Fearnhead P (2011) On composite likelihoods in statistical genetics.
+  {\em Statistica Sinica\/}, 43--69.
+
+\bibitem[\protect\citeauthoryear{Li}{Li}{2011}]{li2011statistical}
+Li H (2011) A statistical framework for SNP calling, mutation discovery,
+  association mapping and population genetical parameter estimation from
+  sequencing data. {\em Bioinformatics\/}, {\bf 27}, 2987--2993.
+
+\bibitem[\protect\citeauthoryear{Li \& Durbin}{Li \& Durbin}{2009}]{li2009fast}
+Li H, Durbin R (2009) Fast and accurate short read alignment with
+  Burrows--Wheeler transform. {\em bioinformatics\/}, {\bf 25}, 1754--1760.
+
+\bibitem[\protect\citeauthoryear{Li, Handsaker, Wysoker, Fennell, Ruan, Homer,
+  Marth, Abecasis, \& Durbin}{Li {\em et~al.\/}}{2009}]{li2009sequence}
+Li H, Handsaker B, Wysoker A, Fennell T, Ruan J, Homer N, Marth G, Abecasis G,
+  Durbin R (2009) The sequence alignment/map format and SAMtools. {\em
+  bioinformatics\/}, {\bf 25}, 2078--2079.
+
+\bibitem[\protect\citeauthoryear{Lou, Jacobs, Wilder, \& Therkildsen}{Lou {\em
+  et~al.\/}}{2021}]{lou2021beginner}
+Lou RN, Jacobs A, Wilder AP, Therkildsen NO (2021) A beginner's guide to
+  low-coverage whole genome sequencing for population genomics. {\em Molecular
+  Ecology\/}, {\bf 30}, 5966--5993.
+
+\bibitem[\protect\citeauthoryear{Manel, Gaggiotti, \& Waples}{Manel {\em
+  et~al.\/}}{2005}]{manel2005assignment}
+Manel S, Gaggiotti OE, Waples RS (2005) Assignment methods: matching biological
+  questions with appropriate techniques. {\em Trends in Ecology \&
+  Evolution\/}, {\bf 20}, 136--142.
+
+\bibitem[\protect\citeauthoryear{Maritz}{Maritz}{2018}]{maritz2018empirical}
+Maritz JS (2018) {\em Empirical Bayes methods with applications\/}, CRC Press.
+
+\bibitem[\protect\citeauthoryear{McKenna, Hanna, Banks, Sivachenko, Cibulskis,
+  Kernytsky, Garimella, Altshuler, Gabriel, Daly {\em et~al.\/}}{McKenna {\em
+  et~al.\/}}{2010}]{mckenna2010genome}
+McKenna A, Hanna M, Banks E, Sivachenko A, Cibulskis K, Kernytsky A, Garimella
+  K, Altshuler D, Gabriel S, Daly M, {\em et~al.\/} (2010) The Genome Analysis
+  Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing
+  data. {\em Genome research\/}, {\bf 20}, 1297--1303.
+
+\bibitem[\protect\citeauthoryear{Meisner \& Albrechtsen}{Meisner \&
+  Albrechtsen}{2018}]{meisner2018inferring}
+Meisner J, Albrechtsen A (2018) Inferring population structure and admixture
+  proportions in low-depth NGS data. {\em Genetics\/}, {\bf 210}, 719--731.
+
+\bibitem[\protect\citeauthoryear{Nielsen, Korneliussen, Albrechtsen, Li, \&
+  Wang}{Nielsen {\em et~al.\/}}{2012}]{nielsen2012snp}
+Nielsen R, Korneliussen T, Albrechtsen A, Li Y, Wang J (2012) SNP calling,
+  genotype calling, and sample allele frequency estimation from new-generation
+  sequencing data. {\em PLoS ONE\/}.
+
+\bibitem[\protect\citeauthoryear{Nielsen, Paul, Albrechtsen, \& Song}{Nielsen
+  {\em et~al.\/}}{2011}]{nielsen2011genotype}
+Nielsen R, Paul JS, Albrechtsen A, Song YS (2011) Genotype and SNP calling from
+  next-generation sequencing data. {\em Nature Reviews Genetics\/}, {\bf 12},
+  443--451.
+
+\bibitem[\protect\citeauthoryear{Paetkau, Calvert, Stirling, \&
+  Strobeck}{Paetkau {\em et~al.\/}}{1995}]{paetkau1995microsatellite}
+Paetkau D, Calvert W, Stirling I, Strobeck C (1995) Microsatellite analysis of
+  population structure in Canadian polar bears. {\em Molecular Ecology\/}, {\bf
+  4}, 347--354.
+
+\bibitem[\protect\citeauthoryear{Pella \& Masuda}{Pella \&
+  Masuda}{2006}]{pella2006gibbs}
+Pella J, Masuda M (2006) The gibbs and split merge sampler for population
+  mixture analysis from genetic data with incomplete baselines. {\em Canadian
+  Journal of Fisheries and Aquatic Sciences\/}, {\bf 63}, 576--596.
+
+\bibitem[\protect\citeauthoryear{{R Core Team}}{{R Core Team}}{2022}]{Rcore}
+{R Core Team} (2022) {\em R: A Language and Environment for Statistical
+  Computing\/}, R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[\protect\citeauthoryear{Rannala \& Mountain}{Rannala \&
+  Mountain}{1997}]{rannala1997detecting}
+Rannala B, Mountain JL (1997) Detecting immigration by using multilocus
+  genotypes. {\em Proceedings of the National Academy of Sciences\/}, {\bf 94},
+  9197--9201.
+
+\bibitem[\protect\citeauthoryear{Ruegg, Anderson, Paxton, Apkenas, Lao, Siegel,
+  DeSante, Moore, \& Smith}{Ruegg {\em et~al.\/}}{2014}]{ruegg2014mapping}
+Ruegg KC, Anderson EC, Paxton KL, Apkenas V, Lao S, Siegel RB, DeSante DF,
+  Moore F, Smith TB (2014) Mapping migration in a songbird using
+  high-resolution genetic markers. {\em Molecular Ecology\/}, {\bf 23},
+  5726--5739.
+
+\bibitem[\protect\citeauthoryear{Sayers, Cavanaugh, Clark, Pruitt, Schoch,
+  Sherry, \& Karsch-Mizrachi}{Sayers {\em et~al.\/}}{2022}]{sayers2022genbank}
+Sayers EW, Cavanaugh M, Clark K, Pruitt KD, Schoch CL, Sherry ST,
+  Karsch-Mizrachi I (2022) GenBank. {\em Nucleic acids research\/}, {\bf 50},
+  D161.
+
+\bibitem[\protect\citeauthoryear{Schweizer \& DeSaix}{Schweizer \&
+  DeSaix}{2023}]{schweizer2023cost}
+Schweizer TM, DeSaix MG (2023) Cost-effective library preparation for whole
+  genome sequencing with feather DNA. {\em Conservation Genetics Resources\/},
+  1--8.
+
+\bibitem[\protect\citeauthoryear{Seeb, Antonovich, Banks, Beacham, Bellinger,
+  Blankenship, Campbell, Decovich, Garza, Guthrie~Iii {\em et~al.\/}}{Seeb {\em
+  et~al.\/}}{2007}]{seeb2007development}
+Seeb L, Antonovich A, Banks MA, Beacham T, Bellinger M, Blankenship S, Campbell
+  M, Decovich N, Garza J, Guthrie~Iii C, {\em et~al.\/} (2007) Development of a
+  standardized DNA database for Chinook salmon. {\em Fisheries\/}, {\bf 32},
+  540--552.
+
+\bibitem[\protect\citeauthoryear{Skotte, Korneliussen, \& Albrechtsen}{Skotte
+  {\em et~al.\/}}{2013}]{skotte2013estimating}
+Skotte L, Korneliussen TS, Albrechtsen A (2013) Estimating individual admixture
+  proportions from next generation sequencing data. {\em Genetics\/}, {\bf
+  195}, 693--702.
+
+\bibitem[\protect\citeauthoryear{Smouse, Waples, \& Tworek}{Smouse {\em
+  et~al.\/}}{1990}]{smouse1990genetic}
+Smouse PE, Waples RS, Tworek JA (1990) A genetic mixture analysis for use with
+  incomplete source population data. {\em Canadian Journal of Fisheries and
+  Aquatic Sciences\/}, {\bf 47}, 620--634.
+
+\bibitem[\protect\citeauthoryear{Thompson, Anderson, Clemento, Campbell,
+  Pearse, Hearsey, Kinziger, \& Garza}{Thompson {\em
+  et~al.\/}}{2020}]{thompson2020complex}
+Thompson NF, Anderson EC, Clemento AJ, Campbell MA, Pearse DE, Hearsey JW,
+  Kinziger AP, Garza JC (2020) A complex phenotype in salmon controlled by a
+  simple change in migratory timing. {\em Science\/}, {\bf 370}, 609--613.
+
+\bibitem[\protect\citeauthoryear{Wang}{Wang}{2017}]{wang2017computer}
+Wang J (2017) The computer program structure for assigning individuals to
+  populations: easy to use but easier to misuse. {\em Molecular ecology
+  resources\/}, {\bf 17}, 981--990.
+
+\end{thebibliography}
