@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{24}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -56,6 +56,12 @@ Clemento A, Abad{\'\i}a-Cardoso A, Starks H, Garza J (2011) Discovery and
   characterization of single nucleotide polymorphisms in Chinook salmon,
   Oncorhynchus tshawytscha. {\em Molecular Ecology Resources\/}, {\bf 11},
   50--66.
+
+\bibitem[\protect\citeauthoryear{DeSaix, Rodriguez, Ruegg, \& Anderson}{DeSaix
+  {\em et~al.\/}}{2024}]{desaixINPRESSpopulation}
+DeSaix MG, Rodriguez MD, Ruegg KC, Anderson EC (2024) Population assignment
+  from genotype likelihoods for low-coverage whole-genome sequencing data. {\em
+  Methods in Ecology and Evolution\/}, to appear.
 
 \bibitem[\protect\citeauthoryear{Garza \& Anderson}{Garza \&
   Anderson}{2007}]{garza2007large}
