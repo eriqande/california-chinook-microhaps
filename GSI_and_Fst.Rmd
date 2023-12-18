@@ -208,11 +208,11 @@ $F_\mathrm{ST}$ values (Weir & Cockerham method) between the collections from th
 
 In order to do this we need to convert the data to a lumped format.
 This means making integers of the alleles and then catenating them.
-No locus has more than 9 alleles, so we can do single-digits for alleles.  We drop the
+One locus has 11 allele, so we should use two digits for each allele.  We drop the
 LFAR from this, because those were chosen specifically to be weird in the late fall.
 ```{r}
-hfs_ref_long <- full_base2 %>% 
-  select(-starts_with("NC_"), -starts_with("Ots")) %>%  # see what we get when we kep just the tag_id markers
+full_base_long <- full_base2 %>% 
+  select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   mutate(
     Pop = as.integer(factor(collection, levels = collection_order)),
     .before = collection
@@ -222,11 +222,12 @@ hfs_ref_long <- full_base2 %>%
     cols = c(-indiv, -Pop),
     names_to = c("locus", "gene_copy"),
     names_pattern = "^(.*)_([12])$"
-  ) %>%
+  )
+
+hfs_ref_long <- full_base_long %>%
   group_by(locus) %>%
   mutate(
-    alle_int =  as.integer(factor(value)),
-    alle_int = ifelse(is.na(alle_int), 0L, alle_int)
+    alle_int =  sprintf("%02d", as.integer(factor(value)))
   ) %>%
   ungroup() %>%
   select(-value)
@@ -236,7 +237,7 @@ hfs_ref_wide <- hfs_ref_long %>%
   group_by(indiv, Pop, locus) %>%
   summarise(geno = str_c(alle_int[1], alle_int[2])) %>%
   ungroup() %>%
-  mutate(geno = ifelse(geno == "00", NA_character_, geno)) %>%
+  mutate(geno = ifelse(str_detect(geno, "NA"), NA_character_, geno)) %>%
   mutate(geno = as.integer(geno)) %>%
   pivot_wider(
     names_from = c(locus),
@@ -251,22 +252,21 @@ hfstat_dat <- hfs_ref_wide %>%
 
 FST <- pp.fst(dat = hfstat_dat, diploid = TRUE)
 
+# let's also bootstrap that:
+FST_boot <- boot.ppfst(
+  dat = hfstat_dat,
+  nboot = 1000,
+  quant = c(0.025,0.975),
+  diploid = TRUE
+)
+
+
 # now, get the values out of it and put them in the upper diagonal
 # of a matrix for plotting with the WGS values.
 fst_mat <- FST$fst.pp 
 colnames(fst_mat) <- collection_order
 ```
 
-Something is very, very weird here.  Look at that Fst matrix:
-```{r}
-tmp <- fst_mat
-rownames(tmp) <- collection_order
-tmp
-```
-
-For some reason, BCF, BCS, MDS, and BCF have quite low Fst values to EVERYONE, even Winter run and the
-Klamath.  That just cannot be right!!  They have super low Fst values to FRHF and FRHF, but those
-two pops have Fst of around 0.14 to winter-run, and BCS to winter run is only 0.0269.  WTF?! 
 
 ```{r}
   
