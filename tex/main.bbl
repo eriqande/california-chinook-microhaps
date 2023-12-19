@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{26}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -19,6 +19,12 @@ Allendorf FW, Phelps SR (1981) Use of allelic frequencies to describe
 Anderson E, Thompson E (2002) A model-based method for identifying species
   hybrids using multilocus genetic data. {\em Genetics\/}, {\bf 160},
   1217--1229.
+
+\bibitem[\protect\citeauthoryear{Anderson \& Garza}{Anderson \&
+  Garza}{2005}]{anderson2005description}
+Anderson EC, Garza JC (2005) A description of full parental genotyping, {\em
+  Technical report\/}, Unpublished report on file with the National Oceanic and
+  Atmospheric Administration. Seattle, WA.
 
 \bibitem[\protect\citeauthoryear{Anderson \& Garza}{Anderson \&
   Garza}{2006}]{anderson2006power}
@@ -115,6 +121,15 @@ Milner GB, Teel DJ, Utter FM (1982) Gentic Identification Study Annual Progress
 Milner GB, Teel DJ, Utter FM, Winans GA (1985) A genetic method of stock
   identification in mixed populations of Pacific salmon, Oncorhynchus spp. {\em
   Marine Fisheries Review\/}, {\bf 47}, 1--8.
+
+\bibitem[\protect\citeauthoryear{Nandor, Longwill, \& Webb}{Nandor {\em
+  et~al.\/}}{2010}]{nandor2010overview}
+Nandor GF, Longwill JR, Webb DL (2010) Overview of the coded wire tag program
+  in the greater Pacific region of North America. {\em PNAMP Special
+  Publication: Tagging, Telemetry and Marking Measures for Monitoring Fish
+  Populations—A compendium of new and recent science for use in informing
+  technique and decision modalities: Pacific Northwest Aquatic Monitoring
+  Partnership Special Publication\/}, {\bf 2}, 5--46.
 
 \bibitem[\protect\citeauthoryear{Pella \& Masuda}{Pella \&
   Masuda}{2006}]{pella2006gibbs}
