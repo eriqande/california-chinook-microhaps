@@ -3,10 +3,10 @@
 repunit_colors <- c(
   `Klamath-Trinity` = "#6e8b3d",
   `Coastal` = "#79cdcd",
-  `CV-Winter` = "#CC99FF",            # a "cool-ish" color for winter
+  `CV-Winter` = "#ffff99",            # a "cool-ish" color for winter
   `CV-Spring` = "#99CC33",             # green like spring
   `CV-Fall` = "#F06292",
-  `CV-Late-Fall` = "#cd9b1d"
+  `CV-Late-Fall` = "#a6cee3"
 )
 
 

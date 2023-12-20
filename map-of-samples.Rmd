@@ -1,0 +1,340 @@
+---
+title: "Make a Map for our Paper"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+bibliography: "`r here::here('references.bib')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_knit$set(root.dir = here::here())
+start_time <- Sys.time()
+
+USING_SNAKEMAKE <- FALSE
+NEG_USING_SMK <- TRUE
+if(exists("snakemake")) {
+  USING_SNAKEMAKE <- TRUE
+  NEG_USING_SMK <- FALSE
+}
+```
+
+```{r rmd_snakemake_hacks, include=FALSE, eval=USING_SNAKEMAKE}
+# currently, this block does not get evaluated, while developing,
+# but later when we snakemake-ize it all, we will evaluate it.
+if(USING_SNAKEMAKE) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+}
+```
+
+# Input and Output Paths
+
+```{r}
+# inputs:
+input_list <- list(
+)
+# outputs:
+output_list <- list(
+)
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+```{r}
+library(terra)
+library(sf)
+library(tidyverse)
+library(ggspatial)
+#library(ggsn)
+library(cowplot)
+library(plotly)
+```
+
+# Download spatial data
+
+## Raster
+
+```{r}
+if(!file.exists("geo-spatial/HYP_HR_SR_OB_DR/HYP_HR_SR_OB_DR.tif")) {
+  dir.create("geo-spatial", showWarnings = FALSE)
+  download.file(
+    url = "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/raster/HYP_HR_SR_OB_DR.zip",
+    destfile = "geo-spatial/HYP_HR_SR_OB_DR.zip"
+  )
+  
+  unzip(
+    zipfile = "geo-spatial/HYP_HR_SR_OB_DR.zip", 
+    exdir = "geo-spatial/HYP_HR_SR_OB_DR"
+  )
+  
+  file.remove("geo-spatial/HYP_HR_SR_OB_DR.zip")
+}
+```
+
+
+## State lines
+
+```{r}
+if(!file.exists("geo-spatial/ne_10m_admin_1_states_provinces_lines/ne_10m_admin_1_states_provinces_lines.shp")) {
+  dir.create("geo-spatial", showWarnings = FALSE)
+  download.file(
+    url = "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lines.zip",
+    destfile = "geo-spatial/ne_10m_admin_1_states_provinces_lines.zip"
+  )
+  
+  unzip(
+    zipfile = "geo-spatial/ne_10m_admin_1_states_provinces_lines.zip", 
+    exdir = "geo-spatial/ne_10m_admin_1_states_provinces_lines"
+  )
+  
+  file.remove("geo-spatial/ne_10m_admin_1_states_provinces_lines.zip")
+}
+```
+
+## Coastline
+
+```{r}
+if(!file.exists("geo-spatial/ne_10m_coastline/ne_10m_coastline.shp")) {
+  dir.create("geo-spatial", showWarnings = FALSE)
+  download.file(
+    url = "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_coastline.zip",
+    destfile = "geo-spatial/ne_10m_coastline.zip"
+  )
+  
+  unzip(
+    zipfile = "geo-spatial/ne_10m_coastline.zip", 
+    exdir = "geo-spatial/ne_10m_coastline"
+  )
+  
+  file.remove("geo-spatial/ne_10m_coastline.zip")
+}
+```
+
+## California Major Rivers and Creeks
+
+This is from California Nat Res Agency.  Find it at: https://data.cnra.ca.gov/dataset/national-hydrography-dataset-nhd
+
+```{r}
+# note.  Once when I did this, download.file did not see capable of downloading this file on my Mac
+# (the download is super sloooooow), and that time I 
+# ended up downloading it with Chrome.  But it seems those connection problems
+# had been fixed when I did this again.
+if(!file.exists("geo-spatial/NHD_Major_Rivers_and_Creeks/Major_Rivers_and_Creeks.shp")) {
+  dir.create("geo-spatial", showWarnings = FALSE)
+  download.file(
+    url = "https://data.cnra.ca.gov/dataset/511528b2-f7d3-4d86-8902-cc9befeeeed5/resource/7d1e7e44-81b1-43fe-95f6-1862eea6ac24/download/nhd_major_rivers_and_creeks.zip",
+    destfile = "geo-spatial/nhd_major_rivers_and_creeks.zip"
+  )
+  
+  unzip(
+    zipfile = "geo-spatial/nhd_major_rivers_and_creeks.zip", 
+    exdir = "geo-spatial"
+  )
+  
+  file.remove("geo-spatial/nhd_major_rivers_and_creeks.zip")
+}
+```
+
+
+# Read in the spatial data
+
+```{r}
+nat.earth <- rast("geo-spatial/HYP_HR_SR_OB_DR/HYP_HR_SR_OB_DR.tif") #
+state_prov <- st_read("geo-spatial/ne_10m_admin_1_states_provinces_lines/ne_10m_admin_1_states_provinces_lines.shp")
+coastline <- st_read("geo-spatial/ne_10m_coastline/ne_10m_coastline.shp")
+all_rivers <- st_read("geo-spatial/NHD_Major_Rivers_and_Creeks/Major_Rivers_and_Creeks.shp") %>%
+  st_zm() %>%
+  st_transform(., st_crs(state_prov))
+```
+
+## Subset the rivers
+
+We plot this with plotly so we can see the names of the rivers easily, and whittle
+it down to the ones that we need.
+
+```{r}
+# I don't know the gnis_id for mill creek, and there are a lot of Mill Creeks,
+# so lets get it:
+mill_area <- c(
+  xmin = -121.4,
+  xmax = -122.3,
+  ymin = 40,
+  ymax = 40.3
+)
+mill_candi <- all_rivers %>%
+  filter(str_detect(gnis_name, "Mill Creek")) %>%
+  st_crop(mill_area)
+
+our_rivers <- all_rivers %>%
+  filter(gnis_name %in% c(
+    "Sacramento River",
+    "San Joaquin River",
+    "Feather River",
+    "Russian River",
+    "Trinity River"
+    #"Deer Creek",
+    #"Battle Creek"
+  ) | 
+    gnis_id %in% c(
+      "00220293", "00237425", "00263498", "00266522",  # these are butte creek
+      "00233775", "01655075",    # these are deer
+      "00218740", "00229640", "00234966"   # these are battle creek
+    ) 
+  ) %>%
+  bind_rows(mill_candi)
+
+
+# get candidate positions for notations
+labels <- read_tsv("inputs/map-notations.tsv")
+
+g <- ggplot() + 
+  geom_sf(data = our_rivers, aes(colour = gnis_name)) +
+  geom_point(data = labels, aes(x = label_long, y = label_lat), colour = "red") +
+  geom_point(data = labels, aes(x = tip_long, y = tip_lat), colour = "blue", size = 0.2)
+
+ggplotly(g)
+```
+
+That looks good.  So let us proceed.
+
+
+## Crop
+```{r}
+# important to put them in this order and named like this
+domain <- c(
+  xmin = -128,
+  xmax = -116,
+  ymin = 36,
+  ymax = 42.5
+)
+nat_crop <- crop(nat.earth, y = ext(domain))
+state_subset <- st_crop(state_prov, domain)
+coastline_cropped <- st_crop(coastline, domain)
+
+```
+
+
+
+# Make the base map
+```{r base-map-with-sampling-sites}
+base_map <- ggplot() +
+  ggspatial::layer_spatial(nat_crop) +
+  geom_sf(data = state_subset, color = "gray30", fill = NA) +
+  geom_sf(data = coastline_cropped, color = "gray30", fill = NA) +
+  geom_sf(data = our_rivers, colour = "blue")
+
+base_map
+```
+
+
+Now look add stuff to that:
+
+```{r}
+base_map + 
+  geom_point(data = labels, aes(x = label_long, y = label_lat), colour = "red") +
+  geom_point(data = labels, aes(x = tip_long, y = tip_lat), colour = "blue", size = 0.2)
+```
+
+
+# Grab data for sampling sites
+
+```{r}
+fish_sites <- read_csv("./data/100-RoSA_sample_sites.csv")
+```
+
+
+```{r}
+
+  geom_text(data = fish_sites, aes(x = name_long, y = name_lat, label = pop, family = "serif", fontface = font_type), size = 3.5) +
+  geom_segment(data = fish_sites %>% filter(!pop %in% c("San Joaquin", "River (F)")), mapping = aes(x = line_long, xend = longitude, y = name_lat - 0.05, yend = latitude), size = 0.5) +
+  geom_segment(data = fish_sites %>% filter(pop == "San Joaquin"), mapping = aes(x = line_long, xend = longitude, y = name_lat - 0.55, yend = latitude), size = 0.5) +
+  geom_point(data = fish_sites, mapping = aes(x = longitude, y = latitude), fill = fish_sites$color2, colour = fish_sites$color2) +
+  scale_x_continuous(expand = c(0, 0)) +
+  xlab("Longitude") +
+  scale_y_continuous("Latitude", expand = c(0, 0)) +
+  coord_sf(xlim = domain[1:2], ylim = domain[3:4]) +
+  scalebar(
+    x.min = domain[1], x.max = domain[2], y.min = domain[3], y.max = domain[4],
+    location = "bottomright", model = "WGS84", dist = 250, anchor = c(x = -123, y = 36), st.size = 2.5, transform = TRUE, dist_unit = "km"
+  ) +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(colour = "black", size = 1),
+    axis.text.x = element_text(size = 8, family = "serif", angle = 35, hjust = 1),
+    axis.text.y = element_text(size = 8, family = "serif"),
+    axis.title.y = element_text(family = "serif", size = 10),
+    axis.title.x = element_text(family = "serif", vjust = 2, size = 10),
+    plot.margin = margin(0, 0.1, 0, 0.15, "cm"),
+    legend.position = "none"
+  )
+
+# base_map
+```
+
+## add north arrow to map.
+```{r adding-arrow-to-base-map}
+arrow_map <- base_map +
+  north(x.min = domain[-1], x.max = domain[2], y.min = domain[3], y.max = domain[4], location = "bottomright", anchor = c(x = -120.25, y = 36.5))
+
+# arrow_map
+```
+
+## Now, work on the world-scale map with the inset:
+```{r inset-map}
+wrld <- map_data("state")
+domain_df <- data_frame(point = 1:length(domain), long = rep(domain[1:2], each = 2), lat = c(domain[3:4], rev(domain[3:4])))
+inset_world <- ggplot() +
+  geom_path(data = wrld, aes(x = long, y = lat, group = group), colour = "black", size = 0.1) +
+  geom_polygon(data = domain_df, mapping = aes(x = long, y = lat), colour = "red", fill = "red", alpha = 0.3) +
+  coord_map("ortho", orientation = c(41, -132, 0)) +
+  theme_bw() +
+  labs(x = NULL, y = NULL) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.margin = unit(c(0, 0, -1, -1), "mm")
+  )
+# inset_world
+```
+
+## Use cowplot to make the inset appear on the bigger map
+
+```{r cowplot-to-make-inset}
+final_map <- ggdraw() +
+  draw_plot(arrow_map) +
+  draw_plot(inset_world, x = 0.7, y = 0.725, width = 0.25, height = 0.2)
+
+ggsave(final_map, filename = "./outputs/100/RoSA_figure1_map_with_inset.pdf", width = 4.75, height = 4.25)
+# and then plot it in the notebook (albeit at different size) too
+final_map
+```
+
+
+
+# Citations
+
+::: {#refs}
+:::
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
