@@ -40,6 +40,7 @@ input_list <- list(
 )
 # outputs:
 output_list <- list(
+  map = "results/map_of_samples/map.pdf"
 )
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
@@ -229,7 +230,7 @@ base_map <- ggplot() +
   ggspatial::layer_spatial(nat_crop) +
   geom_sf(data = state_subset, color = "gray30", fill = NA) +
   geom_sf(data = coastline_cropped, color = "gray30", fill = NA) +
-  geom_sf(data = our_rivers, colour = "blue")
+  geom_sf(data = our_rivers, colour = "blue", linejoin = "round", lineend = "round")
 
 base_map
 ```
@@ -238,10 +239,30 @@ base_map
 Now look add stuff to that:
 
 ```{r}
-base_map + 
-  geom_point(data = labels, aes(x = label_long, y = label_lat), colour = "red") +
-  geom_point(data = labels, aes(x = tip_long, y = tip_lat), colour = "blue", size = 0.2)
+bit <- 0.0
+kick <- 0.4
+source("R/colors.R")
+
+mm <- base_map + 
+  geom_segment(data = labels, aes(x = tip_long, y = tip_lat, xend = label_long, yend = label_lat), colour = "black", size = 0.4) +
+  geom_point(data = labels, aes(x = label_long + bit + kick * (rank - 1), y = label_lat, fill = run_timing), shape = 21, size = 3.5) +
+  scale_fill_manual(values = run_time_colors) +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(colour = "black", linewidth = 1),
+    axis.text.x = element_text(size = 8, family = "serif", angle = 35, hjust = 1),
+    axis.text.y = element_text(size = 8, family = "serif"),
+    axis.title.y = element_text(family = "serif", size = 10),
+    axis.title.x = element_text(family = "serif", vjust = 2, size = 10),
+    plot.margin = margin(0, 0.1, 0, 0.15, "cm"),
+    legend.position = "none"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude")
+
+ggsave(mm, filename = output_list$map, width = 5, height = 3.5)
 ```
+
 
 
 # Grab data for sampling sites
