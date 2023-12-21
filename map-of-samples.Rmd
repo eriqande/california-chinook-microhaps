@@ -180,7 +180,8 @@ our_rivers <- all_rivers %>%
     "San Joaquin River",
     "Feather River",
     "Russian River",
-    "Trinity River"
+    "Trinity River",
+    "Klamath River"
     #"Deer Creek",
     #"Battle Creek"
   ) | 
@@ -211,11 +212,12 @@ That looks good.  So let us proceed.
 ```{r}
 # important to put them in this order and named like this
 domain <- c(
-  xmin = -128,
-  xmax = -116,
+  xmin = -127.9,
+  xmax = -117.4,
   ymin = 36,
-  ymax = 42.5
+  ymax = 42.6
 )
+sf_use_s2(FALSE)
 nat_crop <- crop(nat.earth, y = ext(domain))
 state_subset <- st_crop(state_prov, domain)
 coastline_cropped <- st_crop(coastline, domain)
@@ -229,10 +231,9 @@ coastline_cropped <- st_crop(coastline, domain)
 base_map <- ggplot() +
   ggspatial::layer_spatial(nat_crop) +
   geom_sf(data = state_subset, color = "gray30", fill = NA) +
-  geom_sf(data = coastline_cropped, color = "gray30", fill = NA) +
+  geom_sf(data = coastline_cropped, color = "gray30", fill = NA, linewidth = 0.15) +
   geom_sf(data = our_rivers, colour = "blue", linejoin = "round", lineend = "round")
 
-base_map
 ```
 
 
@@ -243,9 +244,25 @@ bit <- 0.0
 kick <- 0.4
 source("R/colors.R")
 
+labels_1line <- labels %>%
+  group_by(name_text) %>%
+  filter(rank == max(rank)) %>%
+  ungroup()
+
 mm <- base_map + 
   geom_segment(data = labels, aes(x = tip_long, y = tip_lat, xend = label_long, yend = label_lat), colour = "black", size = 0.4) +
-  geom_point(data = labels, aes(x = label_long + bit + kick * (rank - 1), y = label_lat, fill = run_timing), shape = 21, size = 3.5) +
+  geom_point(data = labels, aes(x = label_long + bit + (1 - hjust * 2) * kick * (rank - 1), y = label_lat, fill = run_timing), shape = 21, size = 3.5) +
+  geom_label(
+    data = labels_1line,
+    aes(
+      x = label_long + bit + (1 - hjust * 2) * kick * ( 0.65 + rank - 1),
+      y = label_lat, 
+      label = name_text,
+      hjust = hjust
+    ),
+    size = 2.2,
+    label.padding = unit(0.09, "lines")
+  ) +
   scale_fill_manual(values = run_time_colors) +
   theme_bw() +
   theme(
@@ -258,64 +275,29 @@ mm <- base_map +
     legend.position = "none"
   ) +
   xlab("Longitude") +
-  ylab("Latitude")
-
-ggsave(mm, filename = output_list$map, width = 5, height = 3.5)
-```
-
-
-
-# Grab data for sampling sites
-
-```{r}
-fish_sites <- read_csv("./data/100-RoSA_sample_sites.csv")
-```
-
-
-```{r}
-
-  geom_text(data = fish_sites, aes(x = name_long, y = name_lat, label = pop, family = "serif", fontface = font_type), size = 3.5) +
-  geom_segment(data = fish_sites %>% filter(!pop %in% c("San Joaquin", "River (F)")), mapping = aes(x = line_long, xend = longitude, y = name_lat - 0.05, yend = latitude), size = 0.5) +
-  geom_segment(data = fish_sites %>% filter(pop == "San Joaquin"), mapping = aes(x = line_long, xend = longitude, y = name_lat - 0.55, yend = latitude), size = 0.5) +
-  geom_point(data = fish_sites, mapping = aes(x = longitude, y = latitude), fill = fish_sites$color2, colour = fish_sites$color2) +
-  scale_x_continuous(expand = c(0, 0)) +
-  xlab("Longitude") +
-  scale_y_continuous("Latitude", expand = c(0, 0)) +
-  coord_sf(xlim = domain[1:2], ylim = domain[3:4]) +
-  scalebar(
-    x.min = domain[1], x.max = domain[2], y.min = domain[3], y.max = domain[4],
-    location = "bottomright", model = "WGS84", dist = 250, anchor = c(x = -123, y = 36), st.size = 2.5, transform = TRUE, dist_unit = "km"
+  ylab("Latitude") +
+  coord_sf(
+    expand = FALSE,
   ) +
-  theme_bw() +
-  theme(
-    panel.border = element_rect(colour = "black", size = 1),
-    axis.text.x = element_text(size = 8, family = "serif", angle = 35, hjust = 1),
-    axis.text.y = element_text(size = 8, family = "serif"),
-    axis.title.y = element_text(family = "serif", size = 10),
-    axis.title.x = element_text(family = "serif", vjust = 2, size = 10),
-    plot.margin = margin(0, 0.1, 0, 0.15, "cm"),
-    legend.position = "none"
-  )
+  guides(fill = guide_legend(title = "Run Timing:", nrow = 2)) +
+  ggspatial::annotation_north_arrow(location = "br", height = unit(10, "mm"), width = unit(5, "mm"), style = north_arrow_fancy_orienteering()) +
+  ggspatial::annotation_scale(location = "br", height = unit(0.1, "cm"))
 
-# base_map
 ```
 
-## add north arrow to map.
-```{r adding-arrow-to-base-map}
-arrow_map <- base_map +
-  north(x.min = domain[-1], x.max = domain[2], y.min = domain[3], y.max = domain[4], location = "bottomright", anchor = c(x = -120.25, y = 36.5))
 
-# arrow_map
-```
 
 ## Now, work on the world-scale map with the inset:
 ```{r inset-map}
-wrld <- map_data("state")
-domain_df <- data_frame(point = 1:length(domain), long = rep(domain[1:2], each = 2), lat = c(domain[3:4], rev(domain[3:4])))
+wrld <- map_data("world")
+states <- map_data("state")
+domain_df <- tibble(point = 1:length(domain), long = rep(domain[1:2], each = 2), lat = c(domain[3:4], rev(domain[3:4])))
+
 inset_world <- ggplot() +
-  geom_path(data = wrld, aes(x = long, y = lat, group = group), colour = "black", size = 0.1) +
-  geom_polygon(data = domain_df, mapping = aes(x = long, y = lat), colour = "red", fill = "red", alpha = 0.3) +
-  coord_map("ortho", orientation = c(41, -132, 0)) +
+  geom_polygon(data = wrld, aes(x = long, y = lat, group = group), colour = "black", fill = "gray90", size = 0.1) +
+  geom_path(data = states, aes(x = long, y = lat, group = group), colour = "black", size = 0.1) +
+  geom_polygon(data = domain_df, mapping = aes(x = long, y = lat), colour = "red", fill = "red", alpha = 0.3, linewidth = 0.1) +
+  coord_map("ortho", orientation = c(30, -114, 0), xlim = c(-150, -75), ylim = c(28, 60)) +
   theme_bw() +
   labs(x = NULL, y = NULL) +
   theme(
@@ -324,21 +306,46 @@ inset_world <- ggplot() +
     axis.ticks = element_blank(),
     plot.margin = unit(c(0, 0, -1, -1), "mm")
   )
-# inset_world
+inset_world
 ```
 
 ## Use cowplot to make the inset appear on the bigger map
 
 ```{r cowplot-to-make-inset}
 final_map <- ggdraw() +
-  draw_plot(arrow_map) +
-  draw_plot(inset_world, x = 0.7, y = 0.725, width = 0.25, height = 0.2)
+  draw_plot(mm) +
+  draw_plot(inset_world, x = 0.181, y = 0.139, width = 0.20, height = 0.17)
 
-ggsave(final_map, filename = "./outputs/100/RoSA_figure1_map_with_inset.pdf", width = 4.75, height = 4.25)
-# and then plot it in the notebook (albeit at different size) too
-final_map
+ggsave(final_map, filename = output_list$map, width = 5, height = 3.5)
+
+# let's crop that down for use, too
+CALL <- paste("pdfcrop ", output_list$map, collapse = " ")
+system(CALL)
+
 ```
 
+# Make colored ball for inclusion into the caption
+
+We can do this and just kick them directly into the tex/images folder.  
+```{r}
+rc_col_tib <- enframe(run_time_colors) %>%
+  mutate(
+    nospace = str_replace_all(name, " ", "-"),
+    file = str_c("tex/images/", nospace, "-ball.pdf")
+  )
+
+for(r in 1:nrow(rc_col_tib)) {
+  tmp <- rc_col_tib[r,]
+  g <- ggplot(tmp, aes(x = 1, y = 1)) +
+    geom_point(shape = 21, fill = tmp$value, size = 3.5) +
+    theme_void()
+  ggsave(g, filename = tmp$file)
+  
+  CALL <- str_c("pdfcrop ", tmp$file)
+  system(CALL)
+  file.remove(tmp$file)
+}
+```
 
 
 # Citations
