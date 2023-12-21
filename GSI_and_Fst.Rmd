@@ -38,7 +38,8 @@ if(USING_SNAKEMAKE) {
 # inputs:
 input_list <- list(
   final_baseline = "data/cali-chinook-baseline.rds",
-  pop_labels = "inputs/reference-collection-names.csv"
+  pop_labels = "inputs/reference-collection-names.csv",
+  map_notations = "inputs/map-notations.tsv"
 )
 # outputs:
 output_list <- list(
@@ -85,6 +86,20 @@ full_base2 <- full_base %>%
 # finally, get the order of collections and repunits we want
 collection_order <- unique(pop_labels$collection)
 ```
+
+
+# Make a table summary of all the samples
+
+I would like to break things down by general sampling location, run type, number of samples,
+month-range of sampling, and range of years.
+```{r}
+map_notations <- read_tsv(input_list$map_notations, comment = "#")
+full_base2 %>%
+  count(repunit, collection) %>%
+  left_join
+```
+
+
 
 
 # Do the self-assignment

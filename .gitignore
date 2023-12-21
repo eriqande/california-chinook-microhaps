@@ -9,4 +9,4 @@ results
 .snakemake
 logs
 geo-spatial
-
+map-of-samples.html

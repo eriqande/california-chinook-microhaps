@@ -7,7 +7,7 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('references.bib')`"
+bibliography: "`r here::here('tex/citation.bib')`"
 ---
 
 ```{r setup, include=FALSE}
@@ -187,15 +187,15 @@ our_rivers <- all_rivers %>%
   ) | 
     gnis_id %in% c(
       "00220293", "00237425", "00263498", "00266522",  # these are butte creek
-      "00233775", "01655075",    # these are deer
-      "00218740", "00229640", "00234966"   # these are battle creek
+      "00233775", "01655075"    # these are deer
+     # "00218740", "00229640", "00234966"   # these are battle creek
     ) 
   ) %>%
   bind_rows(mill_candi)
 
 
 # get candidate positions for notations
-labels <- read_tsv("inputs/map-notations.tsv")
+labels <- read_tsv("inputs/map-notations.tsv", comment = "#")
 
 g <- ggplot() + 
   geom_sf(data = our_rivers, aes(colour = gnis_name)) +

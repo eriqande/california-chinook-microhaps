@@ -1,16 +1,16 @@
-id	name_text	tip_lat	tip_long	label_lat	label_long	rank	run_timing	hjust
-BattleCreek	Battle Creek	40.42677	-121.9976	40.86	-121.2	1	Fall run	0
-MillCreek	Mill Creek	40.30053	-121.5562	40.35	-120.8	1	Fall run	0
-MillCreek	Mill Creek	40.30053	-121.5562	40.35	-120.8	2	Spring run	0
-DeerCreek	Deer Creek	40.27013	-121.3707	39.9	-120.8	1	Fall run	0
-DeerCreek	Deer Creek	40.27013	-121.3707	39.9	-120.8	2	Spring run	0
-Sacto	Sacramento River	40.60761683	-122.4461732	41.8	-121.5	1	Winter run	0
-Butte	Butte Creek	39.75	-121.65	39.4	-120.8	1	Fall run	0
-Butte	Butte Creek	39.75	-121.65	39.4	-120.8	2	Spring run	0
-FRH	Feather River Hatchery	39.5197709	-121.5479761	38.7	-121	1	Fall run	0
-FRH	Feather River Hatchery	39.5197709	-121.5479761	38.7	-121	2	Spring run	0
-TRH	Trinity River Hatchery	40.72339412	-122.8051467	39.85	-124.05	1	Fall run	1
-TRH	Trinity River Hatchery	40.72339412	-122.8051467	39.85	-124.05	2	Spring run	1
-RR	Russian River	38.81705471	-123.0111524	38.5	-123.8	1	Fall run	1
-SJR	San Joaquin River	37.02019293	-120.5309356	38	-120.35	1	Fall run	0
-Coleman	Coleman Natl Fish Hatchery	40.39772041	-122.1489948	41.35	-121.5	1	Late-fall run	0
+basin	abbrv	name_text	ESU	tip_lat	tip_long	label_lat	label_long	rank	run_timing	hjust
+#Central Valley	NA	Battle Creek	CVFR	40.42677	-121.9976	40.86	-121.2	1	Fall run	0
+Central Valley	MDF	Mill Creek	CVFR	40.30053	-121.5562	40.35	-120.8	1	Fall run	0
+Central Valley	MDS	Mill Creek	CVSR	40.30053	-121.5562	40.35	-120.8	2	Spring run	0
+Central Valley	MDF	Deer Creek	CVFR	40.27013	-121.3707	39.9	-120.8	1	Fall run	0
+Central Valley	MDS	Deer Creek	CVSR	40.27013	-121.3707	39.9	-120.8	2	Spring run	0
+Central Valley	SRW	Sacramento River	CVW	40.60761683	-122.4461732	41.8	-121.5	1	Winter run	0
+Central Valley	BCF	Butte Creek	CVFR	39.75	-121.65	39.4	-120.8	1	Fall run	0
+Central Valley	BCS	Butte Creek	CVSR	39.75	-121.65	39.4	-120.8	2	Spring run	0
+Central Valley	FRHF	Feather River Hatchery	CVFR	39.5197709	-121.5479761	38.7	-121	1	Fall run	0
+Central Valley	FRHS	Feather River Hatchery	CVSR	39.5197709	-121.5479761	38.7	-121	2	Spring run	0
+Klamath/Trinity	TRHF	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.85	-124.05	1	Fall run	1
+Klamath/Trinity	TRHS	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.85	-124.05	2	Spring run	1
+Coastal	RR	Russian River	CC	38.81705471	-123.0111524	38.5	-123.8	1	Fall run	1
+Central Valley	SJR	San Joaquin River	CVFR	37.02019293	-120.5309356	38	-120.35	1	Fall run	0
+Central Valley	CHLF	Coleman Natl Fish Hatchery	CVFR	40.39772041	-122.1489948	41.35	-121.5	1	Late-fall run	0
