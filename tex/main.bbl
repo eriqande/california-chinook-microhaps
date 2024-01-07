@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{27}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -166,6 +166,13 @@ Steele CA, Anderson EC, Ackerman MW, Hess MA, Campbell NR, Narum SR, Campbell
   MR (2013) A validation of parentage-based tagging using hatchery steelhead in
   the Snake River basin. {\em Canadian Journal of Fisheries and Aquatic
   Sciences\/}, {\bf 70}, 1046--1054.
+
+\bibitem[\protect\citeauthoryear{Thompson, Anderson, Clemento, Campbell,
+  Pearse, Hearsey, Kinziger, \& Garza}{Thompson {\em
+  et~al.\/}}{2020}]{thompson2020complex}
+Thompson NF, Anderson EC, Clemento AJ, Campbell MA, Pearse DE, Hearsey JW,
+  Kinziger AP, Garza JC (2020) A complex phenotype in salmon controlled by a
+  simple change in migratory timing. {\em Science\/}, {\bf 370}, 609--613.
 
 \bibitem[\protect\citeauthoryear{Urawa, Sato, Crane, Agler, Josephson, \&
   Azumaya}{Urawa {\em et~al.\/}}{2009}]{urawa2009stock}

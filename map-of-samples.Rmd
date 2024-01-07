@@ -40,7 +40,9 @@ input_list <- list(
 )
 # outputs:
 output_list <- list(
-  map = "results/map_of_samples/map.pdf"
+  map = "results/map_of_samples/map.pdf",
+  cropmap = "results/map_of_samples/map-crop.pdf",
+  texmap = "tex/images/map-crop.pdf"
 )
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
@@ -197,6 +199,7 @@ our_rivers <- all_rivers %>%
 # get candidate positions for notations
 labels <- read_tsv("inputs/map-notations.tsv", comment = "#")
 
+
 g <- ggplot() + 
   geom_sf(data = our_rivers, aes(colour = gnis_name)) +
   geom_point(data = labels, aes(x = label_long, y = label_lat), colour = "red") +
@@ -245,7 +248,7 @@ kick <- 0.4
 source("R/colors.R")
 
 labels_1line <- labels %>%
-  group_by(name_text) %>%
+  group_by(map_text) %>%
   filter(rank == max(rank)) %>%
   ungroup()
 
@@ -257,11 +260,12 @@ mm <- base_map +
     aes(
       x = label_long + bit + (1 - hjust * 2) * kick * ( 0.65 + rank - 1),
       y = label_lat, 
-      label = name_text,
+      label = map_text,
       hjust = hjust
     ),
     size = 2.2,
-    label.padding = unit(0.09, "lines")
+    label.padding = unit(0.09, "lines"),
+    lineheight = 0.85
   ) +
   scale_fill_manual(values = run_time_colors) +
   theme_bw() +
@@ -322,9 +326,13 @@ ggsave(final_map, filename = output_list$map, width = 5, height = 3.5)
 CALL <- paste("pdfcrop ", output_list$map, collapse = " ")
 system(CALL)
 
+file.rename(from = output_list$cropmap, to = output_list$texmap)
+
+
+
 ```
 
-# Make colored ball for inclusion into the caption
+# Make colored balls for inclusion into the caption
 
 We can do this and just kick them directly into the tex/images folder.  
 ```{r}

@@ -39,14 +39,19 @@ if(USING_SNAKEMAKE) {
 input_list <- list(
   final_baseline = "data/cali-chinook-baseline.rds",
   pop_labels = "inputs/reference-collection-names.csv",
-  map_notations = "inputs/map-notations.tsv"
+  map_notations = "inputs/map-notations.tsv",
+  lfar_base = "data/metagenos_hap2col_lfar.csv"
 )
 # outputs:
 output_list <- list(
   assig_table = "results/GSI_and_Fst/assignment-table-full-baseline.pdf",
   fst_table = "results/GSI_and_Fst/full-baseline-but-no-lfar-Fst-table.pdf",
   assig_table_lfar_all = "results/GSI_and_Fst/assignment-table-full-baseline-plus-lfar.pdf",
-  assig_table_lfar_no_miss = "results/GSI_and_Fst/assignment-table-full-baseline-plus-lfar-and-everyone-has-the-lfar.pdf"
+  assig_table_lfar_no_miss = "results/GSI_and_Fst/assignment-table-full-baseline-plus-lfar-and-everyone-has-the-lfar.pdf",
+  tex_table = "tex/inputs/samples-table.tex",
+  gsi_fst_fig = "results/GSI_and_Fst/gsi_and_fst_fig.pdf",
+  gsi_fst_fig_crop = "results/GSI_and_Fst/gsi_and_fst_fig-crop.pdf",
+  gsi_fst_fig_tex = "tex/images/gsi_and_fst_fig-crop.pdf"
 )
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
@@ -64,6 +69,7 @@ library(tidyverse)
 library(rubias)
 library(cowplot)
 library(hierfstat)
+library(lubridate)
 
 
 # get the full baseline with the new markers, etc.  We will toss out some
@@ -93,10 +99,94 @@ collection_order <- unique(pop_labels$collection)
 I would like to break things down by general sampling location, run type, number of samples,
 month-range of sampling, and range of years.
 ```{r}
-map_notations <- read_tsv(input_list$map_notations, comment = "#")
-full_base2 %>%
-  count(repunit, collection) %>%
-  left_join
+meta <- read_csv("data/baseline_repository_meta_complete.csv.gz") %>%
+  rename(indiv = NMFS_DNA_ID...1) %>%
+  select(
+    indiv, REPORTED_LIFE_STAGE, PHENOTYPE, COLLECTION_DATE, ESTIMATED_DATE, WATERSHED, TRIB_1,
+    TRIB_2, WATER_NAME, REACH_SITE, HATCHERY, LATITUDE_F,
+    LONGITUDE_F, LOCATION_COMMENTS_F
+  ) %>%
+  mutate(
+    collection_date = mdy(COLLECTION_DATE),
+    month = month(collection_date),
+    year = year(collection_date)
+  )
+
+
+# get the notations on the map, and, in particular get the distinct values of
+# abbrv and name_text
+map_notations <- read_tsv(input_list$map_notations)
+
+map_notations_dist1 <- map_notations %>%
+  distinct(abbrv, repository_name, map_text, run_timing, run_timing_for_table)
+
+
+# join the baseline to the meta data and standardize names and nest everything on abbrv and repository name
+fbmet <- full_base2 %>%
+  select(1:4) %>%
+  left_join(meta, by = join_by(indiv)) %>%
+  rename(abbrv = collection) %>%
+  mutate(
+    repository_name = case_when(
+      !is.na(HATCHERY) ~ HATCHERY,
+      TRUE ~ WATER_NAME
+    )
+  ) %>%
+  left_join(map_notations_dist1, by = join_by(abbrv, repository_name)) %>%
+  group_by(abbrv, repository_name, run_timing_for_table, map_text, WATERSHED) %>%
+  nest()
+
+
+# then extract bits of information from the data and set sparkline paths
+fbmet2 <- fbmet %>%
+  mutate(
+    N = map_int(.x = data, .f = function(x) nrow(x)),
+    `Run Timing` = map_chr(.x = data, .f = function(x) x$run_timing[1]),
+    min_year = map_int(.x = data, .f = function(x) base::min(x$year, na.rm = TRUE)),
+    max_year = map_int(.x = data, .f = function(x) base::max(x$year, na.rm = TRUE)),
+    sparkline_path = str_c("tex/images/months-", abbrv, "_", str_replace_all(repository_name, " ", "-"), ".pdf")
+  )
+
+
+# then make the images.  Put them right into the tex directory
+source("R/month_sample_sparkline.R")
+
+dir.create("tex/images", recursive = TRUE, showWarnings = FALSE)
+
+fbmet3 <- fbmet2 %>%
+  mutate(
+    ggplot = map2(.x = data, .y = sparkline_path, .f = function(x, y) month_sample_sparkline(tib = x, path = y))
+  )
+
+# now, add all the columns we might need.
+fbmet4 <- fbmet3 %>%
+  left_join(map_notations %>% select(abbrv, repository_name, map_text, basin, ESU, `Mainstem River` ))
+
+# and now do some formatting
+fbmet5 <- fbmet4 %>%
+  ungroup() %>%
+  mutate(
+    `Sampling Months` = sprintf("\\raisebox{-0.12 em}{\\includegraphics[height=1.02em]{../%s}}", sparkline_path),
+    `Year Range` = sprintf("%d--%d", min_year, max_year)
+  ) %>%
+  select(`Mainstem River`, abbrv, map_text, run_timing_for_table, ESU, N, `Sampling Months`, `Year Range`) %>%
+  rename(
+    `Mainstem River$^1$` = `Mainstem River`,
+    Code = abbrv,
+    `Location Name$^2$` = map_text,
+    Run = run_timing_for_table,
+    `ESU$^3$` = ESU,
+    `$N$` = N
+  )
+
+# a hack to get an hline under the heading:
+fbmet5$`Mainstem River$^1$`[1] <- str_c("\\hline ", fbmet5$`Mainstem River$^1$`[1])
+
+# Finally write out the table
+write_delim(fbmet5, delim = "&", eol = "\\tabularnewline\n", file = output_list$tex_table)
+
+
+
 ```
 
 
@@ -365,6 +455,30 @@ And we can save that too:
 ggsave(TAF_FST$full_plot, file = output_list$fst_table, width = 6, height = 5.1)
 ```
 
+# Put them together into a single figure for the paper
+
+```{r}
+gsi_fst_fig_for_paper <- plot_grid(
+  TAF2$full_plot,
+  plot_grid(
+    get_legend(TAF2$for_external_legend),
+    get_legend(TAF2$for_internal_legend),
+    nrow = 1
+  ),
+  TAF_FST$full_plot,
+  nrow = 3,
+  rel_heights = c(7,3,7)
+)
+
+# and then save that
+ggsave(gsi_fst_fig_for_paper, file = output_list$gsi_fst_fig, width = 7, height = 17)
+
+# let's crop that down for use, too
+CALL <- paste("pdfcrop ", output_list$gsi_fst_fig, collapse = " ")
+system(CALL)
+
+file.rename(from = output_list$gsi_fst_fig, to = output_list$gsi_fst_fig_tex)
+```
 # Add the LFAR markers to that
 
 Anthony compiled the LFAR markers for the baseline fish.  Not every fish in the baseline

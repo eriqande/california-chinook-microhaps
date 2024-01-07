@@ -88,8 +88,8 @@ Fig.~\ref{fig:map}
 \newcommand{\mapcap}{\footnotesize  A map of sampling locations represented in the reference 
 baseline.  The colored circles aside
 each location name represent the different run-timing groups of Chinook salmon
-included the samples from the location.  Color codes are as follows: \Wball~=~Winter run,
-\LFball{}~=~Late-fall run, \Fball~=~Fall run, \Sball~=~Spring run.}
+included in the collections from the location.  Color codes are as follows: \Wball~=~Winter run,
+\LFball{}~=~Late-fall run, \Fball~=~Fall run, \Sball~=~Spring run. Abbreviations used in location names as folows: R. = River; Ck. = Creek; H. = Hatchery; NFH = National Fish Hatchery.}
 \begin{center}
 \includegraphics[width=\columnwidth]{images/map-crop.pdf}
 \end{center}
@@ -99,12 +99,41 @@ included the samples from the location.  Color codes are as follows: \Wball~=~Wi
 %%%%%%%%%%%%%%%
 
 We are going to stick a table in here:
-\begin{table}
-\caption{Gonna make a caption. UKTR: Upper Klamath and Trinity Rivers ESU;
-CVFR: Central Valley Fall Run ESU; CVSR: Central Valley Spring Run ESU; CVWR:
-Central Valley Winter Run ESU
+%%%%%%%%%%%%%%%%
+\begin{table*}
+\caption{Collections of fish in the reference baseline.  The Sampling Months column shows
+a pictorial representation of the proportion of each collection sampled in each month.  Colors in
+this column correspond to run-timing groups as described in the caption of Figure~\protect\ref{fig:map}.}
+{\small 
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} lllllrcr}
+\hline\hline\vspace*{0.4ex}
+\input{inputs/samples-table.tex}
+\end{tabular*}
 }
-\end{table}
+\rule{3cm}{0.3pt}
+
+{\footnotesize
+$^1$R. = River.\\
+$^2$Ck. = Creek; NFH = National Fish Hatchery; R. = River; H. = Hatchery.\\
+$^3$ESU = Evolutionarily Significant Unit; CVFR = Central Valley Fall Run ESU; CVSR = Central Valley Spring Run ESU; CVWR = 
+Central Valley Winter Run ESU; CC = California Coastal ESU; UKTR = Upper Klamath and Trinity Rivers ESU.
+}
+\hrule\vspace*{0.3ex}\hrule
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Genetic Markers}
+
+We will say that we took the SNPs from Clemento et al. and made amplicon based
+assays of them
+
+Then we must describe the process by which we got more microhaps.
+
+Then we can talk about assays for the subRoSA markers.
+
+Finally we mention that we have a whole section dedicated to finding the LFAR markers.
+
+\subsection*{Identifying and Designing markers from the Late-Fall Associated Region}
 
 
 \subsection*{Genetic Variation}
@@ -113,18 +142,20 @@ Central Valley Winter Run ESU
 
 \subsection*{Power for relationship inference}
 
-\begin{figure*}
-\newcommand{\examplecap}{\footnotesize This is just an example figure thrown
-in here for now to illustrate the formatting and how the captions are put in. It is not what
-we will use for the paper, but we will make another Joseph and the Magic Technicolor
-assignment table for this paper.  {\bf a)} Pairwise $F_\mathrm{ST}$ values.
-{\bf b)} Assignment rates.}
+\begin{figure}
+\newcommand{\examplecap}{\footnotesize Self-assignment rates  ({\bf a)} and pairwise 
+$F_\mathrm{ST}$ values ({\bf b)} for the collections in the baseline.  The codes of the populations
+appear on the outer margins of the table atop cells colored according to the run-timing group
+of the collection.  Interior cells in which the column and row correspond to the same reporting
+unit are colored according to the reporting unit.  For self-assignment tallies, the row corresponds
+to the true source collection and the column corresponds to the assigned collection. For $F_\mathrm{ST}$ values, the upper triangle was computed using the baseline microhaplotype
+data and the lower triangle was calculated with the whole genome sequence data (where available) from \citet{thompson2020complex}}
 \begin{center}
-\includegraphics[width=0.35\textwidth]{images/assign_and_fst_table.pdf}
+\includegraphics[width=\columnwidth]{images/gsi_and_fst_fig-crop.pdf}
 \end{center}
 \caption[\examplecap]{\examplecap}
 \label{fig:example}
-\end{figure*}
+\end{figure}
 
 
 \section*{Discussion}
