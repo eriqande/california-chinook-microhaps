@@ -1,4 +1,4 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{36}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -37,6 +37,12 @@ Ayala FJ, Powell JR (1972) Allozymes as diagnostic characters of sibling
   species of Drosophila. {\em Proceedings of the National Academy of
   Sciences\/}, {\bf 69}, 1094--1096.
 
+\bibitem[\protect\citeauthoryear{Baetscher, Clemento, Ng, Anderson, \&
+  Garza}{Baetscher {\em et~al.\/}}{2018}]{baetscher2018microhaplotypes}
+Baetscher DS, Clemento AJ, Ng TC, Anderson EC, Garza JC (2018) Microhaplotypes
+  provide increased power from short-read DNA sequences for relationship
+  inference. {\em Molecular Ecology Resources\/}, {\bf 18}, 296--305.
+
 \bibitem[\protect\citeauthoryear{Barclay \& Habicht}{Barclay \&
   Habicht}{2019}]{barclay2019genetic}
 Barclay AW, Habicht C (2019) Genetic Baseline for Cook Inlet Coho Salmon and
@@ -56,12 +62,33 @@ Campbell NR, Harmon SA, Narum SR (2015) Genotyping-in-Thousands by sequencing
   (GT-seq): A cost effective SNP genotyping method based on custom amplicon
   sequencing. {\em Molecular ecology resources\/}, {\bf 15}, 855--867.
 
+\bibitem[\protect\citeauthoryear{Christensen, Leong, Sakhrani, Biagi, Minkley,
+  Withler, Rondeau, Koop, \& Devlin}{Christensen {\em
+  et~al.\/}}{2018}]{christensen2018chinook}
+Christensen KA, Leong JS, Sakhrani D, Biagi CA, Minkley DR, Withler RE, Rondeau
+  EB, Koop BF, Devlin RH (2018) Chinook salmon (Oncorhynchus tshawytscha)
+  genome and transcriptome. {\em PloS one\/}, {\bf 13}, e0195461.
+
+\bibitem[\protect\citeauthoryear{Cingolani, Platts, Coon, Nguyen, Wang, Land,
+  Lu, \& Ruden}{Cingolani {\em et~al.\/}}{2012}]{cingolani2012program}
+Cingolani P, Platts A, Coon M, Nguyen T, Wang L, Land S, Lu X, Ruden D (2012) A
+  program for annotating and predicting the effects of single nucleotide
+  polymorphisms, SnpEff: SNPs in the genome of Drosophila melanogaster strain
+  w1118; iso-2; iso-3. {\em Fly\/}, {\bf 6}, 80--92.
+
 \bibitem[\protect\citeauthoryear{Clemento, Abad{\'\i}a-Cardoso, Starks, \&
   Garza}{Clemento {\em et~al.\/}}{2011}]{clemento2011discovery}
 Clemento A, Abad{\'\i}a-Cardoso A, Starks H, Garza J (2011) Discovery and
   characterization of single nucleotide polymorphisms in Chinook salmon,
   Oncorhynchus tshawytscha. {\em Molecular Ecology Resources\/}, {\bf 11},
   50--66.
+
+\bibitem[\protect\citeauthoryear{Clemento, Crandall, Garza, \&
+  Anderson}{Clemento {\em et~al.\/}}{2014}]{clemento2014evaluation}
+Clemento AJ, Crandall ED, Garza JC, Anderson EC (2014) Evaluation of a single
+  nucleotide polymorphism baseline for genetic stock identification of Chinook
+  Salmon (Oncorhynchus tshawytscha) in the California Current large marine
+  ecosystem. {\em Fishery Bulletin\/}, {\bf 112}.
 
 \bibitem[\protect\citeauthoryear{DeSaix, Rodriguez, Ruegg, \& Anderson}{DeSaix
   {\em et~al.\/}}{2024}]{desaixINPRESSpopulation}
@@ -102,6 +129,25 @@ Hess JE, Whiteaker JM, Fryer JK, Narum SR (2014) Monitoring stock-specific
   abundance, run timing, and straying of Chinook salmon in the Columbia River
   using genetic stock identification (GSI). {\em North American Journal of
   Fisheries Management\/}, {\bf 34}, 184--201.
+
+\bibitem[\protect\citeauthoryear{Kim, Lohmueller, Albrechtsen, Li,
+  Korneliussen, Tian, Grarup, Jiang, Andersen, Witte, Jorgensen, Hansen,
+  Pedersen, Wang, \& Nielsen}{Kim {\em et~al.\/}}{2011}]{pmid21663684}
+Kim SY, Lohmueller KE, Albrechtsen A, Li Y, Korneliussen T, Tian G, Grarup N,
+  Jiang T, Andersen G, Witte D, Jorgensen T, Hansen T, Pedersen O, Wang J,
+  Nielsen R (2011) {{E}stimation of allele frequency and association mapping
+  using next-generation sequencing data}. {\em BMC Bioinformatics\/}, {\bf 12},
+  231.
+
+\bibitem[\protect\citeauthoryear{Koressaar \& Remm}{Koressaar \&
+  Remm}{2007}]{koressaar2007enhancements}
+Koressaar T, Remm M (2007) Enhancements and modifications of primer design
+  program Primer3. {\em Bioinformatics\/}, {\bf 23}, 1289--1291.
+
+\bibitem[\protect\citeauthoryear{Korneliussen, Albrechtsen, \&
+  Nielsen}{Korneliussen {\em et~al.\/}}{2014}]{korneliussen_angsd_2014}
+Korneliussen TS, Albrechtsen A, Nielsen R (2014) {ANGSD}: Analysis of Next
+  Generation Sequencing Data. {\em {BMC} Bioinformatics\/}, {\bf 15}, 356.
 
 \bibitem[\protect\citeauthoryear{McKinney, Seeb, \& Seeb}{McKinney {\em
   et~al.\/}}{2017}]{mckinney2017managing}
@@ -174,12 +220,24 @@ Thompson NF, Anderson EC, Clemento AJ, Campbell MA, Pearse DE, Hearsey JW,
   Kinziger AP, Garza JC (2020) A complex phenotype in salmon controlled by a
   simple change in migratory timing. {\em Science\/}, {\bf 370}, 609--613.
 
+\bibitem[\protect\citeauthoryear{Untergasser, Cutcutache, Koressaar, Ye,
+  Faircloth, Remm, \& Rozen}{Untergasser {\em
+  et~al.\/}}{2012}]{untergasser2012primer3}
+Untergasser A, Cutcutache I, Koressaar T, Ye J, Faircloth BC, Remm M, Rozen SG
+  (2012) Primer3—new capabilities and interfaces. {\em Nucleic acids
+  research\/}, {\bf 40}, e115--e115.
+
 \bibitem[\protect\citeauthoryear{Urawa, Sato, Crane, Agler, Josephson, \&
   Azumaya}{Urawa {\em et~al.\/}}{2009}]{urawa2009stock}
 Urawa S, Sato S, Crane PA, Agler B, Josephson R, Azumaya T (2009)
   Stock-specific ocean distribution and migration of chum salmon in the Bering
   Sea and North Pacific Ocean. {\em N. Pac. Anadr. Fish Comm. Bull\/}, {\bf 5},
   131--146.
+
+\bibitem[\protect\citeauthoryear{Waples}{Waples}{1991}]{waples1991pacific}
+Waples RS (1991) Pacific salmon, {\em Oncorhynchus spp.}, and the definition of
+  ``species'' under the Endangered Species Act. {\em Marine Fisheries
+  Review\/}, {\bf 53}, 11--22.
 
 \bibitem[\protect\citeauthoryear{Wilmot, Kondzela, Guthrie~III, Moles,
   Martinson, \& Helle}{Wilmot {\em et~al.\/}}{1999}]{wilmot1999origins}

@@ -68,7 +68,7 @@ Here, we present a reference baseline for Chinook salmon, targeted to the comple
 structure within the Central Valley of California. Chinook salmon of the two main river basins---the 
 Sacramento and the San Joaquin---within the Central Valley exhibit the greatest run-timing diversity
 within the species.  With four recognized ecotypes, delineated primarily on the basis of run timing
-(Fall-, Late-Fall-, Winter-, and Spring-run), adult Chinook salmon can be found migrating or residing
+(fall-, late-fall-, winter-, and spring-run), adult Chinook salmon can be found migrating or residing
 in freshwater every month of the year in California. NEED MORE HERE. 
 
 
@@ -78,11 +78,12 @@ More verbiage
 
 \subsection*{Population Sampling}
 
-We sampled fish for the reference baselines from 7 locations on the across the two
+We sampled fish for the reference baselines from XX locations across California.
+These locations included sites in the two
 main tributaries (the Sacramento River and the San Joaquin River) within
-California's Central Valley. The baseline also includes samples collected from
-one location in the Klamath River, and three rivers of the California coast
-Fig.~\ref{fig:map}
+California's Central Valley, the Klamath-Trinity basin in Northern California, and
+YY rivers of the California coast
+(Fig.~\ref{fig:map}).
 %%%%%%%%%%%%%
 \begin{figure}
 \newcommand{\mapcap}{\footnotesize  A map of sampling locations represented in the reference 
@@ -97,13 +98,16 @@ included in the collections from the location.  Color codes are as follows: \Wba
 \label{fig:map}
 \end{figure}
 %%%%%%%%%%%%%%%
-
-We are going to stick a table in here:
+Collections in each location were separate into fish from the different run-timing ecotypes according
+to a variety of criteria.  (We need to talk about how these were split into spring run, fall-run, winter 
+run, etc.
+In total, the samples in the baseline represent fish from five different Evolutionarily Significant 
+Units (ESUs) of Chinook salmon \citep{waples1991pacific} A summary of the different collections 
 %%%%%%%%%%%%%%%%
 \begin{table*}
-\caption{Collections of fish in the reference baseline.  The Sampling Months column shows
+\caption{\footnotesize Collections of fish in the reference baseline.  The Sampling Months column shows
 a pictorial representation of the proportion of each collection sampled in each month.  Colors in
-this column correspond to run-timing groups as described in the caption of Figure~\protect\ref{fig:map}.}
+this column correspond to run-timing groups as described in the caption of Fig.~\protect\ref{fig:map}.}
 {\small 
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} lllllrcr}
 \hline\hline\vspace*{0.4ex}
@@ -124,18 +128,136 @@ Central Valley Winter Run ESU; CC = California Coastal ESU; UKTR = Upper Klamath
 
 \subsection*{Genetic Markers}
 
-We will say that we took the SNPs from Clemento et al. and made amplicon based
-assays of them
+To assemble the markers for this reference baseline, we drew upon several different
+sources, as detailed in the separate sections below.
 
-Then we must describe the process by which we got more microhaps.
+\subsubsection*{Conversion of existing SNPtype assays}
 
-Then we can talk about assays for the subRoSA markers.
+A number of SNP markers from earlier discovery efforts \citep{clemento2011discovery} had already 
+been validated as useful for GSI
+and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
+using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (CITE).
+In order to type these markers using amplicon sequencing, we\ldots
 
-Finally we mention that we have a whole section dedicated to finding the LFAR markers.
+\subsubsection*{Additional microhaplotype discovery}
 
-\subsection*{Identifying and Designing markers from the Late-Fall Associated Region}
+We undertook a new discovery process to develop additional multiallelic
+microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook.
+NEED TO DESCRIBE.
+
+\subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
+
+We include amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
+between spring-run and fall-run fish described in \citet{thompson2020complex}.
+
+Need more here.
+
+\subsubsection*{Identifying and Designing markers from the Late-Fall Associated Region}
+
+To identify loci with large allele frequency differences between late-fall and fall-run Chinook salmon, 
+we first conducted a simple case-control GWAS using the low-coverage whole genome sequencing 
+data of \citet{thompson2020complex}.  We conducted two separate association-study comparisons.  
+The first involved the 16 late-fall run fish as cases with 16 fall-run fish from the Feather River Hatchery as controls. 
+The second involved the same 16 late-fall fish as cases, but used 16 fall-run fish from the San 
+Joaquin River as controls.  The association studies were performed for each chromosome with 
+ANGSD \citep{pmid21663684,korneliussen_angsd_2014}, using the following command: {\footnotesize\tt angsd -yBin \{ybin\}  -r \{chrom\} 
+-minMapQ 30 -minQ 20 -minInd 12 -doAsso 1 -GL 1 -doMajorMinor 1 -doMaf 1 -SNP\_pval 1e-6  
+-out \{prefix\}  -bam \{bamlist\}}, where {\tt \{ybin\} } is the path to a file indicating the cases and 
+controls, 
+{\tt \{chrom\} } indicates the chromosome name, {\tt \{prefix\} } is the prefix to use for output files, and 
+{\tt \{bamlist\} } is the path to the text file holding paths to the BAM files, one for each individual, ordered as in {\tt \{ybin\} }.
+
+There was only one peak in association scores that was shared between both comparisons (see 
+Results). From this peak we identified candidates for followup genotyping by including the 10 
+SNPs with the lowest association p-values, and supplementing those with additional SNPs that 
+showed:
+\begin{itemize}
+\item An estimated absolute allele frequency difference (between late-fall and all 32 fall-run fish)  $>0.75$,  with an approximate lower confidence interval of that figure of 0.5,  or
+\item An estimated absolute frequency difference of >0.5 with a lower confidence interval >0.25 and 
+with either fall-run or late-fall run being nearly fixed for one of the alleles, or
+\item An annotation from snpEff \citep{cingolani2012program} of “HIGH” or “MODERATE”, or
+\item An absolute frequency difference $>0.48$ and a lower confidence interval of $>0.25$ and a 
+genomic  coordinate $> 2.2$~Mb.
+\end{itemize}
+The final condition was implemented to gather several SNPs within the flanking region to the right of 
+the main peak of association. 
+
+For the candidate markers found by the above process, we designed amplification primers using 
+Primer3 \citep{koressaar2007enhancements,untergasser2012primer3} and tested amplification in a 
+subset of Chinook salmon 
+samples. The primer pairs that amplified sequence that reliably mapped back to the association- 
+peak region were then typed
+in a separate collection of 1,638 Sacramento River Chinook salmon sampled from the fish trap below Keswick Dam, including 1,169 winter run, 281 spring 
+run, and 188 fall/late-fall run. We divided the fish identified as fall/late-fall via the 125-locus genetic 
+stock identification data set into fall run and late fall run according to their sampling date at Keswick: 
+99 fish arriving before Dec 26 were classified as fall run and 89 fish arriving after Dec 26 were 
+classified as late-fall run.   The allele frequencies of the target SNPs at the remaining amplicons 
+were 
+estimated for each of these four groups: winter, spring, fall, and late-fall, and we retained
+amplicons showing large allele frequency  differences between late-fall fish and all other runs.
 
 
+
+\section*{Results}
+
+\subsection*{Genetic Markers}
+
+\subsubsection*{Late-fall Associated Region Markers}
+
+The case-control association test revealed a single peak on chromosome 34 with large allele frequency differences
+between Central Valley late-fall and fall-run fish.  This peak was evident both in the comparison of
+late-fall fish to fall-run fish in the Feather River Hatchery and of late-fall fish to the fall-run fish in
+the San Joaquin River (Fig.~\ref{fig:lfar-assoc}).
+%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+\newcommand{\lfarcap}{\footnotesize Negative log base 10 of association $p$-values for
+individual SNPs for late-fall versus fall run.  $x$ axis shows position in genome (in megabases),
+with color alternating by chromosome, as indicated by numbers above the $x$-axis. ``Unk'' refers
+to unplaced scaffolds in the Otsh\_v1.0 genome assembly \citep{christensen2018chinook}. The 
+upper panel is the comparison between late-fall and Feather River Hatchery fall, while the lower 
+panel is the comparison of late-fall to San Joaquin River fall. }
+\includegraphics[width=\textwidth]{images/lfar-assoc-faceted.jpg}
+\caption[\lfarcap]{\lfarcap}
+\label{fig:lfar-assoc}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%
+The Manhattan plot of Fig.~\ref{fig:lfar-assoc} shows sporadic SNPs with low association
+$p$-values.  These are not shared between the two different late-fall to fall comparisons, and
+sites that we investigated were concentrated in areas of poor mapping suggesting that their
+$p$-values were artifactual.  By contrast, a large number of sites near the prominent peak on
+chromosome 34 had large allele frequency differences between late-fall and fall run.  Taking the
+top 10 most associated SNPs, and including additional ones from the filtering criteria given in the
+Methods, yielded 49 candidate markers for which we designed primers for amplication.  Only 8
+of these 49 primer pairs yielded reliable amplification and mapping.   Of these 8, two of the SNPs 
+showed inconsistent genotyping and were removed from consideration.  Of the remaining 6, only 3 
+showed marked allele frequency differences ($> 0.7$) between late-fall and fall run.  These three 
+SNPs (Chr34:828,768,  Chr34:865,057, and Chr34:1,063,084) also had pronounced differences in 
+allele frequency between 
+late-fall and spring or winter run.
+
+Analysis of the mapping of amplicons for Chr34:828,768 
+showed that many ($\approx$89\%) of the reads were off-target (aligning to other chromosomes, 
+etc.), making it costly (in terms of sequencing effort) to include the marker in the baseline panel. 
+Consequently it was dropped.  The frequency of the different alleles at the two remaining loci
+within different reporting units in the baseline are shown in Table~\ref{tab:lfar-freqs}.
+%%%%%%%%%%%%%%
+\begin{table}
+\caption{\footnotesize Allele frequencies across reporting units of the two late-fall associated
+markers.  Frequencies are given for the alleles most common amongst late-fall Chinook: nucleotide 
+{\tt G} at locus Chr34:865,057 and {\tt A} at Chr34:1,063,084.  $N$ is the total number of gene 
+copies available for estimating the allele frequency.}
+\label{tab:lfar-freqs}
+{\small
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}} lrrrr}
+\hline\hline
+& \multicolumn{2}{c}{\underline{Chr34:865,057}} & \multicolumn{2}{c}{\underline{Chr34:1,063,084}} \\
+Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
+\input{inputs/lfar-freqs.tex}
+\end{tabular*}
+}
+\vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
+\end{table}
+%%%%%%%%%%%%%%%
 \subsection*{Genetic Variation}
 
 \subsection*{Power for genetic stock identification and population assignment}
@@ -149,7 +271,9 @@ appear on the outer margins of the table atop cells colored according to the run
 of the collection.  Interior cells in which the column and row correspond to the same reporting
 unit are colored according to the reporting unit.  For self-assignment tallies, the row corresponds
 to the true source collection and the column corresponds to the assigned collection. For $F_\mathrm{ST}$ values, the upper triangle was computed using the baseline microhaplotype
-data and the lower triangle was calculated with the whole genome sequence data (where available) from \citet{thompson2020complex}}
+data and the lower triangle was calculated with the whole genome sequence data (where available) 
+from \citet{thompson2020complex}.  NOTE: I THINK WE SHOULD MAKE THE LOWER 
+DIAGONAL THE P-VALUE FROM A TEST OF DIFFERENTIATION OR SOMETHING LIKE THAT.}
 \begin{center}
 \includegraphics[width=\columnwidth]{images/gsi_and_fst_fig-crop.pdf}
 \end{center}
@@ -158,9 +282,11 @@ data and the lower triangle was calculated with the whole genome sequence data (
 \end{figure}
 
 
+
+
 \section*{Discussion}
 
-When, and if, sequencing costs drop sufficiently, it may  be possible to include
+When, and if, sequencing costs drop sufficiently, it may be possible to include
 all different populations of a single species within a single standardized reference baseline
 that performs equally well at broad and regional scales. A statistical approach for population
 assignment from low coverage whole genome sequences appeared recently

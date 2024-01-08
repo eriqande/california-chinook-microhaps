@@ -1,0 +1,161 @@
+---
+title: "Assessing Power of the California Microhap Baseline for GSI (and calculating Fst)"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+bibliography: "`r here::here('references.bib')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_knit$set(root.dir = here::here())
+start_time <- Sys.time()
+
+USING_SNAKEMAKE <- FALSE
+NEG_USING_SMK <- TRUE
+if(exists("snakemake")) {
+  USING_SNAKEMAKE <- TRUE
+  NEG_USING_SMK <- FALSE
+}
+```
+
+```{r rmd_snakemake_hacks, include=FALSE, eval=USING_SNAKEMAKE}
+# currently, this block does not get evaluated, while developing,
+# but later when we snakemake-ize it all, we will evaluate it.
+if(USING_SNAKEMAKE) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+}
+```
+
+# Input and Output Paths
+
+```{r input_bypass, include=NEG_USING_SMK, eval=NEG_USING_SMK}
+# inputs:
+input_list <- list(
+  final_baseline = "data/cali-chinook-baseline.rds",
+  pop_labels = "inputs/reference-collection-names.csv"
+)
+# outputs:
+output_list <- list(
+  lfar_tex_table = "tex/inputs/lfar-freqs.tex"
+)
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+
+# Introduction
+
+The goal here is simply to get the allele frequenccies in different reporting units
+at the LFAR markers into a table format.  
+
+
+First, get the baseline and attach the collection and repunit names that we want.
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+
+
+# get the full baseline with the new markers, etc.  We will toss out some
+# non-winter Sacto fish of unknown provenance
+full_base <- read_rds(input_list$final_baseline) %>%
+  filter(collection != "SacNonW")
+
+
+# read the pop labels for proper sorting
+pop_labels <- read_csv(input_list$pop_labels)
+
+# rename those collections and repunits
+full_base2 <- full_base %>%
+  rename(old_name = collection) %>%
+  select(-repunit) %>%
+  left_join(pop_labels %>% select(-run_timing_group), by = join_by(old_name)) %>%
+  select(-old_name) %>%
+  select(indiv, repunit, collection, sample_type, everything())
+  
+# finally, get the order of collections and repunits we want
+repunit_order <- rev(unique(pop_labels$repunit))
+```
+
+Now, whittle that down to just the LFAR and pivot it longer:
+```{r}
+lfar_base <- full_base2 %>%
+  select(indiv:collection, starts_with("NC_037130.1")) %>%
+  pivot_longer(
+    cols = starts_with("NC_037130.1"), 
+    names_to = c("locus", "gene_copy"),
+    names_pattern = "(NC_037130.1.*)_([12])",
+    values_to = "allele"
+  )
+```
+
+And now we count up the alleles within repunits
+```{r}
+lfar_cnts <- lfar_base %>%
+  filter(!is.na(allele)) %>%
+  count(repunit, locus, allele) %>%
+  complete(repunit, locus, allele, fill = list(n = 0L)) %>%
+  group_by(repunit, locus) %>%
+  mutate(
+    tot_n = sum(n),
+    fract = n / tot_n
+  ) %>%
+  ungroup()
+
+lfar_cnts
+```
+
+Now, we just want to focus on the alleles that are most frequent in the late-fall.
+```{r}
+focal <- lfar_cnts %>%
+  filter(repunit == "CV-Late-Fall") %>%
+  group_by(locus) %>%
+  filter(n == max(n))
+
+alle_tib <- lfar_cnts %>%
+  semi_join(focal, by = join_by(locus, allele)) %>%
+  mutate(
+    repunit_f = factor(repunit, levels = repunit_order),
+    f = sprintf("%.3f", fract)
+  ) %>%
+  select(-repunit, -allele, -n, -fract) %>%
+  pivot_wider(names_from = locus, values_from = c(f, tot_n)) %>%
+  arrange(repunit_f) %>%
+  select(repunit_f, `f_NC_037130.1:864908-865208`, `tot_n_NC_037130.1:864908-865208`, `f_NC_037130.1:1062935-1063235`, `tot_n_NC_037130.1:1062935-1063235`)
+
+alle_tib
+```
+
+
+Now, we will print this out without any column names so that we can use it in a TeX table.
+```{r}
+write_delim(alle_tib, delim = "&", eol = "\\tabularnewline\n", file = output_list$lfar_tex_table, col_names = FALSE)
+```
+
+
+# Citations
+
+::: {#refs}
+:::
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
