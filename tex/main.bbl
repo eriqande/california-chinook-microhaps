@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{37}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -246,5 +246,11 @@ Wilmot RL, Kondzela CM, Guthrie~III CM, Moles A, Martinson E, Helle JH (1999)
   {\em Technical report\/}, (NPAFC Doc.) Auke Bay Fisheries Laboratory, Alaska
   Fisheries Science Center, NMFS, NOAA, 11305 Glacier Highway, Juneau, AK
   99801-8626. 20 pp.
+
+\bibitem[\protect\citeauthoryear{Yoshiyama, Fisher, \& Moyle}{Yoshiyama {\em
+  et~al.\/}}{1998}]{yoshiyama1998historical}
+Yoshiyama RM, Fisher FW, Moyle PB (1998) Historical abundance and decline of
+  chinook salmon in the Central Valley region of California. {\em North
+  American Journal of Fisheries Management\/}, {\bf 18}, 487--521.
 
 \end{thebibliography}
