@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{38}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -95,6 +95,11 @@ Clemento AJ, Crandall ED, Garza JC, Anderson EC (2014) Evaluation of a single
 DeSaix MG, Rodriguez MD, Ruegg KC, Anderson EC (2024) Population assignment
   from genotype likelihoods for low-coverage whole-genome sequencing data. {\em
   Methods in Ecology and Evolution\/}, to appear.
+
+\bibitem[\protect\citeauthoryear{Garrison \& Marth}{Garrison \&
+  Marth}{2012}]{garrison2012haplotype}
+Garrison E, Marth G (2012) Haplotype-based variant detection from short-read
+  sequencing. {\em arXiv preprint arXiv:1207.3907\/}.
 
 \bibitem[\protect\citeauthoryear{Garza \& Anderson}{Garza \&
   Anderson}{2007}]{garza2007large}

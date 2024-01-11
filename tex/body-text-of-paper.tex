@@ -138,14 +138,26 @@ A number of SNP markers from earlier discovery efforts \citep{clemento2011discov
 been validated as useful for GSI
 and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
 using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (CITE).
-In order to type these markers using amplicon sequencing, we added Illumina sequencing
-primers following the protocol in \citep{campbell2015genotyping}.
+In order to type these markers using amplicon sequencing, we followed the methods in
+\citet{campbell2015genotyping} and added the Illumina small RNA sequencing primer and 
+read 2 sequencing primer to the SNPtype Specific Target Amplification Primer and Locus 
+Specific Primers respectively.  We then dropped any loci that produced genotypes that were 
+frequently inconsistent with genotypes produced with the SNPtype assays and any loci that 
+did not amplify well or took over PCRs when run with the other loci in the panel.  We then 
+used Freebayes \citep{garrison2012haplotype} to identify non mulltinucleotide or complex variants
+in addition the the SNPs targeted by the original TaqMan assays.
 
 \subsubsection*{Additional microhaplotype discovery}
 
 We undertook a new discovery process to develop additional multiallelic
 microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook.
 NEED TO DESCRIBE.
+
+After we designed these loci, we compiled the reference sequences for these and the
+other loci and mapped them to the Chinook v1.0 genome assembly \citep{christensen2018chinook}
+with both the Burrows-Wheeler Aligner (CITE) and the BLAST-like Alignment tool \citep{kent2002blat}.
+Genome locations found with both aligners were assumed to be the most likely locations
+of these target amplicons in the genome.
 
 \subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
 
