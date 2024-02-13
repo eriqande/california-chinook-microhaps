@@ -326,7 +326,7 @@ ggsave(final_map, filename = output_list$map, width = 5, height = 3.5)
 CALL <- paste("pdfcrop ", output_list$map, collapse = " ")
 system(CALL)
 
-file.rename(from = output_list$cropmap, to = output_list$texmap)
+file.copy(from = output_list$cropmap, to = output_list$texmap)
 
 
 
