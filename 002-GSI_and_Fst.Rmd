@@ -7,7 +7,7 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('references.bib')`"
+
 ---
 
 ```{r setup, include=FALSE}
@@ -314,7 +314,7 @@ In order to do this we need to convert the data to a lumped format.
 This means making integers of the alleles and then catenating them.
 One locus has 11 allele, so we should use two digits for each allele.  We drop the
 LFAR from this, because those were chosen specifically to be weird in the late fall.
-```{r}
+```{r, cache=TRUE}
 full_base_long <- full_base2 %>% 
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   mutate(
