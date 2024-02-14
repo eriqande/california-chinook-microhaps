@@ -1,0 +1,207 @@
+---
+title: "Assessing Power of the California Microhap Baseline for GSI (and calculating Fst)"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+start_time <- Sys.time()
+```
+
+
+
+```{r}
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  input_list <- list(
+    final_baseline = "data/cali-chinook-baseline.rds",
+    pop_labels = "inputs/reference-collection-names.csv",
+    locus_info = "inputs/ChinookFullPanelLociTable.csv",
+    chrom_lengths = "inputs/Otsh_v1.0_chrom_lengths.tsv"
+  )
+}
+```
+
+
+## Wrangle the data
+
+```{r}
+library(tidyverse)
+library(CKMRsim)
+
+# get the full baseline with the new markers, etc.  We will toss out some
+# non-winter Sacto fish of unknown provenance
+full_base <- read_rds(input_list$final_baseline) %>%
+  filter(collection != "SacNonW")
+
+
+# read the pop labels for proper sorting
+pop_labels <- read_csv(input_list$pop_labels)
+
+# rename those collections and repunits
+full_base2 <- full_base %>%
+  rename(old_name = collection) %>%
+  select(-repunit) %>%
+  left_join(pop_labels %>% select(old_name, collection, repunit, ckmr_sim_group), by = join_by(old_name)) %>%
+  select(-old_name) %>%
+  select(indiv, repunit, collection, sample_type, ckmr_sim_group, everything())
+
+
+# after that, we can nest things into separate ckmr_sim_groups
+ckmr_sim_nests <- full_base2 %>%
+  group_by(ckmr_sim_group) %>%
+  nest()
+
+
+# now, we also want to get the genome positions of things.
+# we take its position to be the start position of the amplicon
+gen_coords <- read_csv(input_list$locus_info) %>%
+  select(Locus, AmpliconGenomeV1Location) %>%
+  separate(AmpliconGenomeV1Location, into = c("Chrom", "pos_str"), sep = ":") %>%
+  separate(pos_str, into = c("Start", "Stop"), sep = "-", convert = TRUE) %>%
+  rename(Pos = Start) %>%
+  select(-Stop) %>%
+  arrange(Chrom, Pos)
+
+# now we have to do some funny stuff to deal with things on unplaced scaffolds.
+# We will just sprinkle scaffolds into the existing chromosome lengths from the
+# Otsh_v1.0 genome
+chrom_lengths <- read_tsv(input_list$chrom_lengths)
+
+# get the unique unplaced scaffolds and assign them randomly to a position
+# in an assembled chromosome.  We set it up so that markers on the same scaffold
+# will not extend beyond the end of the chromosome
+set.seed(5)
+rando_coords <- gen_coords %>%
+  filter(str_detect(Chrom, "NW_") | is.na(Chrom)) %>%
+  group_by(Chrom) %>%
+  mutate(max_pos = max(Pos)) %>%
+  select(Chrom, max_pos) %>%
+  distinct() %>%
+  mutate(
+    # this gets the chromosome they are assigned to
+    ass_chrom = sample(chrom_lengths$chrom, size = n(), prob = chrom_lengths$num_bases, replace = TRUE)
+  ) %>% # now we do some stuff to place the scaffold randomly on the chromosome
+  left_join(chrom_lengths, by = join_by(ass_chrom == chrom)) %>%
+  mutate(
+    ass_pos = floor(runif(n = n(), min = 1, max = num_bases - max_pos - 1 ))
+  ) %>%
+  select(Chrom, ass_chrom, ass_pos) %>%
+  ungroup()
+
+
+# now we have the information to randomly stick the scaffold markers onto
+# chromosomes in the genome.  We do this by joining things onto gen_coords
+gen_coords2 <- gen_coords %>%
+  left_join(rando_coords, by = join_by(Chrom)) %>%
+  mutate(
+    Pos = case_when(
+      is.na(ass_pos) ~ Pos,
+      TRUE ~ ass_pos + Pos
+    ),
+    ass_chrom = case_when(
+      is.na(ass_chrom) ~ Chrom,
+      TRUE ~ ass_chrom
+    )
+  ) %>%
+  mutate(Chrom = ass_chrom) %>%
+  select(Locus, Chrom, Pos)
+
+```
+
+
+## Now, a series of functions to operate on each nest and do CKMRsim things
+
+```{r}
+#' @param X a tibble like that nested in a single row of ckmr_sim_nests
+#' @param GC2 essentially the gen_coords2 object from above
+ckmr_afreqs_ready <- function(X, GC2) {
+  tmp <- X %>%
+    select(-(repunit:sample_type)) %>%
+    pivot_longer(
+      -indiv,
+      names_to = c("Locus", "gene_copy"),
+      values_to = "Allele",
+      names_pattern = "^(.*)_([12])$"
+    ) %>%
+    filter(!is.na(Allele)) %>%
+    count(Locus, Allele) %>%
+    group_by(Locus) %>%
+    filter(n() > 1) %>% # filter out monomorphic loci
+    mutate(
+      Freq = n / sum(n),
+    ) %>%
+  ungroup() %>%
+  left_join(GC2, by = join_by(Locus)) %>%
+  select(Chrom, Pos, Locus, Allele, Freq) %>%
+  arrange(Pos, desc(Freq)) 
+  
+  no_pos_posse <- tmp %>% 
+    filter(is.na(Chrom))
+  
+  if(nrow(no_pos_posse) > 0) {
+    warning("Some loci without genomic positions: ", paste(unique(no_pos_posse$Locus), collapse = ", "), "\n\n")
+    warning("Those loci were dropped, and the analysis should survive, but you should see what's up!")
+  }
+  
+  # then, return thing without the no_pos_posse markers
+  tmp %>%
+    filter(!is.na(Chrom)) %>%
+    mutate(
+      AlleIdx = NA,
+      LocIdx = NA
+    ) %>%
+    CKMRsim::reindex_markers()
+  
+}
+
+
+# here is one to create a ckmr object.
+# Y is simply the output of ckmr_afreqs_ready()
+ckmr_create <- function(Y) {
+  create_ckmr(
+    D = Y,
+    kappa_matrix = kappas[c("PO", "FS", "HS", "U"), ],
+    ge_mod_assumed = ge_model_TGIE,
+    ge_mod_true = ge_model_TGIE,
+    ge_mod_assumed_pars_list = list(epsilon = 0.005),
+    ge_mod_true_pars_list = list(epsilon = 0.005)
+  )
+}
+
+
+# This does the simulate_Qij step and then also estimates the FPRs.
+ckmr_simQ <- function(C) {
+  simulate_Qij(
+    C, 
+    calc_relats = c("PO", "FS", "HS", "U"),
+    sim_relats = c("PO", "FS", "HS", "U"),
+    unlinked = FALSE,
+    pedigree_list = pedigrees
+  )
+}
+
+
+```
+
+
+This is just here while I develop this:
+```{r}
+X <- ckmr_sim_nests$data[[5]]
+GC2 <- gen_coords2
+
+Y <- ckmr_afreqs_ready(X, GC2)
+
+C <- ckmr_create(Y) 
+
+Q <- ckmr_simQ(C)
+```

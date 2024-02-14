@@ -84,7 +84,7 @@ pop_labels <- read_csv(input_list$pop_labels)
 full_base2 <- full_base %>%
   rename(old_name = collection) %>%
   select(-repunit) %>%
-  left_join(pop_labels %>% select(-run_timing_group), by = join_by(old_name)) %>%
+  left_join(pop_labels %>% select(select(old_name, collection, repunit)), by = join_by(old_name)) %>%
   select(-old_name) %>%
   select(indiv, repunit, collection, sample_type, everything())
   
