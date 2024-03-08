@@ -1,4 +1,4 @@
-\begin{thebibliography}{39}
+\begin{thebibliography}{40}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -157,6 +157,11 @@ Koressaar T, Remm M (2007) Enhancements and modifications of primer design
   Nielsen}{Korneliussen {\em et~al.\/}}{2014}]{korneliussen_angsd_2014}
 Korneliussen TS, Albrechtsen A, Nielsen R (2014) {ANGSD}: Analysis of Next
   Generation Sequencing Data. {\em {BMC} Bioinformatics\/}, {\bf 15}, 356.
+
+\bibitem[\protect\citeauthoryear{Li \& Durbin}{Li \&
+  Durbin}{2009}]{bwa-mem2009}
+Li H, Durbin R (2009) {Fast and accurate short read alignment with
+  Burrows–Wheeler transform}. {\em Bioinformatics\/}, {\bf 25}, 1754--1760.
 
 \bibitem[\protect\citeauthoryear{McKinney, Seeb, \& Seeb}{McKinney {\em
   et~al.\/}}{2017}]{mckinney2017managing}

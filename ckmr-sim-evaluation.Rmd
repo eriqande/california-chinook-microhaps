@@ -180,12 +180,13 @@ ckmr_create <- function(Y) {
 
 
 # This does the simulate_Qij step and then also estimates the FPRs.
-ckmr_simQ <- function(C) {
+ckmr_simQ <- function(C, unlinked = FALSE) {
   simulate_Qij(
-    C, 
+    C,
+    reps = 5e4,
     calc_relats = c("PO", "FS", "HS", "U"),
     sim_relats = c("PO", "FS", "HS", "U"),
-    unlinked = FALSE,
+    unlinked = unlinked,
     pedigree_list = pedigrees
   )
 }
@@ -203,5 +204,18 @@ Y <- ckmr_afreqs_ready(X, GC2)
 
 C <- ckmr_create(Y) 
 
-Q <- ckmr_simQ(C)
+Q_link <- ckmr_simQ(C)
+Q_unl <- ckmr_simQ(C, unlinked = TRUE)
+
+# get FPRs and FNRs for a variety of relationships.
+
+# first for resolving unrelated individuals from PO and FS
+mc_sample_simple(
+  Q = Q_link,
+  nu = c("PO", "FS"),
+  de = "U",
+  tr = "U",
+  method = "IS",
+  FNRs = seq(0.01, 0.3, by = 0.01)
+)
 ```

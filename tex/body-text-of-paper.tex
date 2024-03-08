@@ -3,8 +3,8 @@
 \section*{Introduction}
 
 Genetic markers have long been used in the 
-management of Pacific salmon, and salmon conservation and management has been
-a driving force behind a number of advances in molecular ecology,
+management of Pacific salmon, and salmon conservation and management have been
+behind a number of advances in molecular ecology,
 from data generation techniques \citep{clemento2011discovery,campbell2015genotyping,mckinney2017managing}
 to statistical methodology
 \citep{smouse1990genetic,anderson2002model,pella2006gibbs}.
@@ -62,20 +62,20 @@ Since the first proposal \citep{anderson2005description} to replace or augment t
 programme \citep{nandor2010overview}
 with PBT, it has been noted that one of the major advantages of a genetic program for
 PBT is that the genetic markers used for PBT could also be useful for GSI (and
-vice versa).  This 
+vice versa).
 
 Here, we present a reference baseline for Chinook salmon, targeted to the complex population 
 structure within the Central Valley of California. Chinook salmon of the two main river basins---the 
 Sacramento and the San Joaquin---within the Central Valley exhibit the greatest run-timing diversity
 within the species.  With four recognized ecotypes, delineated primarily on the basis of run timing
 (fall-, late-fall-, winter-, and spring-run), adult Chinook salmon can be found migrating or residing
-in freshwater every month of the year in California. NEED MORE HERE. Certainly we should cite
-\citet{yoshiyama1998historical}.
+in freshwater every month of the year in California. \comment{NEED MORE HERE. Certainly we should cite
+\citet{yoshiyama1998historical}.}
 
 
  \section*{Methods}
 
-More verbiage
+\comment{More verbiage}
 
 \subsection*{Population Sampling}
 
@@ -149,34 +149,32 @@ sources, as detailed in the separate sections below.
 A number of SNP markers from earlier discovery efforts \citep{clemento2011discovery} had already 
 been validated as useful for GSI
 and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
-using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (CITE).
+using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays \comment{(CITE)}.
 In order to type these markers using amplicon sequencing, we followed the methods in
 \citet{campbell2015genotyping} and added the Illumina small RNA sequencing primer and 
 read 2 sequencing primer to the SNPtype Specific Target Amplification Primer and Locus 
 Specific Primers respectively.  We then dropped any loci that produced genotypes that were 
 frequently inconsistent with genotypes produced with the SNPtype assays and any loci that 
-did not amplify well or took over PCRs when run with the other loci in the panel.  We then 
-used Freebayes \citep{garrison2012haplotype} to identify non mulltinucleotide or complex variants
-in addition the the SNPs targeted by the original TaqMan assays.
+did not amplify well or those that amplified so well that they were grossly over-represented
+among the reads on the sequencer.  We then 
+used Freebayes \citep{garrison2012haplotype} to identify all variants on the fragment (not just the SNPs targeted by the original TaqMan assays).  This allows us to score each locus as a
+microhaplotype \citep{baetscher2018microhaplotypes} when multiple variants occur in the sequence.  We filtered out variants
+that were considered multinucleotide or complex variants by Freebayes.
 
 \subsubsection*{Additional microhaplotype discovery}
 
 We undertook a new discovery process to develop additional multiallelic
 microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook.
-NEED TO DESCRIBE.
+\comment{NEED TO DESCRIBE. How did we look for these, etc. What constituted a
+candidate to then follow up on with amplicon sequencing, etc.}
 
-After we designed these loci, we compiled the reference sequences for these and the
-other loci and mapped them to the Chinook v1.0 genome assembly \citep{christensen2018chinook}
-with both the Burrows-Wheeler Aligner (CITE) and the BLAST-like Alignment tool \citep{kent2002blat}.
-Genome locations found with both aligners were assumed to be the most likely locations
-of these target amplicons in the genome.
-
-\subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
-
-We include amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
-between spring-run and fall-run fish described in \citet{thompson2020complex}.
-
-Need more here.
+After designing and validating an amplicon-sequencing approach to type both the
+existing SNPtype assays and the product of the additional microhaplotype
+discovery process we identified their location with the genome. We mapped the reference
+sequences for these markers 
+to the Chinook v2.0 genome assembly \citep{christensen2018chinook}
+with both the Burrows-Wheeler Aligner \citep{bwa-mem2009} and the BLAST-like Alignment tool \citep{kent2002blat}.
+We report the genomic coordinates these target amplicons found with both alignment methods.
 
 \subsubsection*{Identifying and Designing markers from the Late-Fall Associated Region}
 
@@ -222,10 +220,43 @@ estimated for each of these four groups: winter, spring, fall, and late-fall, an
 amplicons showing large allele frequency  differences between late-fall fish and all other runs.
 
 
+\subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
+
+We include amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
+between spring-run and fall-run fish described in \citet{thompson2020complex}.
+\comment{Need more here. I personally am of the thought that we should not include these
+for GSI, but should use them for identifying the genotypes of fish assigned to populations
+using the rest of the markers.}
+
+
+\subsection*{Power for genetic stock identification and population assignment}
+
+\subsection*{Power for relationship inference}
+
+
 
 \section*{Results}
 
 \subsection*{Genetic Markers}
+
+\subsubsection*{Conversion of existing SNPtype assays}
+
+Of \comment{XX} existing SNPtype assays, we were able to convert \comment{YY}
+into reliable amplicon-sequenced assays that were included in the panel.
+
+\subsubsection*{Additional microhaplotype discovery} 
+
+We tested \comment{XX} candidates from our additional microhaplotype discovery and
+retained \comment{185} of those in the panel.
+
+Of these \comment{185} loci that originated from SNPtype assays or from our additional
+microhaplotype discovery, \comment{179} of them mapped identically to a single
+location on an assembled chromosome in the Otsh\_v2.0 genome, using both bwa mem and BLAT.
+Of the remaining 6 loci, one of them was mapped to the same location by BLAT and bwa mem, but
+the alignments differed by one base pair in the length of an embedded insertion, two of them had a single secondary alignment on a different chromosome
+that was identical in both bwa mem and BLAT, two of them had secondary alignments that
+disagreed slightly between BLAT and bwa mem, and one of them had multiple
+non-primary alignments (\comment{SuppTable}).
 
 \subsubsection*{Late-fall Associated Region Markers}
 
