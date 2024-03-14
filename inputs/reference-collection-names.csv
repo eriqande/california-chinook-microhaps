@@ -1,4 +1,8 @@
 old_name,collection,repunit,run_timing_group,ckmr_sim_group
+ColeRHsp,CRHS,Ncoast,Spring run,ck-NCO
+SmithFall,SMF,Ncoast,Fall run,ck-NCO
+BlueCKFall,BLF,Ncoast,Fall run,ck-NCO
+IGHfall,IGHF,Klamath-Trinity,Fall run,ck-IGH
 TRHsp,TRS,Klamath-Trinity,Spring run,ck-TRH
 TRHfall,TRF,Klamath-Trinity,Fall run,ck-TRH
 RussianWSH,RRF,Coastal,Fall run,ck-RR

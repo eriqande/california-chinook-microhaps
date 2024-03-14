@@ -1,15 +1,20 @@
 basin	abbrv	Mainstem River	map_text	repository_name	ESU	tip_lat	tip_long	label_lat	label_long	rank	run_timing	hjust	run_timing_for_table
-Central Valley	SRW	Sacramento R.	Livingston Stone NFH	Livingston Stone National Fish Hatchery	CVWR	40.71647058	-122.4261817	41.8	-121.5	1	Winter run	0	Winter
-Central Valley	CHLF	Sacramento R.	Coleman NFH	Coleman National Fish Hatchery	CVFR	40.39772041	-122.1489948	41.35	-121.5	1	Late-fall run	0	Late-fall
-Central Valley	MDF	Sacramento R.	Mill Ck.	Mill Creek	CVFR	40.30053	-121.5562	40.35	-120.8	1	Fall run	0	Fall
-Central Valley	MDS	Sacramento R.	Mill Ck.	Mill Creek	CVSR	40.30053	-121.5562	40.35	-120.8	2	Spring run	0	Spring
-Central Valley	MDF	Sacramento R.	Deer Ck.	Deer Creek	CVFR	40.27013	-121.3707	39.9	-120.8	1	Fall run	0	Fall
-Central Valley	MDS	Sacramento R.	Deer Ck.	Deer Creek	CVSR	40.27013	-121.3707	39.9	-120.8	2	Spring run	0	Spring
-Central Valley	BCF	Sacramento R.	Butte Ck.	Butte Creek	CVFR	39.75	-121.65	39.4	-120.8	1	Fall run	0	Fall
-Central Valley	BCS	Sacramento R.	Butte Ck.	Butte Creek	CVSR	39.75	-121.65	39.4	-120.8	2	Spring run	0	Spring
-Central Valley	FRHF	Sacramento R.	Feather R. H.	Feather River Hatchery	CVFR	39.5197709	-121.5479761	38.7	-121	1	Fall run	0	Fall
-Central Valley	FRHS	Sacramento R.	Feather R. H.	Feather River Hatchery	CVSR	39.5197709	-121.5479761	38.7	-121	2	Spring run	0	Spring
-Central Valley	SJRF	San Joaquin R.	San Joaquin R.	San Joaquin River	CVFR	37.02019293	-120.5309356	38	-120.35	1	Fall run	0	Fall
-Klamath/Trinity	TRF	Trinity R.	Trinity R. H.	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.85	-124.05	1	Fall run	1	Fall
-Klamath/Trinity	TRS	Trinity R.	Trinity R. H.	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.85	-124.05	2	Spring run	1	Spring
-Coastal	RRF	Russian R.	Warm Springs H.	Warm Springs Hatchery	CC	38.81705471	-123.0111524	38.5	-123.8	1	Fall run	1	Fall
+Central Valley	SRW	Sacramento R.	"Livingston Stone NFH, SRW"	Livingston Stone National Fish Hatchery	CVWR	40.71647058	-122.4261817	41.8	-121.5	1	Winter run	0	Winter
+Central Valley	CHLF	Sacramento R.	"Coleman NFH, CHLF"	Coleman National Fish Hatchery	CVFR	40.39772041	-122.1489948	41.35	-121.5	1	Late-fall run	0	Late-fall
+Central Valley	MDF	Sacramento R.	"Mill Ck., MDF/S"	Mill Creek	CVFR	40.30053	-121.5562	40.35	-120.8	1	Fall run	0	Fall
+Central Valley	MDS	Sacramento R.	"Mill Ck., MDF/S"	Mill Creek	CVSR	40.30053	-121.5562	40.35	-120.8	2	Spring run	0	Spring
+Central Valley	MDF	Sacramento R.	"Deer Ck., MDF/S"	Deer Creek	CVFR	40.27013	-121.3707	39.9	-120.8	1	Fall run	0	Fall
+Central Valley	MDS	Sacramento R.	"Deer Ck., MDF/S"	Deer Creek	CVSR	40.27013	-121.3707	39.9	-120.8	2	Spring run	0	Spring
+Central Valley	BCF	Sacramento R.	"Butte Ck., BCF/S"	Butte Creek	CVFR	39.75	-121.65	39.4	-120.8	1	Fall run	0	Fall
+Central Valley	BCS	Sacramento R.	"Butte Ck., BCF/S"	Butte Creek	CVSR	39.75	-121.65	39.4	-120.8	2	Spring run	0	Spring
+Central Valley	FRHF	Sacramento R.	"Feather R. H., FRHF/S"	Feather River Hatchery	CVFR	39.5197709	-121.5479761	38.7	-121	1	Fall run	0	Fall
+Central Valley	FRHS	Sacramento R.	"Feather R. H., FRHF/S"	Feather River Hatchery	CVSR	39.5197709	-121.5479761	38.7	-121	2	Spring run	0	Spring
+Central Valley	SJRF	San Joaquin R.	"San Joaquin R., SJRF"	San Joaquin River	CVFR	37.02019293	-120.5309356	38	-120.5	1	Fall run	0	Fall
+S Oreg./N. Cal	SmRF	Smith R.	"Smith R., SmRF"	Smith River	SONCC	41.824914	-124.114087	41.6	-124.75	1	Fall run	1	Fall
+S Oreg./N. Cal	CoRHF	Rogue R.	"Cole Rivers H., CoRHF"	Cole Rivers Hatchery	SONCC	42.66414182	-122.684991	42.1	-124.65	1	Fall run	1	Fall
+S Oreg./N. Cal	BCkF	Klamath R.	"Blue Ck., BCkF"	Blue Creek	SONCC	41.45038147	-123.8339367	41.05	-124.75	1	Fall run	1	Fall
+Klamath/Trinity	TRF	Trinity R.	"Trinity R. H., TRF/S"	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.8	-124.4	1	Fall run	1	Fall
+Klamath/Trinity	TRS	Trinity R.	"Trinity R. H., TRF/S"	Trinity River Hatchery	UKTR	40.72339412	-122.8051467	39.8	-124.4	2	Spring run	1	Spring
+Klamath/Trinity	IGHF	Klamath R.	"Iron Gate H., IGHF"	Iron Gate Hatchery	UKTR	41.92889574	-122.443132	40.4	-124.75	1	Fall run	1	Fall
+Central Cal Coast	RRF	Russian R.	"Warm Springs H., RRF"	Warm Springs Hatchery	CCC	38.81705471	-123.0111524	38.5	-123.8	1	Fall run	1	Fall
+Central Cal Coast	ERF	Eel R.	"Eel R., ERF"	Van Arsdale Fisheries Station	CCC	39.38526062	-123.1167217	39.3	-124.2	1	Fall run	1	Fall

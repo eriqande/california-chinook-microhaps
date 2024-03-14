@@ -37,6 +37,7 @@ if(USING_SNAKEMAKE) {
 ```{r}
 # inputs:
 input_list <- list(
+  oregon_rivers = "inputs/Rivers_OR/Rivers_OR.shp"
 )
 # outputs:
 output_list <- list(
@@ -156,7 +157,27 @@ coastline <- st_read("geo-spatial/ne_10m_coastline/ne_10m_coastline.shp")
 all_rivers <- st_read("geo-spatial/NHD_Major_Rivers_and_Creeks/Major_Rivers_and_Creeks.shp") %>%
   st_zm() %>%
   st_transform(., st_crs(state_prov))
+
+or_rivers <- st_read(input_list$oregon_rivers)
 ```
+
+## Crop the basemap, state lines coast lines
+
+```{r}
+# important to put them in this order and named like this
+domain <- c(
+  xmin = -127.9,
+  xmax = -117.4,
+  ymin = 36,
+  ymax = 43.25
+)
+sf_use_s2(FALSE)
+nat_crop <- crop(nat.earth, y = ext(domain))
+state_subset <- st_crop(state_prov, domain)
+coastline_cropped <- st_crop(coastline, domain)
+
+```
+
 
 ## Subset the rivers
 
@@ -176,6 +197,24 @@ mill_candi <- all_rivers %>%
   filter(str_detect(gnis_name, "Mill Creek")) %>%
   st_crop(mill_area)
 
+# same with Blue Creek
+blue_area <- c(
+  xmin = -124,
+  xmax = -123.5,
+  ymin = 41.2,
+  ymax = 41.8
+)
+
+blue_candi <- all_rivers %>%
+  filter(str_detect(gnis_name, "Blue Creek")) %>%
+  st_crop(blue_area)
+
+# rogue river:
+rogue <- or_rivers %>%
+  filter(name == "Rogue") %>%
+  mutate(gnis_name = "Rogue River")
+
+
 our_rivers <- all_rivers %>%
   filter(gnis_name %in% c(
     "Sacramento River",
@@ -183,7 +222,9 @@ our_rivers <- all_rivers %>%
     "Feather River",
     "Russian River",
     "Trinity River",
-    "Klamath River"
+    "Klamath River",
+    "Eel River",
+    "Smith River"
     #"Deer Creek",
     #"Battle Creek"
   ) | 
@@ -193,7 +234,9 @@ our_rivers <- all_rivers %>%
      # "00218740", "00229640", "00234966"   # these are battle creek
     ) 
   ) %>%
-  bind_rows(mill_candi)
+  bind_rows(mill_candi) %>%
+  bind_rows(blue_candi) %>%
+  bind_rows(rogue)
 
 
 # get candidate positions for notations
@@ -202,6 +245,7 @@ labels <- read_tsv("inputs/map-notations.tsv", comment = "#")
 
 g <- ggplot() + 
   geom_sf(data = our_rivers, aes(colour = gnis_name)) +
+  geom_sf(data = coastline_cropped) +
   geom_point(data = labels, aes(x = label_long, y = label_lat), colour = "red") +
   geom_point(data = labels, aes(x = tip_long, y = tip_lat), colour = "blue", size = 0.2)
 
@@ -211,21 +255,6 @@ ggplotly(g)
 That looks good.  So let us proceed.
 
 
-## Crop
-```{r}
-# important to put them in this order and named like this
-domain <- c(
-  xmin = -127.9,
-  xmax = -117.4,
-  ymin = 36,
-  ymax = 42.6
-)
-sf_use_s2(FALSE)
-nat_crop <- crop(nat.earth, y = ext(domain))
-state_subset <- st_crop(state_prov, domain)
-coastline_cropped <- st_crop(coastline, domain)
-
-```
 
 
 
@@ -253,7 +282,7 @@ labels_1line <- labels %>%
   ungroup()
 
 mm <- base_map + 
-  geom_segment(data = labels, aes(x = tip_long, y = tip_lat, xend = label_long, yend = label_lat), colour = "black", size = 0.4) +
+  geom_segment(data = labels, aes(x = tip_long, y = tip_lat, xend = label_long, yend = label_lat), colour = "black", linewidth = 0.4) +
   geom_point(data = labels, aes(x = label_long + bit + (1 - hjust * 2) * kick * (rank - 1), y = label_lat, fill = run_timing), shape = 21, size = 3.5) +
   geom_label(
     data = labels_1line,
@@ -298,8 +327,8 @@ states <- map_data("state")
 domain_df <- tibble(point = 1:length(domain), long = rep(domain[1:2], each = 2), lat = c(domain[3:4], rev(domain[3:4])))
 
 inset_world <- ggplot() +
-  geom_polygon(data = wrld, aes(x = long, y = lat, group = group), colour = "black", fill = "gray90", size = 0.1) +
-  geom_path(data = states, aes(x = long, y = lat, group = group), colour = "black", size = 0.1) +
+  geom_polygon(data = wrld, aes(x = long, y = lat, group = group), colour = "black", fill = "gray90", linewidth = 0.1) +
+  geom_path(data = states, aes(x = long, y = lat, group = group), colour = "black", linewidth = 0.1) +
   geom_polygon(data = domain_df, mapping = aes(x = long, y = lat), colour = "red", fill = "red", alpha = 0.3, linewidth = 0.1) +
   coord_map("ortho", orientation = c(30, -114, 0), xlim = c(-150, -75), ylim = c(28, 60)) +
   theme_bw() +
@@ -318,7 +347,7 @@ inset_world
 ```{r cowplot-to-make-inset}
 final_map <- ggdraw() +
   draw_plot(mm) +
-  draw_plot(inset_world, x = 0.181, y = 0.139, width = 0.20, height = 0.17)
+  draw_plot(inset_world, x = 0.215, y = 0.139, width = 0.20, height = 0.17)
 
 ggsave(final_map, filename = output_list$map, width = 5, height = 3.5)
 
