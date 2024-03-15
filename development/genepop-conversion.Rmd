@@ -1,0 +1,53 @@
+---
+title: "Genepop Conversion Etc"
+output: html_notebook
+---
+
+# Making a genepop file
+
+I ended up not using this, but we might want to, ultimately, if we want to look at
+LD, etc.
+
+
+```{r}
+gpt <- full_base2 %>%
+  select(-repunit, -sample_type) %>%
+  pivot_longer(
+    cols = -c(indiv, collection),
+    names_to = c("locus", "gene_copy"),
+    values_to = "allele",
+    names_pattern = "(.*)[_.]([12])$"
+  ) %>%
+  group_by(locus) %>%
+  mutate(alle_int = replace_na(as.integer(factor(allele)), 0L)) %>%
+  ungroup() %>%
+  mutate(alle_str = sprintf("%02d", alle_int)) %>%
+  select(-allele, -alle_int) %>%
+  pivot_wider(
+    names_from = gene_copy,
+    values_from = alle_str
+  ) %>%
+  mutate(geno = str_c(`1`, `2`)) %>%
+  select(-`1`, -`2`) %>%
+  pivot_wider(
+    names_from = locus,
+    values_from = geno
+  ) %>%
+  select(-indiv)
+
+gpt_nest = gpt %>%
+  mutate(collection2 = str_c(collection, ","), .after = collection) %>%
+  group_by(collection) %>%
+  nest()
+
+
+# now we write that out to a file
+outf <- "results/GSI_and_Fst/genepop.txt"
+cat("Baseline data set in genepop format\n    ", file = outf)
+cat(names(gpt)[-1], sep = ",", file = outf, append = TRUE)
+cat("\n", file = outf, append = TRUE)
+for(x in gpt_nest$data) {
+    cat("POP\n", file = outf, append = TRUE); 
+    write_tsv(x, col_names = FALSE, file = outf, append = TRUE)
+  }
+```
