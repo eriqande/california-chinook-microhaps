@@ -37,7 +37,8 @@ if(USING_SNAKEMAKE) {
 ```{r input_bypass, include=NEG_USING_SMK, eval=NEG_USING_SMK}
 # inputs:
 input_list <- list(
-  final_baseline = "data/cali-chinook-baseline.rds",
+  #final_baseline = "data/cali-chinook-baseline.rds",
+  final_baseline = "data/subRoSA_baseline_rubias_FEB2024_w_mixture_revised.csv",
   pop_labels = "inputs/reference-collection-names.csv",
   map_notations = "inputs/map-notations.tsv"
 )
@@ -73,7 +74,7 @@ library(lubridate)
 
 # get the full baseline with the new markers, etc.  We will toss out some
 # non-winter Sacto fish of unknown provenance
-full_base <- read_rds(input_list$final_baseline) %>%
+full_base <- read_csv(input_list$final_baseline) %>%
   filter(collection != "SacNonW")
 
 
@@ -84,9 +85,10 @@ pop_labels <- read_csv(input_list$pop_labels)
 full_base2 <- full_base %>%
   rename(old_name = collection) %>%
   select(-repunit) %>%
-  left_join(pop_labels %>% select(select(old_name, collection, repunit)), by = join_by(old_name)) %>%
+  left_join(pop_labels %>% select(old_name, collection, repunit), by = join_by(old_name)) %>%
   select(-old_name) %>%
-  select(indiv, repunit, collection, sample_type, everything())
+  select(indiv, repunit, collection, sample_type, everything()) %>%
+  filter(!duplicated(indiv))  # necessary cuz clemento stuck mill and deer together into a single code
   
 # finally, get the order of collections and repunits we want
 collection_order <- unique(pop_labels$collection)
@@ -135,11 +137,15 @@ fbmet <- full_base2 %>%
   group_by(abbrv, repository_name, run_timing_for_table, map_text, WATERSHED) %>%
   nest()
 
+# Remove this once I get the full meta data
+fbmet <- fbmet %>% filter(!is.na(WATERSHED))
+
 
 # then extract bits of information from the data and set sparkline paths
 fbmet2 <- fbmet %>%
   mutate(
     N = map_int(.x = data, .f = function(x) nrow(x)),
+    N_date = map_int(.x = data, .f = function(x) sum(!(is.na(x$collection_date)) & yday(x$collection_date) != 1) ),  # we use YYYY-01-01 to denote year is known but day is missing in the data repository, so here we filter those out.
     `Run Timing` = map_chr(.x = data, .f = function(x) x$run_timing[1]),
     min_year = map_int(.x = data, .f = function(x) base::min(x$year, na.rm = TRUE)),
     max_year = map_int(.x = data, .f = function(x) base::max(x$year, na.rm = TRUE)),
@@ -168,15 +174,19 @@ fbmet5 <- fbmet4 %>%
     `Sampling Months` = sprintf("\\raisebox{-0.12 em}{\\includegraphics[height=1.02em]{../%s}}", sparkline_path),
     `Year Range` = sprintf("%d--%d", min_year, max_year)
   ) %>%
-  select(`Mainstem River`, abbrv, map_text, run_timing_for_table, ESU, N, `Sampling Months`, `Year Range`) %>%
+  select(`Mainstem River`, abbrv, map_text, run_timing_for_table, ESU, N, N_date, `Sampling Months`, `Year Range`) %>%
+  mutate(map_text = str_replace(map_text, ",.*$", "")) %>% # this removes the abbreviations after the commas on the map names
+  mutate(N_date = replace_na(N_date, 0L)) %>%
   rename(
     `Mainstem River$^1$` = `Mainstem River`,
     Code = abbrv,
     `Location Name$^2$` = map_text,
     Run = run_timing_for_table,
     `ESU$^3$` = ESU,
-    `$N$` = N
-  )
+    `$N$` = N,
+    `$N_\\mathrm{day}$` = N_date
+  ) %>%
+  arrange(factor(Code, levels = collection_order))
 
 # a hack to get an hline under the heading:
 fbmet5$`Mainstem River$^1$`[1] <- str_c("\\hline ", fbmet5$`Mainstem River$^1$`[1])
@@ -401,15 +411,73 @@ upper_tri_fst <- all_values_tib %>%
 
 
 Now that we have the `upper_tri_fst` values in the right format, we just need
-to add the WGS values to the lower triangle part of the matrix.  
+to add values to the lower triangle part of the matrix.  
 
 
-# Adding the WGS Fst values and making a figure
+# Adding genic differentiation values to lower triangle and making a figure
 
+We are going to use genepop to compute p-values for differentiation.  To do
+that we need to make a genepop file.
 ```{r}
-# for now I am just going to put the WGS Fst's into the lower diagonal, but I think it will be better, ultimately,
-# to but the bootstrapped CI's in there.
-wgs_mat <- read_rds("../anderson-et-al-chinook-ecotypic-genetic-architecture/outputs/001/full-wgs-fst-mat.rds")
+gpt <- full_base2 %>%
+  select(-repunit, -sample_type) %>%
+  pivot_longer(
+    cols = -c(indiv, collection),
+    names_to = c("locus", "gene_copy"),
+    values_to = "allele",
+    names_pattern = "(.*)[_.]([12])$"
+  ) %>%
+  group_by(locus) %>%
+  mutate(alle_int = replace_na(as.integer(factor(allele)), 0L)) %>%
+  ungroup() %>%
+  mutate(alle_str = sprintf("%02d", alle_int)) %>%
+  select(-allele, -alle_int) %>%
+  pivot_wider(
+    names_from = gene_copy,
+    values_from = alle_str
+  ) %>%
+  mutate(geno = str_c(`1`, `2`)) %>%
+  select(-`1`, -`2`) %>%
+  pivot_wider(
+    names_from = locus,
+    values_from = geno
+  ) %>%
+  select(-indiv)
+
+gpt_nest = gpt %>%
+  mutate(collection2 = str_c(collection, ","), .after = collection) %>%
+  group_by(collection) %>%
+  nest()
+
+
+# now we write that out to a file
+outf <- "results/GSI_and_Fst/genepop.txt"
+cat("Baseline data set in genepop format\n    ", file = outf)
+cat(names(gpt)[-1], sep = ",", file = outf, append = TRUE)
+cat("\n", file = outf, append = TRUE)
+for(x in gpt_nest$data) {
+    cat("POP\n", file = outf, append = TRUE); 
+    write_tsv(x, col_names = FALSE, file = outf, append = TRUE)
+  }
+```
+
+
+Now, we could use the genepop package to get results from that file, but it
+is crazy slow, so we do not do this.
+```r
+td_file <- "results/GSI_and_Fst/genic_tests.txt"
+genepop::test_diff(inputFile = outf, pairs = TRUE, outputFile = td_file)
+```
+
+OK! HERE IS WHAT WE WILL DO: MAKE THIS PARALLELIZABLE.  WE WILL MODIFY THE ABOVE
+TO MAKE A GENEPOP FILE FOR EVERY LOCUS, AND THEN WE WILL JUST RUN OVER ALL THOSE
+LOCI USING mclappy ON 8 CORES ON MY LAPTOP, TO MAKE IT FASTER.  THEN, WE WILL PRESENT
+THE RESULTS AS A TINY-MULTIPLE HISTOGRAM OF THE P-VALUES IN EACH CELL.  KINDA COOL!
+
+
+
+Making a figure.
+```{r}
 
 # once again, make it looks like rubias output and taf_prep() it.
 lower_tri_diag <- wgs_mat %>%
@@ -470,7 +538,7 @@ gsi_fst_fig_for_paper <- plot_grid(
 )
 
 # and then save that
-ggsave(gsi_fst_fig_for_paper, file = output_list$gsi_fst_fig, width = 7, height = 14)
+ggsave(gsi_fst_fig_for_paper, file = output_list$gsi_fst_fig, width = 10, height = 19)
 
 # let's crop that down for use, too
 CALL <- paste("pdfcrop ", output_list$gsi_fst_fig, collapse = " ")
