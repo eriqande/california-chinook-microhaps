@@ -91,7 +91,10 @@ California's Central Valley, the Klamath-Trinity basin in Northern California, a
 baseline.  The colored circles aside
 each location name represent the different run-timing groups of Chinook salmon
 included in the collections from the location.  Color codes are as follows: \Wball~=~Winter run,
-\LFball{}~=~Late-fall run, \Fball~=~Fall run, \Sball~=~Spring run. Abbreviations used in location names as folows: R. = River; Ck. = Creek; H. = Hatchery; NFH = National Fish Hatchery.}
+\LFball{}~=~Late-fall run, \Fball~=~Fall run, \Sball~=~Spring run. 
+Names of each location are followed by the codes used to refer to fish from each location, with
+{\tt XXF/S} indicating {\tt XXF} and {\tt XXS} are used to denote fall-run and spring-run fish
+from location {\tt XX}.  Abbreviations used in location names as follows: R. = River; Ck. = Creek; H. = Hatchery; NFH = National Fish Hatchery.}
 \begin{center}
 \includegraphics[width=\columnwidth]{images/map-crop.pdf}
 \end{center}
@@ -122,7 +125,7 @@ Units (ESUs) of Chinook salmon \citep{waples1991pacific} A summary of the differ
 a pictorial representation of the proportion of each collection sampled in each month.  Colors in
 this column correspond to run-timing groups as described in the caption of Fig.~\protect\ref{fig:map}.}
 {\small 
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} lllllrcr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} llllllrcr}
 \hline\hline\vspace*{0.4ex}
 \input{inputs/samples-table.tex}
 \end{tabular*}
@@ -133,7 +136,8 @@ this column correspond to run-timing groups as described in the caption of Fig.~
 $^1$R. = River.\\
 $^2$Ck. = Creek; NFH = National Fish Hatchery; R. = River; H. = Hatchery.\\
 $^3$ESU = Evolutionarily Significant Unit; CVFR = Central Valley Fall Run ESU; CVSR = Central Valley Spring Run ESU; CVWR = 
-Central Valley Winter Run ESU; CC = California Coastal ESU; UKTR = Upper Klamath and Trinity Rivers ESU.
+Central Valley Winter Run ESU; CC = California Coastal ESU; UKTR = Upper Klamath and Trinity Rivers ESU. \\
+$^4N_\mathrm{day}$: the number of samples for which the specific sampling day was recorded.
 }
 \hrule\vspace*{0.3ex}\hrule
 \end{table*}
@@ -172,7 +176,7 @@ After designing and validating an amplicon-sequencing approach to type both the
 existing SNPtype assays and the product of the additional microhaplotype
 discovery process we identified their location with the genome. We mapped the reference
 sequences for these markers 
-to the Chinook v2.0 genome assembly \citep{christensen2018chinook}
+to the Chinook v2.0 genome assembly (\url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018296145.1/})
 with both the Burrows-Wheeler Aligner \citep{bwa-mem2009} and the BLAST-like Alignment tool \citep{kent2002blat}.
 We report the genomic coordinates these target amplicons found with both alignment methods.
 
@@ -322,14 +326,15 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 
 \begin{figure}
 \newcommand{\examplecap}{\footnotesize Self-assignment rates  ({\bf a)} and pairwise 
-$F_\mathrm{ST}$ values ({\bf b)} for the collections in the baseline.  The codes of the populations
+$F_\mathrm{ST}$ values and allele frequencies ({\bf b)} for the collections in the baseline.  The codes of the populations
 appear on the outer margins of the table atop cells colored according to the run-timing group
 of the collection.  Interior cells in which the column and row correspond to the same reporting
 unit are colored according to the reporting unit.  For self-assignment tallies, the row corresponds
-to the true source collection and the column corresponds to the assigned collection. For $F_\mathrm{ST}$ values, the upper triangle was computed using the baseline microhaplotype
-data and the lower triangle was calculated with the whole genome sequence data (where available) 
-from \citet{thompson2020complex}.  NOTE: I THINK WE SHOULD MAKE THE LOWER 
-DIAGONAL THE P-VALUE FROM A TEST OF DIFFERENTIATION OR SOMETHING LIKE THAT.}
+to the true source collection and the column corresponds to the assigned collection. In ({\bf b}), for $F_\mathrm{ST}$ values, the upper triangle was computed using the baseline microhaplotype
+data. Each cell in the lower triangle shows a small scatter plot of estimated allele frequencies
+in the collections.  These frequencies were estimated by, for each locus, randomly
+subsampling individuals from each collection to the minimum number of observed alleles in any collection
+at the locus.  }
 \begin{center}
 \includegraphics[width=\columnwidth]{images/gsi_and_fst_fig-crop.pdf}
 \end{center}

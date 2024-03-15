@@ -14,6 +14,7 @@ month_sample_sparkline <- function(tib, path) {
   )
 
   t2 <- tib %>%
+    filter(yday(collection_date) != 1) %>%  # this is for cases where the exact day of sampling is unknown, and denoted YYYY-01-01
     filter(!is.na(month)) %>%
     mutate(month = as.integer(month)) %>%
     count(month, run_timing) %>%

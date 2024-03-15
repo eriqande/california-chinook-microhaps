@@ -184,7 +184,7 @@ fbmet5 <- fbmet4 %>%
     Run = run_timing_for_table,
     `ESU$^3$` = ESU,
     `$N$` = N,
-    `$N_\\mathrm{day}$` = N_date
+    `$N_\\mathrm{day}^4$` = N_date
   ) %>%
   arrange(factor(Code, levels = collection_order))
 
@@ -285,6 +285,8 @@ X2 <- tafilt %>%
   count(collection_f, inferred_coll_f, .drop = FALSE) %>%
   taf_prep()
 
+Rubias_for_later <- X2 # keeping this for later...
+
 # get the result
 TAF2 <- table_as_figure(
   X = X2, 
@@ -324,7 +326,7 @@ In order to do this we need to convert the data to a lumped format.
 This means making integers of the alleles and then catenating them.
 One locus has 11 allele, so we should use two digits for each allele.  We drop the
 LFAR from this, because those were chosen specifically to be weird in the late fall.
-```{r, cache=TRUE}
+```{r}
 full_base_long <- full_base2 %>% 
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   mutate(
@@ -414,12 +416,24 @@ Now that we have the `upper_tri_fst` values in the right format, we just need
 to add values to the lower triangle part of the matrix.  
 
 
-# Adding genic differentiation values to lower triangle and making a figure
+# Adding allele frequency scatter plots to the lower diagonal
 
-We are going to use genepop to compute p-values for differentiation.  To do
-that we need to make a genepop file.
+I thought about doing differentiation tests, or histograms of per-locus
+Fst values, but then I realized that it actually might be way more informative
+to put small-multiple scatter plots of allele frequencies in each of the lower-diagonal
+cells of the Fst figure.  I think it might look cool.
+
+We will also standardize each sample size (at each locus) to the minimum
+number of observed genotypes in a population.
+
+
+## Calculate allele frequencies for each population and standardize to lowest sample size
+
+Straightforward tidyverse stuff:
 ```{r}
-gpt <- full_base2 %>%
+
+# long format with no missing data
+long_genos <- full_base2 %>%
   select(-repunit, -sample_type) %>%
   pivot_longer(
     cols = -c(indiv, collection),
@@ -427,75 +441,93 @@ gpt <- full_base2 %>%
     values_to = "allele",
     names_pattern = "(.*)[_.]([12])$"
   ) %>%
+  filter(!is.na(allele))
+
+# now get the minimum sample sizes for each
+min_sampled <- long_genos %>%
+  count(collection, locus) %>%
   group_by(locus) %>%
-  mutate(alle_int = replace_na(as.integer(factor(allele)), 0L)) %>%
-  ungroup() %>%
-  mutate(alle_str = sprintf("%02d", alle_int)) %>%
-  select(-allele, -alle_int) %>%
-  pivot_wider(
-    names_from = gene_copy,
-    values_from = alle_str
+  summarise(min_ngc = min(n))
+
+# having looked at those, if we keep anything with
+# at least 38 gene copies, we have most of the loci.
+# So, we will use this to slice sample some individuals from
+# each population. We have to do a bunch of rigamoral because
+# slice_sample requires that the n argument is a constant.  BOGUS!
+set.seed(5)
+long_genos_subsampled <- long_genos %>%
+  left_join(min_sampled, by = "locus") %>%
+  filter(min_ngc >= 38) %>%
+  group_by(collection, locus, min_ngc) %>%
+  nest() %>%
+  mutate(
+    ssd = map2(.x = data, .y = min_ngc, .f = function(x, y) slice_sample(x, n = y))
   ) %>%
-  mutate(geno = str_c(`1`, `2`)) %>%
-  select(-`1`, -`2`) %>%
-  pivot_wider(
-    names_from = locus,
-    values_from = geno
+  select(-data) %>%
+  unnest(ssd) %>%
+  select(-min_ngc)
+
+  
+
+# get allele frequencies
+alle_freqs <- long_genos_subsampled %>%
+  count(collection, locus, allele) %>%
+  group_by(collection, locus) %>%
+  mutate(freq = n / sum(n)) %>%
+  select(-n) %>%
+  ungroup()
+
+
+# get all pairwise comparisons of population allele frequencies
+backbone <- expand_grid(
+  row_coll =  unique(alle_freqs$collection),
+  col_coll = unique(alle_freqs$collection),
+  alle_freqs %>% distinct(locus, allele)
+)
+
+# now get the freqs on there, order the collections and ensure
+# that we are on the diagonal and the lower triangle, and then also get
+# the positions for each of the points.  We will allow that the whole
+# scatterplot can be inset into the cell by a fractional amount inset
+inset <- 0.15
+pair_freqs <- backbone %>%
+  left_join(alle_freqs, by = join_by(row_coll == collection, locus, allele)) %>%
+  rename(row_freq = freq) %>%
+  left_join(alle_freqs, by = join_by(col_coll == collection, locus, allele)) %>%
+  rename(col_freq = freq) %>%
+  mutate(
+    row_coll = factor(row_coll, levels = collection_order),
+    col_coll = factor(col_coll, levels = collection_order)
   ) %>%
-  select(-indiv)
+  filter(as.integer(col_coll) <= as.integer(row_coll)) %>%
+  replace_na(list(row_freq = 0.0, col_freq = 0.0)) %>%
+  mutate( # this is just setting things as in table_as_figure
+      ymin = nlevels(row_coll) - as.integer(row_coll) + inset,
+      ymax = nlevels(row_coll) - as.integer(row_coll) + 1 - inset,
+      xmin = as.integer(col_coll) - 1 + inset,
+      xmax = as.integer(col_coll) - inset
+    ) %>%
+  mutate(  # here we get the x-y positions for the scatter points
+    x = xmin + col_freq * (xmax - xmin),
+    y = ymin + row_freq * (ymax - ymin)
+  )
 
-gpt_nest = gpt %>%
-  mutate(collection2 = str_c(collection, ","), .after = collection) %>%
-  group_by(collection) %>%
-  nest()
-
-
-# now we write that out to a file
-outf <- "results/GSI_and_Fst/genepop.txt"
-cat("Baseline data set in genepop format\n    ", file = outf)
-cat(names(gpt)[-1], sep = ",", file = outf, append = TRUE)
-cat("\n", file = outf, append = TRUE)
-for(x in gpt_nest$data) {
-    cat("POP\n", file = outf, append = TRUE); 
-    write_tsv(x, col_names = FALSE, file = outf, append = TRUE)
-  }
 ```
-
-
-Now, we could use the genepop package to get results from that file, but it
-is crazy slow, so we do not do this.
-```r
-td_file <- "results/GSI_and_Fst/genic_tests.txt"
-genepop::test_diff(inputFile = outf, pairs = TRUE, outputFile = td_file)
-```
-
-OK! HERE IS WHAT WE WILL DO: MAKE THIS PARALLELIZABLE.  WE WILL MODIFY THE ABOVE
-TO MAKE A GENEPOP FILE FOR EVERY LOCUS, AND THEN WE WILL JUST RUN OVER ALL THOSE
-LOCI USING mclappy ON 8 CORES ON MY LAPTOP, TO MAKE IT FASTER.  THEN, WE WILL PRESENT
-THE RESULTS AS A TINY-MULTIPLE HISTOGRAM OF THE P-VALUES IN EACH CELL.  KINDA COOL!
-
-
 
 Making a figure.
 ```{r}
 
-# once again, make it looks like rubias output and taf_prep() it.
-lower_tri_diag <- wgs_mat %>%
-  mutate(
-    collection_f = factor(pop1_f, levels = collection_order),
-    inferred_coll_f = factor(pop2_f, levels = collection_order),
-    n = fst
-  ) %>%
-  select(collection_f, inferred_coll_f, n) %>%
-  complete(collection_f, inferred_coll_f) %>%
-  filter(as.integer(collection_f) >= as.integer(inferred_coll_f)) %>%  # this gets lower tri + diagonal
-  taf_prep()
-  
+# we need to get colors and things for the fill.  We just take the
+# rubias output that was run through taf_prep and we keep the lower
+# diagonal and we set all the cell_labels to NA.
+lower_tri_base <- Rubias_for_later %>%
+  filter(as.integer(col_label) <= as.integer(row_label)) %>%
+  mutate(cell_label = NA_character_)
 
 # then we put those together and make a figure
 full_fst <- bind_rows(
   upper_tri_fst,
-  lower_tri_diag
+  lower_tri_base
 ) %>%
   arrange(row_label, col_label)
 
@@ -506,20 +538,26 @@ TAF_FST <- table_as_figure(
   RC_groups = RC_groups,
   external_colors = run_time_colors,
   internal_colors = repunit_colors,
-  Xs_on_diagonal = TRUE,
+  Xs_on_diagonal = FALSE,
   plot_margins = c(0.7, 0.1, 0.1, 0.1)
 )
 
 
-# and plot it
-TAF_FST$full_plot
+# then plot it and add the scatter points on the lower diagonal
+fst_with_scatters <- TAF_FST$full_plot +
+  geom_point(
+    data = pair_freqs,
+    mapping = aes(x = x, y = y),
+    size = 0.025,
+    colour = "black"
+  )
 
 
 ```
 
 And we can save that too:
 ```{r}
-ggsave(TAF_FST$full_plot, file = output_list$fst_table, width = 6, height = 5.1)
+ggsave(fst_with_scatters, file = output_list$fst_table, width = 6, height = 5.1)
 ```
 
 # Put them together into a single figure for the paper
@@ -532,7 +570,7 @@ gsi_fst_fig_for_paper <- plot_grid(
     get_legend(TAF2$for_internal_legend),
     nrow = 1
   ),
-  TAF_FST$full_plot,
+  fst_with_scatters,
   nrow = 3,
   rel_heights = c(6,1.5,6)
 )

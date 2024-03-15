@@ -1,19 +1,20 @@
 old_name,collection,repunit,run_timing_group,ckmr_sim_group
-ColeRHsp,CRHS,Ncoast,Spring run,ck-NCO
-SmithFall,SMF,Ncoast,Fall run,ck-NCO
-BlueCKFall,BLF,Ncoast,Fall run,ck-NCO
+ColeRHsp,CRHS,SO-Ncal-Coast,Spring run,ck-NCO
+SmithFall,SmRF,SO-Ncal-Coast,Fall run,ck-NCO
+BlueCKFall,BCkF,SO-Ncal-Coast,Fall run,ck-NCO
 IGHfall,IGHF,Klamath-Trinity,Fall run,ck-IGH
 TRHsp,TRS,Klamath-Trinity,Spring run,ck-TRH
 TRHfall,TRF,Klamath-Trinity,Fall run,ck-TRH
-RussianWSH,RRF,Coastal,Fall run,ck-RR
+EelFall,ERF,Cent. Cal. Coast,Fall run,ck-CCC
+RussianWSH,RRF,Cent. Cal. Coast,Fall run,ck-CCC
 SacWin,SRW,CV-Winter,Winter run,ck-SRW
 ButteSp,BCS,CV-Spring,Spring run,ck-BCS
-MillSp,MDS,CV-Spring,Spring run,ck-MDS
-DeerSp,MDS,CV-Spring,Spring run,ck-MDS
+MillDeerSp,MDS,CV-Spring,Spring run,ck-MDS
+MillDeerSp,MDS,CV-Spring,Spring run,ck-MDS
 FRHsp,FRHS,CV-Fall,Spring run,ck-FRH
 FRHfall,FRHF,CV-Fall,Fall run,ck-FRH
 ButteFall,BCF,CV-Fall,Fall run,ck-CVF
-MillFall,MDF,CV-Fall,Fall run,ck-CVF
-DeerFall,MDF,CV-Fall,Fall run,ck-CVF
+MillDeerFall,MDF,CV-Fall,Fall run,ck-CVF
+MillDeerFall,MDF,CV-Fall,Fall run,ck-CVF
 SanJoaquinFall,SJRF,CV-Fall,Fall run,ck-CVF
 ColemanLF,CHLF,CV-Late-Fall,Late-fall run,ck-LF
