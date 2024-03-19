@@ -323,10 +323,10 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 
 \subsection*{Power for genetic stock identification and population assignment}
 
-\subsection*{Power for relationship inference}
-
+Results of power analysis for GSI and also Fst estimates are in Figure~\ref{fig:gsi}
+%%%%%%%%%%%%%%%%%%%%%% 
 \begin{figure}
-\newcommand{\examplecap}{\footnotesize Self-assignment rates  ({\bf a)} and pairwise 
+\newcommand{\gsicap}{\footnotesize Self-assignment rates  ({\bf a)} and pairwise 
 $F_\mathrm{ST}$ values and allele frequencies ({\bf b)} for the collections in the baseline.  The codes of the populations
 appear on the outer margins of the table atop cells colored according to the run-timing group
 of the collection.  Interior cells in which the column and row correspond to the same reporting
@@ -341,9 +341,40 @@ at the locus.  }
 \begin{center}
 \includegraphics[width=\columnwidth]{images/gsi_and_fst_fig-crop.pdf}
 \end{center}
-\caption[\examplecap]{\examplecap}
-\label{fig:example}
+\caption[\gsicap]{\gsicap}
+\label{fig:gsi}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\subsection*{Power for relationship inference}
+
+The results are summarized in Fig.~\ref{fig:fprs}.
+%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+\newcommand{\fprcap}{\footnotesize False positive rates as a function of false negative
+rates for distinguishing between different relationships.  {\bf (a)} False positive rates calculated
+using importance sampling of unrelated pairs of individuals being incorrectly categorized as parent-offspring (PO),
+full-sibling (FS) or half-sibling (HS) pairs.  {\bf (b)}  False positive rates calculated using regular Monte Carlo
+sampling of avuncular pairs (AN: aunt-niece, uncle-nephew, etc.) or full-siblings (FS) or half-siblings (HS) being 
+incorrectly categorized as parent-offspring (PO); as well as FPRs of parent-offspring (PO) pairs or half-sibling (HS) 
+pairs being incorrectly inferred as full siblings (FS).  In both {\em a} and {\em b}, 100,000 Monte Carlo replicates 
+were simulated.  Importance sampling allows estimation of very small false positive rates for unrelated pairs, but 
+cannot be applied to truly related pairs.  Consequently, it is difficult to accurately estimate small probabilities 
+($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2 \times s$ where $s$ is the estimated standard error of the mean of the Monte Carlo sample.  }
+\begin{center}
+\includegraphics[width=\textwidth]{images/fpr-fnr-figure-crop.pdf}
+\end{center}
+\caption[\fprcap]{\fprcap}
+\label{fig:fprs}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%
+
 
 
 
