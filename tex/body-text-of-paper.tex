@@ -124,6 +124,7 @@ Units (ESUs) of Chinook salmon \citep{waples1991pacific} A summary of the differ
 \caption{\footnotesize Collections of fish in the reference baseline.  The Sampling Months column shows
 a pictorial representation of the proportion of each collection sampled in each month.  Colors in
 this column correspond to run-timing groups as described in the caption of Fig.~\protect\ref{fig:map}.}
+\label{tab:samples}
 {\small 
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} llllllrcr}
 \hline\hline\vspace*{0.4ex}
@@ -319,7 +320,43 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 \vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
 \end{table}
 %%%%%%%%%%%%%%%
-\subsection*{Population genetic analyses}
+\subsection*{Population genetic summaries}
+
+Barplot of the total number of alleles per locus in the whole data set
+is Figure~\ref{fig:num-alle}.
+%%%%%%%%%%%%%%%%%%%%%% 
+\begin{figure}
+\newcommand{\numacap}{\footnotesize Number of loci with different
+total numbers of alleles in the data set.}
+\begin{center}
+\includegraphics[width=\columnwidth]{images/num-alle-barplot.pdf}
+\end{center}
+\caption[\numacap]{\numacap}
+\label{fig:num-alle}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%
+
+And the table of the popgen summary is Table~\ref{tab:pg-summ}.
+%%%%%%%%%%%%%%
+\begin{table}
+\caption{\footnotesize Simple population genetic summaries. All quantities are means
+over loci.  $\bar{N}$ is the number of fish with observed genotypes; $\bar{N}_\mathrm{A,ss}$ is the
+average number of alleles and $\bar{P}_\mathrm{poly,ss}$ the fraction of polymorphic loci,
+after sub-sampling to the smallest sample size per locus; $\bar{H}_\mathrm{exp}$ and
+$\bar{H}_\mathrm{obs}$ are expected and observed heterozygosity, respectively. Population
+codes are as given in Table~\ref{tab:samples}}
+\label{tab:pg-summ}
+{\small
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}} lrrrrr}
+\hline\hline
+\input{inputs/popgen-summary.tex}
+\end{tabular*}
+}
+\vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
+\end{table}
+%%%%%%%%%%%%%%%
+
+
 
 \subsection*{Power for genetic stock identification and population assignment}
 
@@ -366,7 +403,7 @@ incorrectly categorized as parent-offspring (PO); as well as FPRs of parent-offs
 pairs being incorrectly inferred as full siblings (FS).  In both {\em a} and {\em b}, 100,000 Monte Carlo replicates 
 were simulated.  Importance sampling allows estimation of very small false positive rates for unrelated pairs, but 
 cannot be applied to truly related pairs.  Consequently, it is difficult to accurately estimate small probabilities 
-($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2 \times s$ where $s$ is the estimated standard error of the mean of the Monte Carlo sample.  }
+($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2s$ where $s$ is the estimated standard error of the mean of the Monte Carlo sample.  }
 \begin{center}
 \includegraphics[width=\textwidth]{images/fpr-fnr-figure-crop.pdf}
 \end{center}

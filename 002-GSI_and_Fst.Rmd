@@ -201,6 +201,8 @@ write_delim(fbmet5, delim = "&", eol = "\\tabularnewline\n", file = output_list$
 
 
 
+
+
 # Do the self-assignment
 
 In this round, we go directly to assigning to repunit, and then to the max-likelihood
@@ -368,13 +370,6 @@ hfstat_dat <- hfs_ref_wide %>%
 
 FST <- pp.fst(dat = hfstat_dat, diploid = TRUE)
 
-# let's also bootstrap that:
-FST_boot <- boot.ppfst(
-  dat = hfstat_dat,
-  nboot = 1000,
-  quant = c(0.025,0.975),
-  diploid = TRUE
-)
 
 
 # now, get the values out of it and put them in the upper diagonal
@@ -583,4 +578,165 @@ CALL <- paste("pdfcrop ", output_list$gsi_fst_fig, collapse = " ")
 system(CALL)
 
 file.rename(from = output_list$gsi_fst_fig, to = output_list$gsi_fst_fig_tex)
+```
+
+
+
+# Population Genetic Summaries
+
+We can do all of our standard population genetic summaries here using `full_base2`.
+
+It is pretty standard, but I think that i am going to standardize sample sizes.
+
+```{r}
+fbl_no_miss <- full_base2 %>%
+  select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
+  pivot_longer(
+    cols = c(-(indiv:sample_type)),
+    names_to = c("locus", "gene_copy"),
+    names_pattern = "^(.*)_([12])$"
+  ) %>%
+  group_by(indiv, locus) %>%
+  mutate(isHz = value[1] != value[2]) %>%
+  ungroup() %>%
+  filter(!is.na(value) & !is.na(isHz))
+
+
+# now we just summarize by collection and locus
+simple_summaries <- fbl_no_miss %>%
+  group_by(repunit, collection, locus) %>%
+  summarise(
+    num_diploids = n() / 2.0,
+    obs_Hz = mean(isHz),
+    num_alleles = n_distinct(value)
+  ) %>%
+  ungroup()
+
+
+
+# here, we get the minimum number of diploids at each locus
+min_gene_copies <- simple_summaries %>%
+  group_by(locus) %>%
+  summarise(min_gc = min(num_diploids) * 2)
+
+# here is a function to take N samples of size s from a vector
+# and return the mean number of distinct elements in it:
+subsample_num_alleles <- function(v, s, N=1000) {
+  samples <- lapply(
+    1:N, 
+    function(z) {
+      sample(x = v, size = s, replace = FALSE) %>% n_distinct()
+    }) %>% unlist()
+  
+    
+    # now, return a tibble with columns mean_num_alle_subsamp an fract_polymorphic_subsamp
+    tibble(
+      mean_num_alle_subsamp = mean(samples),
+      fract_polymorphic_subsamp = mean(samples > 1)
+    )
+}
+
+# we will now use that min_diploid number to downsample
+# each collection randomly, without replacement 1000 times and 
+# calculate the mean number of alleles.
+sub_sampled_locus_num_alle <- fbl_no_miss %>%
+  left_join(min_gene_copies, by = join_by(locus)) %>%
+  group_by(repunit, collection, locus) %>%
+  summarise(
+    mean_num_alleles = list(subsample_num_alleles(value, min_gc[1], N = 100))
+  ) %>%
+  ungroup() %>%
+  unnest(mean_num_alleles)
+
+# and now we can calculate the means over loci of those
+subby <- sub_sampled_locus_num_alle %>%
+  group_by(repunit, collection) %>%
+  summarise(
+    mean_num_alle = mean(mean_num_alle_subsamp),
+    mean_fract_poly = mean(fract_polymorphic_subsamp)
+  )
+
+# here we will get the estimated allele freqs and, from those, calculate
+# expected heterozygosity as 1 - \sum_alleles freq^2
+expHz <- fbl_no_miss %>%
+  group_by(repunit, collection, locus, value) %>%
+  summarise(
+    n = n()
+  ) %>%
+  mutate(freq = n / sum(n)) %>%
+  group_by(repunit, collection, locus) %>%
+  summarise(exp_Hz = 1 - sum(freq ^2)) %>%
+  ungroup()
+
+
+# now, join that on there:
+locus_summaries <- simple_summaries %>%
+  left_join(expHz, by = join_by(repunit, collection, locus))
+
+# and now we can summarise there into means and SDs
+mean_Hzs_etc <- locus_summaries %>%
+  group_by(repunit, collection) %>%
+  summarise(
+    mean_num_dip = mean(num_diploids),
+    mean_expHz = mean(exp_Hz),
+    mean_obsHz = mean(obs_Hz),
+  )
+
+# OK, join the subsampled numbers onto those
+tibble_for_paper <- subby %>%
+  left_join(mean_Hzs_etc, by = join_by(repunit, collection)) %>%
+  mutate(collection = factor(collection, levels = unique(pop_labels$collection))) %>%
+  arrange(collection) %>%
+  ungroup() %>%
+  select(collection, mean_num_dip, mean_num_alle, mean_fract_poly, mean_expHz, mean_obsHz) %>%
+  mutate(
+    collection = as.character(collection),
+    mean_num_dip = sprintf("%.1f", mean_num_dip),
+    mean_num_alle = sprintf("%.2f", mean_num_alle),
+    mean_fract_poly = sprintf("%.2f", mean_fract_poly),
+    mean_expHz = sprintf("%.3f", mean_expHz),
+    mean_obsHz = sprintf("%.3f", mean_obsHz)
+  ) %>%
+  rename(
+    Code = collection,
+    `$\\bar{N}$` = mean_num_dip,
+    `$\\bar{N}_\\mathrm{A,ss}$` = mean_num_alle,
+    `$\\bar{P}_\\mathrm{poly,ss}$` = mean_fract_poly,
+    `$\\bar{\\mathrm{H}}_\\mathrm{exp}$` = mean_expHz,
+    `$\\bar{\\mathrm{H}}_\\mathrm{obs}$` = mean_obsHz,
+  )
+
+tibble_for_paper$Code[1] <- sprintf("\\hline %s", tibble_for_paper$Code[1])
+
+# then write that table out:
+write_delim(
+  tibble_for_paper,
+  delim = "&",
+  file = "tex/inputs/popgen-summary.tex", 
+  eol = "\\tabularnewline\n", 
+  quote = "none"
+)
+```
+
+
+# Finally, get the histogram of the total number of alleles per locus
+
+
+```{r}
+numa <- fbl_no_miss %>%
+  group_by(locus) %>%
+  summarise(
+    num_alle = n_distinct(value)
+  ) %>%
+  count(num_alle) %>%
+  bind_rows(tibble(num_alle = 9, n = 0))
+  
+
+gbp <- ggplot(numa, aes(x = factor(num_alle), y = n)) +
+  geom_col(fill = "blue") +
+  theme_bw() +
+  xlab("Total number of alleles") +
+  ylab("Number of loci")
+
+ggsave(gbp, filename = "tex/images/num-alle-barplot.pdf", width = 4, height = 3)
 ```
