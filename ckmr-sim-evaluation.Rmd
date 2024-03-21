@@ -387,4 +387,4 @@ CALL <- paste("pdfcrop ", output_list$ckmr_figure, collapse = " ")
 system(CALL)
 
 file.rename(from = output_list$ckmr_figure_crop, to = output_list$ckmr_figure_tex)
-````
+```
