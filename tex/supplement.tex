@@ -1,4 +1,4 @@
-\documentclass[twoside,10pt,twocolumn]{article}
+\documentclass[twoside,10pt]{article}
 
 % this stuff just has to be in here so it doesn't choke
 % on the stuff that I put in for typesetting the submission version.
@@ -37,9 +37,6 @@
 \usepackage{url}
 \usepackage{scalerel}
 \usepackage{color}
-\usepackage{xr}
-
-\externaldocument{supplement}
 
 
 \input{newcomms.tex}
@@ -77,31 +74,44 @@
 
 %% change section heading styles
 \makeatletter
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\renewcommand{\thesection}{S\arabic{section}}
 \renewcommand\section{\@startsection {section}{1}{\z@}%
                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
                                    {1.5ex \@plus 0ex}%
                                    {\normalfont\normalsize\bfseries}}
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
-                                     {\normalfont\small\itshape}}
-
-\renewcommand\subsubsection{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
-                                     {\normalfont\footnotesize\bfseries}}
+                                   
+%    \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+%                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+%                                     {1.5ex \@plus .2ex}%
+%                                     {\normalfont\small\itshape}}
+%
+%\renewcommand\subsubsection{\@startsection{subsection}{2}{\z@}%
+%                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+%                                     {1.5ex \@plus .2ex}%
+%                                     {\normalfont\footnotesize\bfseries}}
 \makeatother
-
-%% modify the abstract environment
-\renewenvironment{abstract}
-{\begin{quote}{\bf Abstract}\end{quote}\begin{quote}\bfseries\small}
-{\end{quote}}
-
+%
 
 \fancypagestyle{firststyle}
 {
    \fancyhf{}
-   \chead[]{\vspace*{.1in}\includegraphics[width=\textwidth]{images/banner.pdf}}
+   \mbox{}   
+   \vspace*{1em} 
+   \mbox{}\\
+        {\LARGE\bf {\sc supplement to:}~~\myTitle \par}
+    \mbox{}\\
+    \uppercase{\myAuthors}\\
+       \mbox{}\\
+    {\em \myAffiliations}\\
+    \mbox{}\\
+    {\small \myEmailFootnote Correspondence: \myEmailAddress}
+\mbox{}
+\vspace*{4em}\mbox{}
+
+
    \lfoot[]{\footnotesize \myCopyright}
 }
 
@@ -121,34 +131,33 @@
 \pagestyle{fancyplain}
 \thispagestyle{firststyle}
 
+\tableofcontents
+\listoffigures
+\listoftables
 
-
-   \begin{strip}
-   \mbox{}\\
-        {\LARGE\bf \myTitle \par}
-    \mbox{}\\
-    \uppercase{\myAuthors}\\
-       \mbox{}\\
-    {\em \myAffiliations}\\
-    \mbox{}\\
-    {\small \myEmailFootnote Correspondence: \myEmailAddress}
-
-   \begin{abstract}
-   	\input{abstract}    %% Put abstract text in here
-    \end{abstract}
-   \end{strip}
+\clearpage 
 
 {\small
-\input{body-text-of-paper}
+\input{supplemental-text.tex}
 }
+\clearpage
+
+{\small
+\input{supplemental-figures.tex
+}
+\clearpage
+
+{\small
+\input{supplemental-tables.tex
+}
+\clearpage
+
+
 
 \bibliographystyle{men}
 {\footnotesize
 \bibliography{citation}}
 
-{\small
-\input{data-accessibility}
-}
 
 %\appendix
 %

@@ -24,6 +24,7 @@ if(exists("snakemake")) {
 } else {
   input_list <- list(
     final_baseline = "data/subRoSA_baseline_rubias_FEB2024_w_mixture_revised.csv",
+    lfar_genos = "data/metagenos_hap2col_lfar_all_samps.csv",
     pop_labels = "inputs/reference-collection-names.csv",
     locus_info = "inputs/ChinookFullPanelLociTable_Feb2024Updated.xlsx"
   )
@@ -55,6 +56,8 @@ library(gridExtra)
 # non-winter Sacto fish of unknown provenance
 full_base <- read_csv(input_list$final_baseline) %>%
   filter(collection != "SacNonW")
+
+lfar_genos <- read_csv(input_list$lfar_genos)
 
 
 # read the pop labels for proper sorting

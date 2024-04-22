@@ -874,4 +874,6 @@ gbp <- ggplot(numa, aes(x = factor(num_alle), y = n)) +
   ylab("Number of loci")
 
 ggsave(gbp, filename = "tex/images/num-alle-barplot.pdf", width = 4, height = 3)
+
+numa
 ```
