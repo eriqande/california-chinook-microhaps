@@ -237,18 +237,24 @@ using the rest of the markers.}
 
 Basic data summaries were calculated for each collection
 using simple operations in the R programming language, Version 4.2
-\citep{rcore}. We start with a simple tally of the number of alleles
+\citep{rcore}. We started with a simple tally of the number of alleles
 found at each locus.  To provide a summary of the genetic variation and
-missing data we report 1) the average over loci of the number of fish
-in which each locus was successfully genotyped ($\bar{N}$);
-2) the average number of alleles per locus with all collections
+missing data we report
+\begin {itemize}
+\item the average over loci of the number of fish
+in which each locus was successfully genotyped, $\bar{N}$;
+\item the average number of alleles per locus with all collections
 downsampled to the smallest number of genotyped individuals at each
-locus ($\bar{N}_{A,ss}$);  3) the fraction of polymorphic
+locus, $\bar{N}_\mathrm{A,ss}$,
+\item the fraction of polymorphic
 loci in each collection after subsampling to the smallest number of genotyped
-fish ($\bar{P}_{poly,ss}$); 4) the expected heterozygosity (average over loci
+fish, $\bar{P}_\mathrm{poly,ss}$,
+\item the expected heterozygosity as the average over loci
 of one minus the frequencies of homozygotes at each locus expected from the
-estimated allele frequencies; and 5) the observed heterozygosity (average over
-loci of the fraction of heterozygous genotypes.
+estimated allele frequencies, $\bar{H}_\mathrm{exp}$, and 
+\item the observed heterozygosity as the average over
+loci of the fraction of heterozygous genotypes, $\bar{H}_\mathrm{obs}$.
+\end{itemize}
 When subsampling each collection to the minimum number of genotyped
 fish across all collections at a locus, we subsampled individuals without
 replacement, taking the average of 1,000 different random subsamples.  
@@ -256,7 +262,7 @@ replacement, taking the average of 1,000 different random subsamples.
 We calculated \citet{weir1984estimating}'s pairwise $F_\mathrm{ST}$ between
 all collections, using the {\footnotesize\tt pp.fst} function from the R
 package 'hierfstat' \citep{hierfstat}. Finally, we evaluated population
-structure in the data by performing unsupervised clustering of the
+structure in the data by performing unsupervised clustering of
 the complete data set (\comment{With or without the LFAR? Which did Anthony use?}) 
 using the program STRUCTURE \citep{pritchard2000inference,falush2003inference}.
 We performed 20 replicate runs at each value of the assumed number of
@@ -267,7 +273,24 @@ using default settings of the program.
 
 
 
+
+
 \subsection*{Power for genetic stock identification and population assignment}
+
+To assess the power of the marker panel for GSI, we used the R package
+'rubias' \citep{moran2019bayesian}.  We used the function {\tt self\_assign()}
+to perform assignment of each individual in the reference baseline to one of the
+collections within the baseline.  Each fish was removed from the reference baseline
+when calculating the likelihood that it originated from the collection it actually belongs
+to, using a classical leave-one-out approach to eliminate the inflated estimates of
+power that might occur without such a procedure \citep{anderson2008improved}.
+The scaled likelihoods of collection membership returned by
+{\tt self\_assign()} were summed within reporting units, and fish were
+assigned to the reporting unit with the largest value of that sum.  Subsequently,
+fish were assigned to the collection within that reporting unit with the highest
+scaled likelihood.  
+
+
 
 \subsection*{Power for relationship inference}
 

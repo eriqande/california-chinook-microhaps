@@ -1,4 +1,4 @@
-\begin{thebibliography}{44}
+\begin{thebibliography}{46}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -30,6 +30,12 @@ Anderson EC, Garza JC (2005) A description of full parental genotyping, {\em
   Garza}{2006}]{anderson2006power}
 Anderson EC, Garza JC (2006) The power of single-nucleotide polymorphisms for
   large-scale parentage inference. {\em Genetics\/}, {\bf 172}, 2567--2582.
+
+\bibitem[\protect\citeauthoryear{Anderson, Waples, \& Kalinowski}{Anderson {\em
+  et~al.\/}}{2008}]{anderson2008improved}
+Anderson EC, Waples RS, Kalinowski ST (2008) An improved method for predicting
+  the accuracy of genetic stock identification. {\em Canadian Journal of
+  Fisheries and Aquatic Sciences\/}, {\bf 65}, 1475--1486.
 
 \bibitem[\protect\citeauthoryear{Ayala \& Powell}{Ayala \&
   Powell}{1972}]{ayala1972allozymes}
@@ -185,6 +191,12 @@ Milner GB, Teel DJ, Utter FM (1982) Gentic Identification Study Annual Progress
 Milner GB, Teel DJ, Utter FM, Winans GA (1985) A genetic method of stock
   identification in mixed populations of Pacific salmon, Oncorhynchus spp. {\em
   Marine Fisheries Review\/}, {\bf 47}, 1--8.
+
+\bibitem[\protect\citeauthoryear{Moran \& Anderson}{Moran \&
+  Anderson}{2019}]{moran2019bayesian}
+Moran BM, Anderson EC (2019) Bayesian inference from the conditional genetic
+  stock identification model. {\em Canadian Journal of Fisheries and Aquatic
+  Sciences\/}, {\bf 76}, 551--560.
 
 \bibitem[\protect\citeauthoryear{Nandor, Longwill, \& Webb}{Nandor {\em
   et~al.\/}}{2010}]{nandor2010overview}
