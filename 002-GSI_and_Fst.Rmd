@@ -352,6 +352,13 @@ Then, all the step from above:
 full_plus_lfar_sa <- self_assign(base_with_lfar, gen_start_col = 5)
 
 
+repu_likes <- full_plus_lfar_sa %>%
+  group_by(indiv, collection, repunit, inferred_repunit) %>%
+  summarise(repu_sclike = sum(scaled_likelihood)) %>%
+  ungroup()
+
+
+
 top_ass_w_lfar <- full_plus_lfar_sa %>%
   group_by(indiv, collection, repunit, inferred_repunit) %>%
   mutate(repu_sclike = sum(scaled_likelihood)) %>%
@@ -366,8 +373,129 @@ top_ass_w_lfar <- full_plus_lfar_sa %>%
 
 ```
 
-investigate the ones that are in the wrong repunit, and look at their
-scaled_repu_likelihoods, the others.
+
+## Identifying fish erroneously included in some collections
+
+The occurrence of winter-run-assigned fish amongst the spring run collections is
+a clear indicator that there are some fish in the collections that do not belong
+with one another.  The same occurs amongst the fall and the spring run, I expect.
+
+Our goal here is to examine the likelihoods with which fish are assigned to
+different reporting units and come up with a common-sense and defensible approach
+for discarding individuals that don't belong in the collections they were sampled
+from.  
+
+We start by tallying up the misassigned fish---those that have a repunit and an
+inferred repunit that differ:
+```{r}
+misassigned_ones <- top_ass_w_lfar %>%
+  filter(repunit != inferred_repunit) %>%
+  count(repunit, inferred_repunit)
+
+misassigned_ones
+```
+
+For each of these 6 pairs, I want to make a scatterplot that shows the repunit
+likelihoods of all the fish _from either the repunit or the inferred_repunit_.
+The x-axis will be the likelihood for the repunit and the y-axis will be the
+likelihood for the inferred_repunit.  So, there is some weird prep to get
+this all together.  
+```{r}
+MO2 <- misassigned_ones %>%
+  rename(
+    Foc_repunit = repunit,
+    Foc_inferred_repunit = inferred_repunit
+  )
+
+tmp <- lapply(1:nrow(MO2), function(i) {
+  repu_likes %>%
+    filter(
+      (repunit == MO2$Foc_repunit[i] | repunit == MO2$Foc_inferred_repunit[i]) &
+        (inferred_repunit == MO2$Foc_repunit[i] | inferred_repunit == MO2$Foc_inferred_repunit[i])
+    ) %>%
+    mutate(
+     Foc_repunit =  MO2$Foc_repunit[i],
+     Foc_inferred_repunit = MO2$Foc_inferred_repunit[i],
+     .before = repunit
+    )
+}) %>%
+  bind_rows() %>%
+  arrange(indiv, Foc_repunit, Foc_inferred_repunit)
+
+
+for_plots <- tmp %>%
+  mutate(
+    rep = ifelse(Foc_repunit == repunit, "rep", "inf"),
+    inf = ifelse(Foc_inferred_repunit == inferred_repunit, "inf", "rep")
+  ) %>%
+  #count(Foc_repunit, Foc_inferred_repunit, repunit, inferred_repunit, rep, inf)
+  select(-repunit, -inferred_repunit) %>%
+  pivot_wider(names_from = c(rep, inf), names_sep = "_to_", values_from = repu_sclike) %>%
+  mutate(condition = str_c(Foc_repunit, " misassigned to ", Foc_inferred_repunit), .after = Foc_inferred_repunit)
+```
+
+
+Now we should be able to facet wrap those:
+```{r}
+ggplot(for_plots) +
+  geom_point(aes(x = inf_to_rep, y = inf_to_inf, colour = Foc_inferred_repunit)) +
+  geom_point(aes(x = rep_to_rep, y = rep_to_inf, colour = Foc_repunit)) +
+  facet_wrap(~condition) +
+  scale_colour_manual(values = repunit_colors)
+  
+```
+
+
+So, for each of the six plots, I will need four different repu_sclike's:
+For example, for the `repunit = CV-Fall` and `inferred_repunit = CV-Spring` case
+we will need to have the repu_sclikes for CV-Fall fish being calculated for CV-Fall
+and CV-Spring, and for the CV-Spring fish being calculated for CV-Spring and CV-Fall.
+
+
+Now, we want to use this to semi-join to get all the likelihoods for these scenarios,
+whether or not they were misassigned. 
+```{r}
+focal_comparisons <- repu_likes %>%
+  semi_join(misassigned_ones, by = join_by(repunit, inferred_repunit))
+```
+
+And we are going to want to compare these to all the likelihoods of being
+from the actual repunit that the fish was col
+
+
+Now, I want to look at these different comparisons _pairwise_, so we will
+just pivot it wider and then look at different columns in there.  This isn't
+super "tidy" but I think it should work OK:
+```{r}
+focal_comparisons %>%
+  pivot_wider(names_from = inferred_repunit, values_from = repu_sclike)
+```
+
+And I want to look at the observed distribution of these scores in for each
+comparison, colored by repunit.
+```{r}
+ggplot(focal_comparisons, aes(x = )
+```
+
+
+
+
+First thing I am going to do is plot histograms of the,
+max likelihoods for all of the ones from each repunit.
+```{r}
+repunit_order <- unique(pop_labels$repunit)
+repu_likes %>%
+  mutate(
+    repunit_f = factor(repunit, levels = repunit_order),
+    inferred_repunit_f = factor(inferred_repunit, levels = repunit_order),
+  ) %>%
+  ggplot() +
+  geom_histogram(aes(x = repu_sclike, fill = repunit_f), colour = "black", linewidth = 0.16) + 
+  facet_grid(repunit_f ~ inferred_repunit_f) + 
+  scale_fill_manual(values = repunit_colors) +
+  theme_bw()
+```
+
 ```{r}
 ta_corr_lfar <- top_ass_w_lfar %>%
   filter(repunit == inferred_repunit)
