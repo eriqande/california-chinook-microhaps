@@ -21,3 +21,8 @@ run_time_colors <- c(
 )
 
 
+rosa_colors <- c(
+  EE = "gold",
+  EL = "tan2",
+  LL = "blue"
+)

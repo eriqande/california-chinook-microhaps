@@ -41,6 +41,15 @@ table_as_figure <- function(
     plot_margins = c(0, 0, 1.5, 0)
 ) {
 
+
+  # catch whether rosa_genos are in here or not
+  HasRosa <- FALSE
+  if("rosa_geno_f" %in% names(X)) HasRosa <- TRUE
+  fill_alpha <- 1.0
+  if(HasRosa) {
+    fill_alpha <- 1.0  # ultilmately I don't find the transparency works. I just use black for the text
+  }
+
   # first, expand X to include the xmin/max and ymin/ymax for each internal cell
   N <- length(levels(X$row_label))
   X2 <- X %>%
@@ -95,7 +104,7 @@ table_as_figure <- function(
     filter(val != max(val))
 
   # then put these together into a big ggplot
-  full_plot <- ggplot() +
+  all_but_cell_labels <- ggplot() +
     geom_rect(  # outer edge filled rectangles
       data = Z,
       mapping = aes(
@@ -124,17 +133,8 @@ table_as_figure <- function(
         ymin = ymin,
         ymax = ymax,
         fill = cell_fill
-      )
-    ) +
-    geom_text( # interior cell labels
-      data = X2,
-      mapping = aes(
-        x = (xmin + xmax) / 2,
-        y = (ymin + ymax) / 2,
-        label = cell_label
       ),
-      vjust = 0.5,
-      hjust = 0.5
+      alpha = fill_alpha
     ) +
     geom_segment(  # get thick lines around the interior perimeter
       data = perim_thick,
@@ -153,6 +153,36 @@ table_as_figure <- function(
       plot.margin = unit(plot_margins, "lines")
     )
 
+
+  if(!HasRosa) {  # Standard plot without breaking it out by rosa_geno
+    full_plot <- all_but_cell_labels +
+      geom_text( # interior cell labels
+        data = X2,
+        mapping = aes(
+          x = (xmin + xmax) / 2,
+          y = (ymin + ymax) / 2,
+          label = cell_label
+        ),
+        vjust = 0.5,
+        hjust = 0.5
+      )
+  } else {  # otherwise we are breaking it out by rosa_geno
+    source("R/colors.R")
+    full_plot <- all_but_cell_labels +
+      geom_text( # interior cell labels
+        data = X2 %>% mutate(rosa_int = as.integer(rosa_geno_f) - 1L, rosa_hjust = rosa_int / 2),
+        mapping = aes(
+          x = xmin + 0.1 + 0.8 * rosa_int / 2,
+          y = ymax - 0.1 - 0.8 * rosa_int / 2,
+          label = cell_label,
+          #colour = rosa_geno_f,
+          hjust = rosa_hjust,
+          vjust = 1 - rosa_hjust
+        ),
+        fontface = "bold"
+      ) #+
+      #scale_colour_manual(values = rosa_colors)
+  }
 
   if(Xs_on_diagonal == TRUE) {
     # get a tibble of where those Xs will go:

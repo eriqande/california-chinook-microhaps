@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{26}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -55,6 +55,13 @@ Beacham TD, Lapointe M, Candy JR, Miller KM, Withler RE (2004) DNA in action:
 Campbell NR, Harmon SA, Narum SR (2015) Genotyping-in-Thousands by sequencing
   (GT-seq): A cost effective SNP genotyping method based on custom amplicon
   sequencing. {\em Molecular ecology resources\/}, {\bf 15}, 855--867.
+
+\bibitem[\protect\citeauthoryear{Christensen, Leong, Sakhrani, Biagi, Minkley,
+  Withler, Rondeau, Koop, \& Devlin}{Christensen {\em
+  et~al.\/}}{2018}]{christensen2018chinook}
+Christensen KA, Leong JS, Sakhrani D, Biagi CA, Minkley DR, Withler RE, Rondeau
+  EB, Koop BF, Devlin RH (2018) Chinook salmon (Oncorhynchus tshawytscha)
+  genome and transcriptome. {\em PloS one\/}, {\bf 13}, e0195461.
 
 \bibitem[\protect\citeauthoryear{Clemento, Abad{\'\i}a-Cardoso, Starks, \&
   Garza}{Clemento {\em et~al.\/}}{2011}]{clemento2011discovery}
