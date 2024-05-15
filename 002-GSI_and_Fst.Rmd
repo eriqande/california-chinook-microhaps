@@ -25,7 +25,6 @@ if(exists("snakemake")) {
   output_list <- snakemake@output
 } else {
   input_list <- list(
-    #final_baseline = "data/cali-chinook-baseline.rds",
     final_baseline = "data/subRoSA_baseline_rubias_FEB2024_w_mixture_revised.csv",
     final_baseline_apr = "data/subRoSA_baseline_rubias_APR2024_w_mixture_revised_rosa_added.csv",
     lfar_genos = "data/metagenos_hap2col_lfar_all_samps.csv",
@@ -219,14 +218,14 @@ improvement we get from adding the LFAR in there.
 
 First we need to join the LFARs on there:
 ```{r}
-# get just the 3 LFAR markers we are using:
+# get just the 2 LFAR markers we are using.  We are dropping 828619 because
+# it really doesn't do much, and so many reads are off-target.
 lfar_columns <- paste(
   rep(c(
     "NC_037130.1:1062935-1063235",
-    "NC_037130.1:828619-828919",
     "NC_037130.1:864908-865208"
   ), each = 2),
-  rep(c(1,2), 3),
+  rep(c(1,2), 2),
   sep = "_"
 )
 
@@ -379,7 +378,7 @@ lfar_ass_table_Rosa <- lfar_top_ass$top %>%
 ```
 
 
-### Get some raw numbers
+## Get some raw numbers
 
 ```{r}
 # total number of fish
@@ -398,6 +397,9 @@ over80 <- nrow(lfar_top_ass$top %>% filter(repu_sclike > 0.8))
 lfar_top_ass$top %>% filter(repu_sclike > 0.8) %>% count(repunit == inferred_repunit) %>% mutate(fract = n / over80)
 ```
 
+
+## Make a Plot for scaled likelihood > 0.8
+
 Make a plot for > 80%
 ```{r}
 
@@ -413,6 +415,8 @@ file.rename(from = output_list$ass_table80_crop, to = output_list$ass_table80_te
 ```
 
 
+## Make a plot with numbers broken out by the RoSA genotype
+
 Make a plot for the byRosa:
 ```{r}
 
@@ -427,239 +431,32 @@ system(CALL)
 file.rename(from = output_list$rosa_gsi_table_crop, to = output_list$rosa_gsi_table_tex)
 ```
 
-## Identifying fish erroneously included in some collections
+## Follow up on those Early alleles found in RRF and ERF
 
-The occurrence of winter-run-assigned fish amongst the spring run collections is
-a clear indicator that there are some fish in the collections that do not belong
-with one another.  The same occurs amongst the fall and the spring run, I expect.
+The analysis shows 4 fish from RRF and ERF with heterozygous genoypes (EL).
+This has not been previously reported, so we really want to check up on those.
+It might be that they had lots of missing data.  
 
-Our goal here is to examine the likelihoods with which fish are assigned to
-different reporting units and come up with a common-sense and defensible approach
-for discarding individuals that don't belong in the collections they were sampled
-from.  
-
-We start by tallying up the misassigned fish---those that have a repunit and an
-inferred repunit that differ:
+So, I want to grab their RoSA genotype strings so that we can verify.
 ```{r}
-misassigned_ones <- lfar_top_ass$top %>%
-  filter(repunit != inferred_repunit) %>%
-  count(repunit, inferred_repunit)
-
-misassigned_ones
+# here are the IDs fo the hets from those coastal pops
+coastal_hets <- lfar_top_ass$top %>%
+  left_join(rosa_genos, by = join_by(indiv)) %>%
+  filter(collection %in% c("ERF", "RRF")) %>%
+  select(indiv, rosa_geno) %>%
+  filter(rosa_geno %in% c("EE", "EL"))
+coastal_hets
 ```
 
-For each of these 6 pairs, I want to make a scatterplot that shows the repunit
-likelihoods of all the fish _from either the repunit or the inferred_repunit_.
-The x-axis will be the likelihood for the repunit and the y-axis will be the
-likelihood for the inferred_repunit.  So, there is some weird prep to get
-this all together.  
+Now, let's get the raw genotype strings (the "hapstrs") off those guys:
 ```{r}
-MO2 <- misassigned_ones %>%
-  rename(
-    Foc_repunit = repunit,
-    Foc_inferred_repunit = inferred_repunit
-  )
-
-
-pick_em <- lapply(1:nrow(MO2), function(i) {
-  
-  FR <- MO2$Foc_repunit[i]
-  FIR <- MO2$Foc_inferred_repunit[i]
-  
-  lfar_top_ass$repu_likes %>%
-    ungroup() %>%
-    filter(
-      (repunit == FR & inferred_repunit == FIR) |
-        (inferred_repunit == FR & repunit == FIR)
-    ) %>%
-    mutate(
-      Foc_repunit = FR,
-      Foc_inferred_repunit = FIR,
-      .before = indiv
-    ) 
-}) %>%
-    bind_rows()
+rosa_hapstrs %>%
+  semi_join(coastal_hets, by = join_by(indiv))
 ```
 
-
-
-
-OLD STUFF BELOW HERE
-```{r}
-tmp <- lapply(1:nrow(MO2), function(i) {
-  lfar_top_ass$repu_likes %>%
-    filter(
-      (repunit == MO2$Foc_repunit[i] | repunit == MO2$Foc_inferred_repunit[i]) &
-        (inferred_repunit == MO2$Foc_repunit[i] | inferred_repunit == MO2$Foc_inferred_repunit[i])
-    ) %>%
-    mutate(
-      Foc_repunit =  MO2$Foc_repunit[i],
-      Foc_inferred_repunit = MO2$Foc_inferred_repunit[i],
-      .before = repunit
-    )
-}) %>%
-  bind_rows() %>%
-  arrange(indiv, Foc_repunit, Foc_inferred_repunit)
-
-
-for_plots <- tmp %>%
-  mutate(
-    rep = ifelse(Foc_repunit == repunit, "rep", "inf"),
-    inf = ifelse(Foc_inferred_repunit == inferred_repunit, "inf", "rep")
-  ) %>%
-  ungroup() %>%
-  #count(Foc_repunit, Foc_inferred_repunit, repunit, inferred_repunit, rep, inf)
-  select(-repunit, -inferred_repunit) %>%
-  pivot_wider(names_from = c(rep, inf), names_sep = "_to_", values_from = repu_sclike) %>%
-  mutate(condition = str_c(Foc_repunit, " misassigned to ", Foc_inferred_repunit), .after = Foc_inferred_repunit)
-```
-
-
-Now we should be able to facet wrap those:
-```{r}
-ggplot(for_plots) +
-  geom_point(aes(x = inf_to_rep, y = inf_to_inf, colour = Foc_inferred_repunit)) +
-  geom_point(aes(x = rep_to_rep, y = rep_to_inf, colour = Foc_repunit)) +
-  facet_wrap(~condition) +
-  scale_colour_manual(values = repunit_colors)
-
-```
-
-
-So, for each of the six plots, I will need four different repu_sclike's:
-For example, for the `repunit = CV-Fall` and `inferred_repunit = CV-Spring` case
-we will need to have the repu_sclikes for CV-Fall fish being calculated for CV-Fall
-and CV-Spring, and for the CV-Spring fish being calculated for CV-Spring and CV-Fall.
-
-
-Now, we want to use this to semi-join to get all the likelihoods for these scenarios,
-whether or not they were misassigned. 
-```{r}
-focal_comparisons <- repu_likes %>%
-  semi_join(misassigned_ones, by = join_by(repunit, inferred_repunit))
-```
-
-And we are going to want to compare these to all the likelihoods of being
-from the actual repunit that the fish was col
-
-
-Now, I want to look at these different comparisons _pairwise_, so we will
-just pivot it wider and then look at different columns in there.  This isn't
-super "tidy" but I think it should work OK:
-```{r}
-focal_comparisons %>%
-  pivot_wider(names_from = inferred_repunit, values_from = repu_sclike)
-```
-
-And I want to look at the observed distribution of these scores in for each
-comparison, colored by repunit.
-```{r}
-ggplot(focal_comparisons, aes(x = ))
-```
-       
-       
-       
-       
-First thing I am going to do is plot histograms of the,
-max likelihoods for all of the ones from each repunit.
-```{r}
-repunit_order <- unique(pop_labels$repunit)
-repu_likes %>%
-  mutate(
-    repunit_f = factor(repunit, levels = repunit_order),
-    inferred_repunit_f = factor(inferred_repunit, levels = repunit_order),
-  ) %>%
-  ggplot() +
-  geom_histogram(aes(x = repu_sclike, fill = repunit_f), colour = "black", linewidth = 0.16) + 
-  facet_grid(repunit_f ~ inferred_repunit_f) + 
-  scale_fill_manual(values = repunit_colors) +
-  theme_bw()
-```
-       
-```{r}
-ta_corr_lfar <- top_ass_w_lfar %>%
-  filter(repunit == inferred_repunit)
-ta_wrong_lfar <- top_ass_w_lfar %>%
-  filter(repunit != inferred_repunit) %>%
-  arrange(collection, repu_sclike) %>%
-  group_by(collection) %>%
-  mutate(y = 190 + (70/9) * 1:n())
-
-ggplot() +
-  geom_histogram(
-    data = ta_corr_lfar,
-    mapping = aes(x = repu_sclike, fill = inferred_repunit)
-  ) +
-  geom_point(
-    data = ta_wrong_lfar,
-    mapping = aes(x = repu_sclike, y = y, fill = inferred_repunit),
-    size = 3,
-    shape = 21
-  ) +
-  facet_wrap(~coll_f, ncol = 3) +
-  scale_fill_manual(values = repunit_colors)
-```
-       
-Filter out the ones that look like clear mis-labelling and then
-count up the mis-assigned fish:
-```{r}
-tafilt_w_lfar <- top_ass_w_lfar %>%
-filter(!(repunit != inferred_repunit & repu_sclike > 0.99))
-```
-       
-Here we calculate the number of correctly and incorrectly assigned fish:
-```{r}
-tafilt_w_lfar %>%
-  mutate(correct = repunit == inferred_repunit) %>%
-  count(correct) %>%
-  mutate(fract = n / sum(n))
-```
-
-Having the LFAR in there improves things. Good.
-       
-Make a table of those:
-```{r}
-
-X2_lfar <- tafilt_w_lfar %>%
-mutate(
-collection_f = factor(collection, levels = collection_order),
-inferred_coll_f = factor(inferred_collection, levels = collection_order)
-) %>%
-count(collection_f, inferred_coll_f, .drop = FALSE) %>%
-taf_prep()
-
-Rubias_for_later_lfar <- X2_lfar # keeping this for later...
-
-# get the result
-TAF2_lfar <- table_as_figure(
-X = X2_lfar,
-RC_groups = RC_groups,
-external_colors = run_time_colors,
-internal_colors = repunit_colors,
-plot_margins = c(1, 0.1, 0.7, 0.1)
-)
-
-# and plot it
-g_lfar <- plot_grid(
-TAF2_lfar$full_plot,
-plot_grid(
-get_legend(TAF2_lfar$for_external_legend),
-get_legend(TAF2_lfar$for_internal_legend),
-nrow = 1
-),
-nrow = 2,
-rel_heights = c(7,3)
-)
-
-g_lfar
-```
-
-Adding the LFAR definitely improves the LFAR assignment, though
-it still does not get it perfect.
-```{r}
-ggsave(g_lfar, filename = output_list$assig_table_lfar_all, width = 10, height = 12)
-```
-
+Those are definitely hets in the left half of the markers.  One of them is also
+hets at the right half.  The three remaining ones are L homozygotes on the second
+half.  So, there was been some recombination within these.  
 
 
 # Calculating Fst between the collections from the microhaplotype markers
@@ -941,7 +738,7 @@ We can do all of our standard population genetic summaries here using `full_base
 It is pretty standard, but I think that i am going to standardize sample sizes.
        
 ```{r}
-fbl_no_miss <- full_base2 %>%
+fbl_no_miss <- base_with_lfar %>%
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   pivot_longer(
     cols = c(-(indiv:sample_type)),

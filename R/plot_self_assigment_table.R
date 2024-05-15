@@ -11,7 +11,7 @@
 #' @return Returns a list.  Component "plot" of which is the ggplot of the assignment
 #' table, and component RFL is the Rubias_for_later output---basically
 #' the top assignments with some factors in there for getting the order right.
-plot_self_assignment_table <- function(top_ass, pop_labels, collection_order, no_legend = FALSE) {
+plot_self_assignment_table <- function(top_ass, pop_labels, collection_order, no_legend = FALSE, zeros_are_empty = TRUE) {
 
   # get the function
   source("R/taf-prep.R")
@@ -32,6 +32,13 @@ plot_self_assignment_table <- function(top_ass, pop_labels, collection_order, no
       ) %>%
       count(collection_f, inferred_coll_f, .drop = FALSE) %>%
       taf_prep()
+
+    # remove 0's if desired
+    if(zeros_are_empty == TRUE) {
+      X2 <- X2 %>%
+        mutate(cell_label = ifelse(cell_label == "0", "", cell_label))
+    }
+
   } else {
     X2 <- top_ass %>%
       mutate(
@@ -41,6 +48,13 @@ plot_self_assignment_table <- function(top_ass, pop_labels, collection_order, no
       ) %>%
       count(collection_f, inferred_coll_f, rosa_geno_f, .drop = FALSE) %>%
       taf_prep()
+
+    # here, we remove zeros only from the cells that are ALL zero
+    if(zeros_are_empty == TRUE) {
+      X2 <- X2 %>%
+        group_by(row_label, col_label) %>%
+        mutate(cell_label = ifelse(rep(all(cell_label == "0"), n()), "", cell_label))
+    }
   }
 
   Rubias_for_later <- X2 # keeping this for later...
