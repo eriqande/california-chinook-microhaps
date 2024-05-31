@@ -168,8 +168,33 @@ $^4N_\mathrm{day}$: the number of samples for which the specific sampling day wa
 
 \subsection*{Genetic Markers}
 
-To assemble the markers for this reference baseline, we drew upon several different
-sources, as detailed in the separate sections below.
+We assembled genetic markers for this reference baseline dataset from several different
+efforts, as detailed in the separate sections below.
+
+\subsubsection*{Novel microhaplotype discovery}
+
+We undertook a process to discover and validate  multiallelic
+microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook salmon, with a focus on Central Valley populations. 
+
+We identified candidate loci with variation among multiple populations and with multiple single-nucleotide polymorphisms using reduced representation genome sequencing of 2--4 individuals each from a number of
+populations ranging from California to British 
+Columbia and the interior Columbia River (\comment{Table SX}).
+Genomic DNA was extracted using Qiagen DNeasy 96 Blood and Tissue Kits on a BioRobot 3000 
+(Qiagen, Inc). We used double-digest restriction-site associated DNA sequencing (ddRAD) and with different size selections (400 bp and 500 bp 
+fragments) to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
+\citet{peterson2012double} with the modifications described in \citep{baetscher2018microhaplotypes}.
+Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing. 
+
+Stacks v1.45 \cite{catchen2013stacks} was used to analyze ddRAD sequence data.  As there was not a well assembled Chinook salmon genome at the time, a {\em de novo} assembly was performed.  Initial filtering retained RAD loci with two or more SNPs that 
+amplified in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
+4,794 retained in the data with 500 bp size selection. 
+Gene regions were then selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation in the winter-run 
+population and at least one other.
+A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is diminished in amplicons larger than 100 bp. Primer3 
+software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.  These gene regions were amplified and variants 
+
+FreeBayes output was filtered to remove indels and retain variants with a Quality score of 30 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci was conducted in MICROHAPLOT (Ng et al., DOI: 10.5281/zenodo.820110). Loci that did not conform to Mendelian segregation, that is, loci that produced more than two haplotypes within an individual were removed. Hardy-Weinberg equilibrium was assessed using MICROHAPLOT. 
+
 
 \subsubsection*{Conversion of existing SNPtype assays}
 
@@ -188,12 +213,6 @@ used Freebayes \citep{garrison2012haplotype} to identify all variants on the fra
 microhaplotype \citep{baetscher2018microhaplotypes} when multiple variants occur in the sequence.  We filtered out variants
 that were considered multinucleotide or complex variants by Freebayes. The resulting genetic markers are hereafter referred to as 'SNPlicons'.
 
-\subsubsection*{Additional microhaplotype discovery}
-
-We undertook a further discovery process to develop additional multiallelic
-microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook salmon. A total of 125 microhaplotype markers were developed for Chinook salmon 
-\comment{NEED TO DESCRIBE. How did we look for these, etc. What constituted a
-candidate to then follow up on with amplicon sequencing, etc.}
 
 \subsubsection*{Localizing markers within the genome}
 
@@ -259,11 +278,27 @@ amplicons showing large allele frequency  differences between late-fall fish and
 \subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
 
 We include in the reference baseline amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
-between spring-run and fall-run fish described in \citet{thompson2020complex}.  These are useful markers to
+between spring-run and fall-run fish on Chromosome Ots28 described in \citet{thompson2020complex}.  These are useful markers to
 have in the panel, as typing them routinely will create a data base for understanding the spatial and temporal
 distribution of the alleles at this region; however we have omitted these markers for calculating likelihoods for
 GSI, since their distribution across populations in the Feather River has been clearly and evidently
 influenced by hatchery practices (see Results), and it is not necessary to include them for accurate assignment.
+
+\subsection*{Amplicon sequencing and microhaplotype calling}
+
+Amplicon sequencing was performed with the Genotyping-in-Thousands by sequencing (GT-seq) method from Campbell et al. (2015). All loci were 
+multiplexed with primer concentrations ranging from 0.083 uM to 0.5 uM to increase uniformity of read depths across all loci. Sample normalization was 
+performed using the SequalPrep Normalization Plate Kit (Applied Biosystems) according to the manufacturer's instructions. Samples were pooled by plate 
+and then purified using Agencourt AMPure XP magnetic beads. Libraries were quantified by qPCR with the NEBNext Library Quant Kit for Illumina (New 
+England BioLabs) before dilution and pooling for sequencing. All samples were sequenced on a MiSeq using $2\times 75$-cycle paired-end sequencing protocols. 
+Primer sequences and concentrations for making the primer pool are in Supplemental Table 1. 
+
+For evaluation of candidate loci, dual-barcoded sequences were used to identify individual tissue samples using the MiSeq analysis software (Illumina). The paired-end sequence reads were joined together using Fast Length Adjustment of SHort reads (FLASH: Magoc and Salzberg 2011) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and FreeBayes (Garrison and Marth 2012) was used to call variants.
+
+For genotyping of project samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts. 
+
+Before parentage analysis began each locus was assessed for the presence of null alleles using R scripts (eric citation). Twelve loci appeared to have null alleles in the winter-run population and were removed in all subsequent analyses. Additionally, two loci were monomorphic in the winter-run, but contained multiple alleles in other populations. The two monomorphic loci were removed in all winter-run analyses resulting in a final dataset of genotypes for 111 microhaplotype loci for this project. For more diverse salmon populations, it's likely that nearly all of the 125 microhaplotype loci could be used without Hardy-Weinberg Equilibirum or null allele issues.
+
 
 \subsection*{Population genetic analyses}
 
