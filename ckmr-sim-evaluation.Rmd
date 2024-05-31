@@ -26,12 +26,16 @@ if(exists("snakemake")) {
     final_baseline = "data/subRoSA_baseline_rubias_FEB2024_w_mixture_revised.csv",
     lfar_genos = "data/metagenos_hap2col_lfar_all_samps.csv",
     pop_labels = "inputs/reference-collection-names.csv",
-    locus_info = "inputs/ChinookFullPanelLociTable_Feb2024Updated.xlsx"
+    locus_info = "inputs/ChinookFullPanelLociTable_May2024Updated.xlsx"
   )
   output_list <- list(
     ckmr_figure = "results/ckmr-sim-eval/fpr-fnr-figure.pdf",
     ckmr_figure_crop = "results/ckmr-sim-eval/fpr-fnr-figure-crop.pdf",
-    ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf"
+    ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf",
+    ckmr_comp = "results/ckmr-sim-eval/cmkr-comp-figure.pdf",
+    ckmr_comp_crop = "results/ckmr-sim-eval/cmkr-comp-figure-crop.pdf",
+    ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf"
+    
   )
 }
 
@@ -390,4 +394,149 @@ CALL <- paste("pdfcrop ", output_list$ckmr_figure, collapse = " ")
 system(CALL)
 
 file.rename(from = output_list$ckmr_figure_crop, to = output_list$ckmr_figure_tex)
+```
+
+
+# Logl Ratio Plot Comparisons
+
+Neil suggested, and Carlos and I agreed, that one way to see they improvement in
+relationship inference obtained by using multiallelic microhaps is to look at the
+separation of the different relationship log-likelihood ratios when using just the
+best (MAF closest to 0.5) SNP from each locus, or when using all the SNPs/alleles.
+We deciced to do this for the hatchery populations in California, as well as the
+winter run.  I am going to implement this in a few functions, each of which operate
+on the one of the ckmr_sim_nests.
+
+```{r}
+#' function to get just the best SNP out of each microhap
+#' 
+#' This works on a single collection at a time.
+#' @param X a tibble like that nested in a single row of ckmr_sim_nests
+#' @return Returns a tibble like X, but with just the best SNP from
+#' each amplicon (note that it might also drop some monomorphic amplicons).
+retain_top_snp <- function(X) {
+  # first, get the microhaps in long format
+  tmp <- X %>%
+    select(-(repunit:sample_type)) %>%
+    pivot_longer(
+      -indiv,
+      names_to = c("Locus", "gene_copy"),
+      values_to = "Allele",
+      names_pattern = "^(.*)_([12])$"
+    ) %>%
+    filter(!is.na(Allele))
+  
+  # then explode it out to individual SNPs
+  exploded <- tmp %>%
+    mutate(
+      snp_num = map(Allele, function(x) 1:nchar(x)),
+      snp_alle = map(Allele, function(x) strsplit(x, "")[[1]])
+    ) %>%
+    unnest(cols = c(snp_num, snp_alle))
+  
+  # now, get the highest maf snp at each locus in a tibble
+  highest_mafs <- exploded %>%
+    count(Locus, snp_num, snp_alle) %>%
+    group_by(Locus, snp_num) %>%
+    mutate(af = n / sum(n)) %>%
+    filter(af <= 0.5) %>%
+    ungroup() %>%
+    arrange(Locus, desc(af)) %>%
+    group_by(Locus) %>%
+    slice(1) %>%
+    ungroup()
+  
+  # then pull those out of the "exploded" variable with a semi_join
+  # and put them back into wide format, left join it onto the meta
+  # data
+  ret <- exploded %>%
+    semi_join(highest_mafs, by = join_by(Locus, snp_num)) %>%
+    select(indiv, Locus, gene_copy, snp_alle) %>%
+    pivot_wider(
+      names_from = c(Locus, gene_copy),
+      values_from = snp_alle,
+      names_sep = "_"
+    ) %>%
+    left_join(
+      X %>% select(indiv, repunit, collection, sample_type),
+      .,
+      by = join_by(indiv)
+    )
+  
+  ret
+    
+}
+
+```
+
+So, that is how we pick out the top SNP.  But now we also need a function that is
+going to give us the set of all the simulated logl-ratios that we need (whether it
+is all the microhap alleles or just the top SNPs).  We can build off of what
+we did in a function above.
+```{r}
+get_logl_rats <- function(X, GC2 = gen_coords) {
+  
+  Y <- ckmr_afreqs_ready(X, GC2)
+  
+  C <- ckmr_create(Y) 
+  
+  # throttle text output to console
+  options(CKMRsim.discard_stdout = TRUE)
+  options(CKMRsim.linkage_verbosity = 0)
+  
+  # Simulate some Q_ij's. Suppress output messages that the CKMRsim package
+  # produces
+  Q_link <- ckmr_simQ(C) #%>% suppressMessages()
+  
+  # now extract the logl_ratios for PO vs U and return those
+  extract_logls(Q_link, numer = c(PO = 1), denom = c(U = 1))
+}
+```
+
+And, with those two functions, it would appear that we have eveything we need to get the
+simulation results we will want.  Once again we will mclapply over the populations.
+
+```{r}
+# collections / groups we want to do
+pops <- c("ck-FRH", "ck-IGH", "ck-SRW", "ck-TRH")
+
+# let's put the microhaps and the best SNPs together in a long format.
+input_tibbles <- bind_rows(
+  ckmr_sim_nests %>%
+    filter(ckmr_sim_group %in% pops) %>%
+    mutate(condition = "microhaps", .before = ckmr_sim_group),
+  ckmr_sim_nests %>%
+    filter(ckmr_sim_group %in% pops) %>%
+    mutate(tops = map(data, retain_top_snp)) %>%
+    mutate(data = tops) %>%
+    select(-tops) %>%
+    mutate(condition = "top_snps", .before = ckmr_sim_group)
+)
+
+Qsims <- mclapply(input_tibbles$data, get_logl_rats, mc.cores = 8)
+
+AllSims <- tibble(
+  condition = input_tibbles$condition,
+  ckmr_sim_group = input_tibbles$ckmr_sim_group,
+  Qsims = Qsims
+) %>% 
+  unnest(Qsims) %>%
+  select(condition, ckmr_sim_group, true_relat, logl_ratio)
+```
+
+Now, we can plot all of those.  Let's see if we can get all four onto one page easily enough.
+```{r}
+asg <- ggplot(AllSims, aes(x = logl_ratio, fill = true_relat)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ ckmr_sim_group + condition, ncol = 1) +
+  theme_bw() +
+  labs(fill = "True\nRelationship") +
+  xlab("PO vs U Log-likelihood Ratio")
+
+# this fails for some reason (ggsave never returns)
+# ggsave(asg, path = "boing.png", height = 15, width = 9)
+
+# So, instead I just print the thing in the Rstudio window and export it
+# at size 13" high by 10" wide. Then I moved it to where it belongs in the tex directory.
+asg
 ```
