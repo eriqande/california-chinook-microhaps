@@ -45,7 +45,8 @@ if(exists("snakemake")) {
     ass_table80_crop = "results/GSI_and_Fst/ass-table-80-crop.pdf",
     ass_table80_tex = "tex/images/ass-table-80-crop.pdf",
     rosa_gsi_table_crop = "results/GSI_and_Fst/rosa-gsi-table-crop.pdf",
-    rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf"
+    rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",
+    pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv"
   )
 }
 
@@ -458,6 +459,35 @@ Those are definitely hets in the left half of the markers.  One of them is also
 hets at the right half.  The three remaining ones are L homozygotes on the second
 half.  So, there was been some recombination within these.  
 
+While we are at it, let's look at the distribution of the E2 alleles across
+collections.
+```{r}
+# count up genos at each variant
+marks <- paste("s", 1:12, sep = "")
+exploded <- rosa_hapstrs %>%
+  filter(!(collection %in% c("ColeRHsp", "SmithFall"))) %>%
+  separate(hapstr, into = paste("s", 0:12, sep = ""), sep = "") %>%
+  select(-s0)
+rh_counts <-  exploded %>%
+  pivot_longer(cols = starts_with("s"), names_to = "variant", values_to = "geno") %>%
+  mutate(variant_f = factor(variant, levels = marks)) %>%
+  count(repunit, collection, variant_f, geno)
+
+# look just at s2, s3, and s6
+rh_counts %>%
+  filter(variant_f %in% c("s2", "s3", "s6")) %>%
+  filter(geno %in% c("H", "W"))
+```
+
+So, there is only one more E2-het outside of the Sacto, and that is from TRHsp.
+
+Let's go back and find that:
+```{r}
+exploded %>% 
+  filter(repunit == "klamathspring" & s6 == "H") %>%
+  left_join(rosa_hapstrs, by = join_by(indiv))
+
+```
 
 # Calculating Fst between the collections from the microhaplotype markers
 
@@ -788,6 +818,7 @@ subsample_num_alleles <- function(v, s, N=1000) {
 # we will now use that min_diploid number to downsample
 # each collection randomly, without replacement 1000 times and 
 # calculate the mean number of alleles.
+set.seed(1)
 sub_sampled_locus_num_alle <- fbl_no_miss %>%
   left_join(min_gene_copies, by = join_by(locus)) %>%
   group_by(repunit, collection, locus) %>%
@@ -866,6 +897,30 @@ write_delim(
   quote = "none"
 )
 ```
+
+
+## Locus specific pop-gen summaries
+
+Now, we also are going to make summaries for each locus in each collection.
+Carlos wanted a supplemental data table that has Hexp and Hobs for each
+collection.  I figure we might as well add the number of diploids and the
+number of alleles in there as well.   All of that information is in
+`locus_summaries` in a tidy format, but we will make it wide for this.
+Carlos wanted to add it to the Supp-Data-1-Amplicon-info.xlsx, but I think
+that is actually a little crazy because we are going to have so many columns in this
+output. So, I will put it into a CSV file.
+```{r}
+by_locus_table <- locus_summaries %>%
+  select(locus, collection, num_diploids, num_alleles, exp_Hz, obs_Hz) %>%
+  pivot_wider(
+    names_from = collection,
+    values_from = num_diploids:obs_Hz,
+    names_sep = "."
+  )
+
+write_csv(by_locus_table, file = output_list$pop_gen_by_loc_coll)
+```
+
 
        
 # Finally, get the histogram of the total number of alleles per locus
