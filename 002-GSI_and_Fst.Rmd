@@ -241,7 +241,7 @@ base_with_lfar <- full_base2 %>%
 
 # Process the RoSA hapstrs to include at some point
 
-We are not going to delve on the different between E1 and E2 here.  That is for the
+We are not going to delve on the difference between E1 and E2 here.  That is for the
 subRoSA paper.  But we want to get the genotypes simply as EE, EL, LL as done in the
 science paper.  
 
@@ -270,58 +270,60 @@ H8 %>%
   arrange(desc(n))
 ```
 
-From that it is clear that there have been some recombinations in here, but we will
-just go ahead and call RoSA genotype by the majority of the non-missing ones. 
+From that it is clear that there have been some recombinations in here. But there is a bit of
+junk in here.  It looks to me like there are some sites that get N's and some that get ?'s.  Both
+of those are missing data.  I am going to be stringent here and toss anything with missing data,
+which is only about 150 of them, so that should be fine. It will make downstream processing
+much easier, since the number of categories will be a bit smaller. (And we can be quite confident
+in these assignments)
 ```{r}
-H8_strip <- H8 %>%
+H8_nomiss <- H8 %>%
+  filter(str_count(hapstr8, pattern = "\\?|N") == 0)
+```
+
+How many were filtered out there?
+```{r}
+nrow(H8) - nrow(H8_nomiss)
+```
+
+Let's look at them:
+```{r, df.print = 20}
+H8_nomiss %>%
+  count(hapstr8) %>%
+  arrange(desc(n))
+```
+
+This is interesting.  I am struck by the 12 instances of EEHEEEEE---that suggests to me that
+it is not simply the result of genotyping error.  I suspect that one of the haplotypes
+has an L at that position.  The cleanest thing here might be to simply go for the
+things that are perfectly pure across all the sites, cuz there is a much lower chance
+of the region being broken up by recombination or gene conversion there.  So, that is what
+I am going to do.  And we can look at the ones that are not monolithic (possible recombinants, etc.
+as well.)
+
+```{r}
+H8_monolith <- H8_nomiss %>%
+  filter(hapstr8 %in% c("LLLLLLLL", "EEEEEEEE", "HHHHHHHH"))
+
+H8_recombs <- H8_nomiss %>%
+  filter(!(hapstr8 %in% c("LLLLLLLL", "EEEEEEEE", "HHHHHHHH")))
+
+# call genos from H8_monolith
+H8_genos <- H8_monolith %>%
   mutate(
-    stripped = map(hvec, function(x) x[!(x %in% c("?", "N"))]),
-    sglom = map_chr(stripped, function(x) paste(x, collapse = "", sep = ""))
-    ) 
-
-H8_strip %>%
-  count(sglom) %>%
-  arrange(desc(n))
-
+    rosa_geno = recode(
+      hapstr8,
+      LLLLLLLL = "LL",
+      EEEEEEEE = "EE",
+      HHHHHHHH = "EL"
+    )
+  )
 ```
 
-OK, we will call something and EL if it has two or more Hs (the idea being that a single
-H could be a genotyping error). Note that there are no haplotypes mixing L's and E's together.
-Here is a function that will determine the RoSA genotype
-from a vector of H, L, and E parts. 
-```{r}
-call_rosa <- function(x) {
-  # things that were all ?'s get NA
-  if(length(x) == 0) {
-    return(NA_character_)
-  }
-  
-  nE <- sum(x == "E")
-  nL <- sum(x == "L")
-  nH <- sum(x == "H")
-  
-  if(nH >= 2) { 
-    return("EL")
-  } else if(nL > 0 && nE == 0) {
-    return("LL")
-  } else if(nE > 0 && nL == 0) {
-    return("EE")
-  } else {
-    return("Weird")
-  }
-  
-}
 
-H8_genos <- H8_strip %>%
-  mutate(rosa_geno = map_chr(stripped, call_rosa))
-```
 
-Count these up so we can see what we called LL, EL, and EE:
-```{r}
-H8_genos %>%
-  count(sglom, rosa_geno) %>%
-  arrange(desc(n))
-```
+
+
 
 Now we will slim it down for future use:
 ```{r}
