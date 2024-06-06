@@ -322,13 +322,21 @@ H8_genos <- H8_monolith %>%
 
 
 
-
-
-
 Now we will slim it down for future use:
 ```{r}
 rosa_genos <- H8_genos %>%
   select(indiv, rosa_geno)
+```
+
+## Let's do a quick summary of the apparent recombinants
+
+```{r, rows.print=30}
+H8_recombs %>%
+  left_join(
+    full_base2 %>% select(indiv, repunit, collection),
+    by = join_by(indiv)
+  ) %>% 
+  arrange(hapstr8)
 ```
 
 # Do the self-assignment
