@@ -442,32 +442,7 @@ system(CALL)
 file.rename(from = output_list$rosa_gsi_table_crop, to = output_list$rosa_gsi_table_tex)
 ```
 
-## Follow up on those Early alleles found in RRF and ERF
-
-The analysis shows 4 fish from RRF and ERF with heterozygous genoypes (EL).
-This has not been previously reported, so we really want to check up on those.
-It might be that they had lots of missing data.  
-
-So, I want to grab their RoSA genotype strings so that we can verify.
-```{r}
-# here are the IDs fo the hets from those coastal pops
-coastal_hets <- lfar_top_ass$top %>%
-  left_join(rosa_genos, by = join_by(indiv)) %>%
-  filter(collection %in% c("ERF", "RRF")) %>%
-  select(indiv, rosa_geno) %>%
-  filter(rosa_geno %in% c("EE", "EL"))
-coastal_hets
-```
-
-Now, let's get the raw genotype strings (the "hapstrs") off those guys:
-```{r}
-rosa_hapstrs %>%
-  semi_join(coastal_hets, by = join_by(indiv))
-```
-
-Those are definitely hets in the left half of the markers.  One of them is also
-hets at the right half.  The three remaining ones are L homozygotes on the second
-half.  So, there was been some recombination within these.  
+## Look at the distribution of the E2 alleles across collections
 
 While we are at it, let's look at the distribution of the E2 alleles across
 collections.
@@ -668,30 +643,49 @@ alle_freqs %>% distinct(locus, allele)
 # the positions for each of the points.  We will allow that the whole
 # scatterplot can be inset into the cell by a fractional amount inset
 inset <- 0.15
-pair_freqs <- backbone %>%
-left_join(alle_freqs, by = join_by(row_coll == collection, locus, allele)) %>%
-rename(row_freq = freq) %>%
-left_join(alle_freqs, by = join_by(col_coll == collection, locus, allele)) %>%
-rename(col_freq = freq) %>%
-mutate(
-row_coll = factor(row_coll, levels = collection_order),
-col_coll = factor(col_coll, levels = collection_order)
-) %>%
-filter(as.integer(col_coll) <= as.integer(row_coll)) %>%
-replace_na(list(row_freq = 0.0, col_freq = 0.0)) %>%
-mutate( # this is just setting things as in table_as_figure
-ymin = nlevels(row_coll) - as.integer(row_coll) + inset,
-ymax = nlevels(row_coll) - as.integer(row_coll) + 1 - inset,
-xmin = as.integer(col_coll) - 1 + inset,
-xmax = as.integer(col_coll) - inset
-) %>%
-mutate(  # here we get the x-y positions for the scatter points
-x = xmin + col_freq * (xmax - xmin),
-y = ymin + row_freq * (ymax - ymin)
-)
+pf_init <- backbone %>%
+  left_join(alle_freqs, by = join_by(row_coll == collection, locus, allele)) %>%
+  rename(row_freq = freq) %>%
+  left_join(alle_freqs, by = join_by(col_coll == collection, locus, allele)) %>%
+  rename(col_freq = freq) %>%
+  mutate(
+    row_coll = factor(row_coll, levels = collection_order),
+    col_coll = factor(col_coll, levels = collection_order)
+  ) %>%
+  filter(as.integer(col_coll) <= as.integer(row_coll)) 
+
+# now, here is a somewhat more complex step.  The problem is that some collections have
+# no observations of any loci, it seems.  In those cases, we want the NA values to stand.
+# Those cases can be recognized because every allele at a locus in them is NA. In cases,
+# where not all of the alleles have NA for frequency, we do want to set the NAs to 0.
+pf0s <- pf_init %>%
+  group_by(row_coll, col_coll, locus) %>%
+  mutate(
+    allNA_rowfreq = all(is.na(row_freq)),
+    allNA_colfreq = all(is.na(col_freq)),
+  ) %>%
+  ungroup() %>%
+  mutate(
+    row_freq = ifelse(is.na(row_freq) & !allNA_rowfreq, 0.0, row_freq),
+    col_freq = ifelse(is.na(col_freq) & !allNA_colfreq, 0.0, col_freq)
+  )
+
+
+# finally, do some more setting up of things:
+pair_freqs <- pf0s %>% 
+  mutate( # this is just setting things as in table_as_figure
+    ymin = nlevels(row_coll) - as.integer(row_coll) + inset,
+    ymax = nlevels(row_coll) - as.integer(row_coll) + 1 - inset,
+    xmin = as.integer(col_coll) - 1 + inset,
+    xmax = as.integer(col_coll) - inset
+  ) %>%
+  mutate(  # here we get the x-y positions for the scatter points
+    x = xmin + col_freq * (xmax - xmin),
+    y = ymin + row_freq * (ymax - ymin)
+  )
 
 ```
-       
+
 Making a figure.
 ```{r}
 
@@ -699,43 +693,43 @@ Making a figure.
 # rubias output that was run through taf_prep and we keep the lower
 # diagonal and we set all the cell_labels to NA.
 lower_tri_base <- lfar_ass_table$RFL %>%
-filter(as.integer(col_label) <= as.integer(row_label)) %>%
-mutate(cell_label = NA_character_)
+  filter(as.integer(col_label) <= as.integer(row_label)) %>%
+  mutate(cell_label = NA_character_)
 
 # then we put those together and make a figure
 full_fst <- bind_rows(
-upper_tri_fst,
-lower_tri_base
+  upper_tri_fst,
+  lower_tri_base
 ) %>%
-arrange(row_label, col_label)
+  arrange(row_label, col_label)
 
 
 # Get the RC_groups
 RC_groups <- pop_labels %>%
-    select(-old_name) %>%
-    distinct() %>%
-    rename(external_group = run_timing_group, internal_group = repunit, label = collection) %>%
-    select(external_group, internal_group, label)
+  select(-old_name) %>%
+  distinct() %>%
+  rename(external_group = run_timing_group, internal_group = repunit, label = collection) %>%
+  select(external_group, internal_group, label)
 
 # get the result
 TAF_FST <- table_as_figure(
-X = full_fst, 
-RC_groups = RC_groups,
-external_colors = run_time_colors,
-internal_colors = repunit_colors,
-Xs_on_diagonal = FALSE,
-plot_margins = c(0.7, 0.1, 0.1, 0.1)
+  X = full_fst, 
+  RC_groups = RC_groups,
+  external_colors = run_time_colors,
+  internal_colors = repunit_colors,
+  Xs_on_diagonal = FALSE,
+  plot_margins = c(0.7, 0.1, 0.1, 0.1)
 )
 
 
 # then plot it and add the scatter points on the lower diagonal
 fst_with_scatters <- TAF_FST$full_plot +
-geom_point(
-data = pair_freqs,
-mapping = aes(x = x, y = y),
-size = 0.025,
-colour = "black"
-)
+  geom_point(
+    data = pair_freqs,
+    mapping = aes(x = x, y = y),
+    size = 0.025,
+    colour = "black"
+  )
 
 
 ```
