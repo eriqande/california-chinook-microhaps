@@ -276,7 +276,13 @@ estimated for each of these four groups: winter, spring, fall, and late-fall, an
 amplicons showing large allele frequency  differences between late-fall fish and all other runs.
 
 
-\subsubsection*{Markers around the RoSA region of \citet{thompson2020complex}}
+\subsubsection*{Markers potentially associated with phenotypes \citet{thompson2020complex}}
+
+Additionally, we include here genetic markers that characterize variation in two genes, VGLL3 and SIX6,
+that have been found to be associated with phenotypes related to reproductive maturity in both
+Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmonids. We include
+them both to provide additional variation for population genetic analyses and to
+monitor populations for potential phenotypic patterns.
 
 We include in the reference baseline amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
 between spring-run and fall-run fish on Chromosome Ots28 described in \citet{thompson2020complex}.  These are useful markers to
@@ -284,6 +290,15 @@ have in the panel, as typing them routinely will create a data base for understa
 distribution of the alleles at this region; however we have omitted these markers for calculating likelihoods for
 GSI, since their distribution across populations in the Feather River has been clearly and evidently
 influenced by hatchery practices (see Results), and it is not necessary to include them for accurate assignment.
+\comment{Describe additional E1/E2 markers (additional markers within the RoSA region) and
+Tasha Marker (because it is close to the duplication noted
+by Thompson et al.). We don't go into detail here---keeping it vague because it is
+going to be described in the subRoSA paper, but don't mention that.}
+
+
+We also include a marker that targets the sex-determining region on the Y chromosome in Chinook salmon
+and that characterizes genetic sex in Central Valley populations \comment{\citep{von2015development}}
+
 
 \subsection*{Amplicon sequencing and microhaplotype calling}
 
@@ -331,12 +346,10 @@ We calculated \citet{weir1984estimating}'s pairwise $F_\mathrm{ST}$ between
 all collections, using the {\footnotesize\tt pp.fst} function from the R
 package 'hierfstat' \citep{hierfstat}. Finally, we evaluated population
 structure in the data by performing unsupervised clustering of
-the complete data set (\comment{With or without the LFAR? Which did Anthony use? I would
-like to do it with the LFAR.}) 
+the complete data set
 using the program STRUCTURE \citep{pritchard2000inference,falush2003inference}.
 We performed 20 replicate runs at each value of the assumed number of
-subpopulations, $K$, in $\{2, 3, 4, 5, 6\}$ 
-\comment{I think we should also see what $K=7$ turns up}
+subpopulations, $K$, in $\{2, 3, 4, 5, 6, 7\}$ 
 using default settings of the program.  STRUCTURE output was
 a summarized and visualized using CLUMPAK version~\comment{??}
 \citep{kopelman2015clumpak}.
@@ -366,8 +379,7 @@ scaled likelihood greater than 0.8 were assigned.
 
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
-the RoSA.  For this, \comment{Need to describe how I categorized
-genotypes}. 
+the RoSA.  For this, \comment{Eric. Describe this from what you have in the notebook}. 
 
 
 \subsection*{Power for relationship inference}
@@ -419,8 +431,11 @@ into reliable amplicon-sequenced assays that were included in the panel.
 
 \subsubsection*{Additional microhaplotype discovery} 
 
-We tested \comment{XX} candidates from our additional microhaplotype discovery and
-retained \comment{106} of those in the panel.
+We tested 229 candidates from our additional microhaplotype discovery and
+initially retained the 125 markers described in \citep{thompson2020complex}
+for use in stock identification within
+the Klamath Basin.  However, further evaluation of those markers in other
+populations led us to drop some, and retain 106 of those markers in the current panel.
 
 \subsubsection*{Localizing markers within the genome}
 
@@ -434,10 +449,8 @@ disagreed slightly between BLAT and bwa mem, and one of them had multiple
 non-primary alignments (Table~S1 \comment{This is the Excel File.  It needs to
 be edited so as to: 1) have a column
 giving the category or provenance of the markers (i.e. LFAR or MHAP or SNPTYPE, etc.) 2) retain
-only the 2 LFAR markers we actually use. 3) consider renaming the E2 markers since
-winter-run-greb1L-diagnostic is confusing...actually, I would consider removing those
-entirely---we can introduce them in the subRoSA paper. We don't use them in this paper and I don't
-really want to do the explanation of them again.}).
+only the 2 LFAR markers we actually use. 3) Definitely rename the E2 markers to be something other
+than winter-run-greb1L-diagnostic}).
 
 Mapping to Otsh\_v1.0 was similar, except that a greater number of markers mapped to unplaced
 scaffolds in Otsh\_v1.0 than in Otsh\_v2.0, likely reflecting the more complete nature of the
@@ -641,7 +654,8 @@ incorrectly categorized as parent-offspring (PO); as well as FPRs of parent-offs
 pairs being incorrectly inferred as full siblings (FS).  In both {\em a} and {\em b}, 100,000 Monte Carlo replicates 
 were simulated.  Importance sampling allows estimation of very small false positive rates for unrelated pairs, but 
 cannot be applied to truly related pairs.  Consequently, it is difficult to accurately estimate small probabilities 
-($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2s$ where $s$ is the estimated standard error of the mean of the Monte Carlo sample.  This also is the reason that many of the lines terminate.   }
+($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2s$ where $s$
+is the estimated standard error of the mean of the Monte Carlo sample.  This also is the reason that many of the lines terminate.   }
 \begin{center}
 \includegraphics[width=\textwidth]{images/fpr-fnr-figure-crop.pdf}
 \end{center}
@@ -650,7 +664,34 @@ cannot be applied to truly related pairs.  Consequently, it is difficult to accu
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%
 And we can also point readers to the supplement figure \ref{fig:ckmr-comp}.
+The power analyses for this set of markers demonstrate that they have ample variation
+for accurate identification of parent-offspring (PO) and full-sibling (FS) pairs in almost all
+realistic situations. The predicted false positive rates for both PO and FS pairs are
+exceedingly low for even stringent false negative thresholds (e.g. 0.05). 
+For example, the false positive rate for FS identification is less than one error in 10 million
+comparisons of potential siblings in the California Chinook salmon population with the lowest
+heterozygosity (SRW) at a false negative rate of 0.05. However, HS pairs can not be accurately
+distinguished from unrelated pairs in any populations without very large false negative rates
+and in very modest-sized studies.
+We note, however, that the presence in a dataset of genotypes from individuals that are related, but not in
+ the relationship category proposed, will result in some additional misidentifications.
+ These 'errors' will all involve related fish being identified as such, but in the incorrect relationship category.  The cross-assignment frequencies predicted for some common relationship categories, and for realistic FPR and FNR, are found in (Fig 4b).
 
+
+ 
+\textbf{Although some additional errors might be
+expected when related but non-FS individuals are sampled,  this number of comparisons exceeds
+those necessary in almost all realistic scenarios.
+We note that, as in previous work, it is nearly impossible to identify HS pairs accurately
+with data from this, or any standard marker dataset. However, the use of properly LD-filtered
+genome-scale data should allow such discrimination in future work.
+Accurate relationship
+inference in even the most genetically depauperate Chinook salmon population in California
+and rangewide (Seeb et al. 2007, Clemento et al. 2014) is therefore possible with this marker set.}
+
+
+While there is not a currently available method (like that of \citeauthor{anderson2006power}) for estimating error rates in
+inference of parent-offspring trios with multiallelic marker data, given the substantial amount of statistical power for identifying PO and FS pairs, which require much more statistical power, it is clear that PO-trio inference with these markers will be essentially error free.
 
 
 
