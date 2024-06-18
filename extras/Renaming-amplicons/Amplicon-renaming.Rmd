@@ -3,17 +3,129 @@ title: "Renaming The Amplicons and Tidying up the Amplicon Information Table"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+Before releasing this, we want to have a decent, consistent naming convention for
+all of the amplicons.  We want a short, unique, descriptive name that will tell us
+what kind of marker it is (snplicon vs microhap, etc), and then we want to have
+position information in there too.  
+
+Here is the convention that we came up with:
+
+General pattern = `Ots_type00X_ChrNum_V2StartPos`, where:
+
+- `Ots` is just `Ots`
+- `type` is a brief descriptor (shoot for 4 characters) for example:
+    + SNPtype = `scon`
+    + Microhap = `mhap`
+    + RoSA = `rosa`
+    + SexID = `sexy`
+    + LFAR = `lfar`
+    + WRAP = `wrap`
+    + VGLL = `vgll`
+    + Six6 = `sixx`
+- 00X is a three digit left zero-padded, base-1 number within type ordered by genome V2 location.
+- ChrNum is a two digit left zero padded Chromosome number, except for sexy which is
+  going to be just the scaffold name, with the underscore removed.
+- V2StartPos is just where it maps in Otsh_V2.
+
+
+So, let's get crackin' on slurping stuff out of the Excel file and making these modifications.
+
+## Doing it
 
 ```{r}
-plot(cars)
+library(tidyverse)
+library(readxl)
+
+
+# read it in and change some of the names
+orig <- read_excel("ChinookFullPanelLociTable_May2024Updated.xlsx") %>%
+  rename(
+    OtherName = Locus,
+    Otsh_v1.0_coordinates = AmpliconGenomeV1Location,
+    Otsh_v2.0_coordinates = AmpliconGenomveV2Location,
+    Alternate_Otsh_v1.0_coordinates = `AlternateGenomeV1Location(s)`,
+    Alternate_Otsh_v2.0_coordinates = `AlternateGenomeV2Location(s)`,
+    LocusOrigin = LocusType,
+    OriginalReference = `Original Reference`,
+    MappingNotes = Notes
+  )
+
+# now, reorder the columns so that more information is front loaded
+orig2 <- orig %>%
+  select(
+    LocusOrigin,
+    OriginalReference,
+    OtherName,
+    ForwardPrimerSequence,
+    ReversePrimerSequence,
+    ReferenceSequence,
+    SNPLocationsInReferenceSequence,
+    TrimmedAmpliconSequence,
+    Otsh_v2.0_coordinates,
+    Alternate_Otsh_v2.0_coordinates,
+    Otsh_v1.0_coordinates,
+    Alternate_Otsh_v1.0_coordinates,
+    everything()
+  )
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+Now we are going to get columns of chromosome number (or name if unmapped) and
+start positions, so that we can order things by genome coordinate.  
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+# get the chromosome numbers (pulled from NCBI page at https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018296145.1/)
+chroms <- read_tsv("Otsh_v2.0_chroms.tsv") %>%
+  mutate(Otsh_v2.0_chromosome = str_replace(Chromosome, "LG", ""), .before = Chromosome) %>%
+  select(RefSeq, Otsh_v2.0_chromosome)
 
+
+orig3 <- orig2 %>%
+  extract(Otsh_v2.0_coordinates, into = c("RefSeq", "AmpliconStartPos"), regex = "^(.*):([0-9]+)-[0-9]+$", remove = FALSE, convert = TRUE) %>%
+  left_join(chroms, by = join_by(RefSeq)) %>%
+  mutate(Otsh_v2.0_chromosome = ifelse(is.na(Otsh_v2.0_chromosome), str_replace(RefSeq, "_", ""), Otsh_v2.0_chromosome)) %>%
+  select(Otsh_v2.0_chromosome, AmpliconStartPos, everything()) %>%
+  select(-RefSeq) %>%
+  arrange(Otsh_v2.0_chromosome, AmpliconStartPos)
+
+```
+
+
+Now we
+will be able to rename everything all at once, easily.
+
+```{r}
+final <- orig3 %>%
+  mutate(
+    tmpname = case_match(
+      LocusOrigin,
+      "LFAR" ~ "lfar",
+      "Microhap" ~ "mhap",
+      "RoSA" ~ "rosa",
+      "SNPtype" ~ "scon",
+      "Sex ID" ~ "sexy",
+      "Six6" ~ "sixx",
+      "VGLL3" ~ "vgll",
+      "WRAP" ~ "wrap"
+    )
+  ) %>% 
+  group_by(tmpname) %>%
+  mutate(
+    AmpliconName = str_c(
+      "Ots_", tmpname,
+      sprintf("%03d", 1:n()), "_", 
+      Otsh_v2.0_chromosome, "_", 
+      sprintf("%08d",AmpliconStartPos)),
+    .before = Otsh_v2.0_chromosome
+  ) %>%
+  ungroup() %>%
+  select(-tmpname)
+```
+
+
+All right!  That pretty much does it.  Let's just print it out.
+
+```{r}
+write_csv(final, "../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv", na = "")
+```
