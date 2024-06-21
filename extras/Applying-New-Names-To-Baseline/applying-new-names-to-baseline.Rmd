@@ -1,0 +1,44 @@
+---
+title: "Applying the new names to the baseline"
+output: html_notebook
+---
+
+
+We are just going to take the most recent version of the 
+baseline and munge it to change the names of the loci.
+```{r}
+library(tidyverse)
+
+
+amplicons <- read_csv("../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv")
+
+new_names <- amplicons %>%
+  select(AmpliconName, OtherName)
+
+base <- read_csv("subRoSA_baseline_rubias_JUN2024_w_mixture_complete-rosa_lfar_vgll3six6_added.csv") %>%
+  pivot_longer(
+    cols = -(indiv:sample_type),
+    names_to = c("locus", "gene_copy"),
+    values_to = "allele",
+    names_pattern = "^(.+)_([12])$"
+  ) %>%
+  left_join(new_names, by = join_by(locus == OtherName))
+
+```
+
+OK, now, let's check and see which ones don't have new names:
+
+```{r}
+base %>%
+  filter(is.na(AmpliconName)) %>%
+  count(AmpliconName, locus)
+```
+OK, cool.  Those are the LFAR's that we dropped.  We expect that they won't have new names
+because we don't really want them in there.  
+
+Let's see if there are any AmpliconName's that don't appear in base.
+
+```{r}
+amplicons %>%
+  anti_join(base, by = join_by(AmpliconName))
+```
