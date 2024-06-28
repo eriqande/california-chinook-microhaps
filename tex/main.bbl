@@ -1,4 +1,4 @@
-\begin{thebibliography}{51}
+\begin{thebibliography}{60}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -7,6 +7,12 @@ Abad{\'\i}a-Cardoso A, Anderson EC, Pearse DE, Carlos~Garza J (2013)
   Large-scale parentage analysis reveals reproductive patterns and heritability
   of spawn timing in a hatchery population of steelhead (O ncorhynchus mykiss).
   {\em Molecular Ecology\/}, {\bf 22}, 4733--4746.
+
+\bibitem[\protect\citeauthoryear{Ali, O’Rourke, Amish, Meek, Luikart,
+  Jeffres, \& Miller}{Ali {\em et~al.\/}}{2016}]{ali2016rad}
+Ali OA, O’Rourke SM, Amish SJ, Meek MH, Luikart G, Jeffres C, Miller MR
+  (2016) RAD capture (Rapture): flexible and efficient sequence-based
+  genotyping. {\em Genetics\/}, {\bf 202}, 389--400.
 
 \bibitem[\protect\citeauthoryear{Allendorf \& Phelps}{Allendorf \&
   Phelps}{1981}]{allendorf1981use}
@@ -56,6 +62,14 @@ Barclay AW, Habicht C (2019) Genetic Baseline for Cook Inlet Coho Salmon and
   Department of Fish and Game, Divisions of Sport Fish and Commercial
   Fisheries.
 
+\bibitem[\protect\citeauthoryear{Barson, Aykanat, Hindar, Baranski, Bolstad,
+  Fiske, Jacq, Jensen, Johnston, Karlsson {\em et~al.\/}}{Barson {\em
+  et~al.\/}}{2015}]{barson2015sex}
+Barson NJ, Aykanat T, Hindar K, Baranski M, Bolstad GH, Fiske P, Jacq C, Jensen
+  AJ, Johnston SE, Karlsson S, {\em et~al.\/} (2015) Sex-dependent dominance at
+  a single locus maintains variation in age at maturity in salmon. {\em
+  Nature\/}, {\bf 528}, 405--408.
+
 \bibitem[\protect\citeauthoryear{Beacham, Lapointe, Candy, Miller, \&
   Withler}{Beacham {\em et~al.\/}}{2004}]{beacham2004dna}
 Beacham TD, Lapointe M, Candy JR, Miller KM, Withler RE (2004) DNA in action:
@@ -74,6 +88,12 @@ Beulke AK, Abad{\'\i}a-Cardoso A, Pearse DE, Goetz LC, Thompson NF, Anderson
 Campbell NR, Harmon SA, Narum SR (2015) Genotyping-in-Thousands by sequencing
   (GT-seq): A cost effective SNP genotyping method based on custom amplicon
   sequencing. {\em Molecular ecology resources\/}, {\bf 15}, 855--867.
+
+\bibitem[\protect\citeauthoryear{Catchen, Hohenlohe, Bassham, Amores, \&
+  Cresko}{Catchen {\em et~al.\/}}{2013}]{catchen2013stacks}
+Catchen J, Hohenlohe PA, Bassham S, Amores A, Cresko WA (2013) Stacks: an
+  analysis tool set for population genomics. {\em Molecular ecology\/}, {\bf
+  22}, 3124--3140.
 
 \bibitem[\protect\citeauthoryear{Cingolani, Platts, Coon, Nguyen, Wang, Land,
   Lu, \& Ruden}{Cingolani {\em et~al.\/}}{2012}]{cingolani2012program}
@@ -152,6 +172,14 @@ Hess JE, Whiteaker JM, Fryer JK, Narum SR (2014) Monitoring stock-specific
   using genetic stock identification (GSI). {\em North American Journal of
   Fisheries Management\/}, {\bf 34}, 184--201.
 
+\bibitem[\protect\citeauthoryear{Horn, Hess, Harmon, Hess, Delomas, Campbell,
+  \& Narum}{Horn {\em et~al.\/}}{2023}]{horn2023multigeneration}
+Horn RL, Hess M, Harmon S, Hess J, Delomas TA, Campbell MR, Narum S (2023)
+  Multigeneration Pedigrees to Monitor Hatchery Broodstock Composition and
+  Genetic Variation of Spring/Summer Chinook Salmon in the Columbia River
+  Basin. {\em North American Journal of Fisheries Management\/}, {\bf 43},
+  794--820.
+
 \bibitem[\protect\citeauthoryear{Kent}{Kent}{2002}]{kent2002blat}
 Kent WJ (2002) BLAT—the BLAST-like alignment tool. {\em Genome research\/},
   {\bf 12}, 656--664.
@@ -199,6 +227,13 @@ McKinney GJ, Seeb JE, Seeb LW (2017) Managing mixed-stock fisheries: genotyping
   multi-SNP haplotypes increases power for genetic stock identification. {\em
   Canadian Journal of Fisheries and Aquatic Sciences\/}, {\bf 74}, 429--434.
 
+\bibitem[\protect\citeauthoryear{Meek, Stephens, Goodbla, May, \&
+  Baerwald}{Meek {\em et~al.\/}}{2020}]{meek2020identifying}
+Meek MH, Stephens MR, Goodbla A, May B, Baerwald MR (2020) Identifying hidden
+  biocomplexity and genomic diversity in Chinook salmon, an imperiled species
+  with a history of anthropogenic influence. {\em Canadian journal of fisheries
+  and aquatic sciences\/}, {\bf 77}, 534--547.
+
 \bibitem[\protect\citeauthoryear{Milner, Teel, \& Utter}{Milner {\em
   et~al.\/}}{1982}]{milner1982genetic}
 Milner GB, Teel DJ, Utter FM (1982) Gentic Identification Study Annual Progress
@@ -232,6 +267,12 @@ Nandor GF, Longwill JR, Webb DL (2010) Overview of the coded wire tag program
 Pella J, Masuda M (2006) The gibbs and split merge sampler for population
   mixture analysis from genetic data with incomplete baselines. {\em Canadian
   Journal of Fisheries and Aquatic Sciences\/}, {\bf 63}, 576--596.
+
+\bibitem[\protect\citeauthoryear{Peterson, Weber, Kay, Fisher, \&
+  Hoekstra}{Peterson {\em et~al.\/}}{2012}]{peterson2012double}
+Peterson BK, Weber JN, Kay EH, Fisher HS, Hoekstra HE (2012) Double digest
+  RADseq: an inexpensive method for de novo SNP discovery and genotyping in
+  model and non-model species. {\em PloS one\/}, {\bf 7}, e37135.
 
 \bibitem[\protect\citeauthoryear{Pritchard, Stephens, \& Donnelly}{Pritchard
   {\em et~al.\/}}{2000}]{pritchard2000inference}
@@ -272,6 +313,12 @@ Steele CA, Anderson EC, Ackerman MW, Hess MA, Campbell NR, Narum SR, Campbell
   the Snake River basin. {\em Canadian Journal of Fisheries and Aquatic
   Sciences\/}, {\bf 70}, 1046--1054.
 
+\bibitem[\protect\citeauthoryear{Steele, Hess, Narum, \& Campbell}{Steele {\em
+  et~al.\/}}{2019}]{steele2019parentage}
+Steele CA, Hess M, Narum S, Campbell M (2019) Parentage-based tagging:
+  Reviewing the implementation of a new tool for an old problem. {\em
+  Fisheries\/}, {\bf 44}, 412--422.
+
 \bibitem[\protect\citeauthoryear{Thompson, Anderson, Clemento, Campbell,
   Pearse, Hearsey, Kinziger, \& Garza}{Thompson {\em
   et~al.\/}}{2020}]{thompson2020complex}
@@ -293,6 +340,12 @@ Urawa S, Sato S, Crane PA, Agler B, Josephson R, Azumaya T (2009)
   Sea and North Pacific Ocean. {\em N. Pac. Anadr. Fish Comm. Bull\/}, {\bf 5},
   131--146.
 
+\bibitem[\protect\citeauthoryear{Von~Bargen, Smith, \& Rueth}{Von~Bargen {\em
+  et~al.\/}}{2015}]{von2015development}
+Von~Bargen J, Smith CT, Rueth J (2015) Development of a Chinook salmon sex
+  identification SNP assay based on the growth hormone pseudogene. {\em Journal
+  of Fish and Wildlife Management\/}, {\bf 6}, 213--219.
+
 \bibitem[\protect\citeauthoryear{Wang}{Wang}{2023}]{wang2023estimating}
 Wang J (2023) Estimating current effective sizes of large populations from a
   single sample of genomic marker data: A comparison of estimators by
@@ -308,6 +361,12 @@ Waples RS (1991) Pacific salmon, {\em Oncorhynchus spp.}, and the definition of
 Waples RS, Waples RK (2011) Inbreeding effective population size and parentage
   analysis without parents. {\em Molecular Ecology Resources\/}, {\bf 11},
   162--171.
+
+\bibitem[\protect\citeauthoryear{Waters, Clemento, Aykanat, Garza, Naish,
+  Narum, \& Primmer}{Waters {\em et~al.\/}}{2021}]{waters2021heterogeneous}
+Waters CD, Clemento A, Aykanat T, Garza JC, Naish KA, Narum S, Primmer CR
+  (2021) Heterogeneous genetic basis of age at maturity in salmonid fishes.
+  {\em Molecular Ecology\/}, {\bf 30}, 1435--1456.
 
 \bibitem[\protect\citeauthoryear{Weir \& Cockerham}{Weir \&
   Cockerham}{1984}]{weir1984estimating}
