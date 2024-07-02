@@ -94,7 +94,8 @@ final <- wide_ordered_no_rosa %>%
   left_join(csv2 %>% select(Sample_ID, hapstr), by = join_by(Sample_ID)) %>%
   mutate(rosa_genotypes_str = hapstr, .after = sample_type) %>%
   select(-hapstr) %>%
-  filter(!(collection == "SacNonW"))
+  filter(!(collection == "SacNonW")) %>%
+  rename(indiv = Sample_ID)
 ```
 
 Now, we can write that out.
