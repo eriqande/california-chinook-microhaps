@@ -1,5 +1,5 @@
 ---
-title: "Assessing Power of the California Microhap Baseline for GSI (and calculating Fst)"
+title: "LFAR Allele Freqs"
 author: "Eric C. Anderson"
 date: "Last Updated: `r Sys.Date()`"
 output:
@@ -7,43 +7,33 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('references.bib')`"
+bibliography: "`r here::here('tex/citation.bib')`"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
-
-USING_SNAKEMAKE <- FALSE
-NEG_USING_SMK <- TRUE
-if(exists("snakemake")) {
-  USING_SNAKEMAKE <- TRUE
-  NEG_USING_SMK <- FALSE
-}
-```
-
-```{r rmd_snakemake_hacks, include=FALSE, eval=USING_SNAKEMAKE}
-# currently, this block does not get evaluated, while developing,
-# but later when we snakemake-ize it all, we will evaluate it.
-if(USING_SNAKEMAKE) {
-  input_list <- snakemake@input
-  output_list <- snakemake@output
-}
 ```
 
 # Input and Output Paths
 
-```{r input_bypass, include=NEG_USING_SMK, eval=NEG_USING_SMK}
-# inputs:
-input_list <- list(
-  final_baseline = "data/cali-chinook-baseline.rds",
-  pop_labels = "inputs/reference-collection-names.csv"
-)
-# outputs:
-output_list <- list(
-  lfar_tex_table = "tex/inputs/lfar-freqs.tex"
-)
+```{r}
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  # inputs:
+  input_list <- list(
+    final_baseline = "data/subRoSA_baseline_rubias_loci_renamed_July_2024.csv.gz",
+    pop_labels = "inputs/reference-collection-names.csv",
+    locus_info = "inputs/Calif-Chinook-Amplicon-Panel-Information.csv"
+  )
+  # outputs:
+  output_list <- list(
+    lfar_tex_table = "tex/inputs/lfar-freqs.tex"
+  )
+}
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
@@ -66,8 +56,7 @@ library(tidyverse)
 
 # get the full baseline with the new markers, etc.  We will toss out some
 # non-winter Sacto fish of unknown provenance
-full_base <- read_rds(input_list$final_baseline) %>%
-  filter(collection != "SacNonW")
+full_base <- read_csv(input_list$final_baseline)
 
 
 # read the pop labels for proper sorting
@@ -88,21 +77,34 @@ repunit_order <- rev(unique(pop_labels$repunit))
 Now, whittle that down to just the LFAR and pivot it longer:
 ```{r}
 lfar_base <- full_base2 %>%
-  select(indiv:collection, starts_with("NC_037130.1")) %>%
+  select(indiv:collection, starts_with("Ots_lfar")) %>%
   pivot_longer(
-    cols = starts_with("NC_037130.1"), 
+    cols = starts_with("Ots_lfar"), 
     names_to = c("locus", "gene_copy"),
-    names_pattern = "(NC_037130.1.*)_([12])",
+    names_pattern = "^(.*)_([12])",
     values_to = "allele"
   )
 ```
 
 And now we count up the alleles within repunits
 ```{r}
-lfar_cnts <- lfar_base %>%
+# first, get the multiallelic counts
+lfar_cnts_MA <- lfar_base %>%
   filter(!is.na(allele)) %>%
-  count(repunit, locus, allele) %>%
-  complete(repunit, locus, allele, fill = list(n = 0L)) %>%
+  count(repunit, locus, allele)
+
+# now we want to pick out the actual bases that are relevant and count the up
+lfar_cnts <- lfar_cnts_MA %>%
+  mutate(
+    base = case_when(
+      locus == "Ots_lfar001_34_00954022" ~ str_sub(allele, 1, 1),
+      locus == "Ots_lfar002_34_01151770" ~ str_sub(allele, 2, 2)
+    )
+  ) %>%
+  group_by(repunit, locus, base) %>%
+  summarise(n = sum(n)) %>%
+  ungroup() %>%
+  complete(repunit, locus, base, fill = list(n = 0L)) %>%
   group_by(repunit, locus) %>%
   mutate(
     tot_n = sum(n),
@@ -121,15 +123,15 @@ focal <- lfar_cnts %>%
   filter(n == max(n))
 
 alle_tib <- lfar_cnts %>%
-  semi_join(focal, by = join_by(locus, allele)) %>%
+  semi_join(focal, by = join_by(locus, base)) %>%
   mutate(
     repunit_f = factor(repunit, levels = repunit_order),
     f = sprintf("%.3f", fract)
   ) %>%
-  select(-repunit, -allele, -n, -fract) %>%
+  select(-repunit, -base, -n, -fract) %>%
   pivot_wider(names_from = locus, values_from = c(f, tot_n)) %>%
   arrange(repunit_f) %>%
-  select(repunit_f, `f_NC_037130.1:864908-865208`, `tot_n_NC_037130.1:864908-865208`, `f_NC_037130.1:1062935-1063235`, `tot_n_NC_037130.1:1062935-1063235`)
+  select(repunit_f, `f_Ots_lfar001_34_00954022`, `tot_n_Ots_lfar001_34_00954022`, `f_Ots_lfar002_34_01151770`, `tot_n_Ots_lfar002_34_01151770`)
 
 alle_tib
 ```
@@ -139,6 +141,40 @@ Now, we will print this out without any column names so that we can use it in a 
 ```{r}
 write_delim(alle_tib, delim = "&", eol = "\\tabularnewline\n", file = output_list$lfar_tex_table, col_names = FALSE)
 ```
+
+
+And, as a final hurrah, we need to get the actual positions of those bases in Otsh_v2.0
+in order to make the TeX column headers.
+
+```{r}
+locus_info <- read_csv(input_list$locus_info)
+
+lfar_info <- locus_info %>%
+  filter(str_detect(AmpliconName, "lfar"))
+
+# for Ots_lfar001_34_00954022 the focal SNP is the first one
+# for Ots_lfar002_34_01151770 the focal SNPs is the second one
+
+# the positions in the amplicons are like this:
+lfar_info %>%
+  select(AmpliconName, SNPLocationsInAmpliconSequence)
+```
+
+
+So, 33 for the first and 66 for the second. And we can get the SNP positions
+in the genome like this:
+```{r}
+lfar_info %>%
+  mutate(
+    Otsh_v2.0_snp_pos = case_when(
+      AmpliconName == "Ots_lfar001_34_00954022" ~ AmpliconStartPos + 33 - 1,
+      AmpliconName == "Ots_lfar002_34_01151770" ~ AmpliconStartPos + 99 - 1
+    ),
+    .after = Otsh_v2.0_chromosome
+  )
+```
+
+So, we put those in the header of the TeX table for these.
 
 
 # Citations
