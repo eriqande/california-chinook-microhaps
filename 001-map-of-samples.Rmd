@@ -14,38 +14,29 @@ bibliography: "`r here::here('tex/citation.bib')`"
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
-
-USING_SNAKEMAKE <- FALSE
-NEG_USING_SMK <- TRUE
-if(exists("snakemake")) {
-  USING_SNAKEMAKE <- TRUE
-  NEG_USING_SMK <- FALSE
-}
 ```
 
-```{r rmd_snakemake_hacks, include=FALSE, eval=USING_SNAKEMAKE}
-# currently, this block does not get evaluated, while developing,
-# but later when we snakemake-ize it all, we will evaluate it.
-if(USING_SNAKEMAKE) {
-  input_list <- snakemake@input
-  output_list <- snakemake@output
-}
-```
 
 # Input and Output Paths
 
 ```{r}
-# inputs:
-input_list <- list(
-  oregon_rivers = "inputs/Rivers_OR/Rivers_OR.shp"
-)
-# outputs:
-output_list <- list(
-  map = "results/map_of_samples/map.pdf",
-  cropmap = "results/map_of_samples/map-crop.pdf",
-  texmap = "tex/images/map-crop.pdf"
-)
-# you can create the necessary output directories like this:
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  # inputs:
+  input_list <- list(
+    oregon_rivers = "inputs/Rivers_OR/Rivers_OR.shp"
+  )
+  # outputs:
+  output_list <- list(
+    map = "results/map_of_samples/map.pdf",
+    cropmap = "results/map_of_samples/map-crop.pdf",
+    texmap = "tex/images/map-crop.pdf"
+  )
+}
+
+# we create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
 )
@@ -269,7 +260,7 @@ base_map <- ggplot() +
 ```
 
 
-Now look add stuff to that:
+Now add stuff to that:
 
 ```{r}
 bit <- 0.0
