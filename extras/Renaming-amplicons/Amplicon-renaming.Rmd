@@ -135,9 +135,87 @@ final <- orig3 %>%
   select(-tmpname)
 ```
 
+## Deal with the different between ReferenceSequence and TrimmedAmpliconSequence
+
+So, the `RefereneSequence` is sometimes the same as the TrimmedAmpliconSequence, and
+sometimes it is not. Mostly it is not the same for the WRAP and LFAR and RoSA, etc.
+So, this is not a huge problem.  In cases where things are not the same, the ReferenceSequence
+was the sequence I sent to Anthony to design the primers, while the TrimmedAmpliconSequence
+is what is actually amplified and what actually gets mapped to the Otsh_V1.0 genome.
+So, when we want to figure out the actual position in the genome of particular variants,
+we need to know their position in the TrimmedAmpliconSequence, but we actually
+only have it in the ReferenceSequence.
+
+So, we have to do some modifications here to make sure we have the position
+in the variants in the actualy amplicon sequence.  We can do that pretty
+easily.
+
+I am going to rename things a little bit so ReferenceSequence becomes DesignSequence, and
+TrimmedAmpliconSequence becomes "AmpliconSequence".
+
+```{r}
+# we first need a function to modify the snp locations
+# pos is the current list column of positions
+# as is the amplicon start position in the reference sequence
+new_locations <- function(pos, as, ae) {
+  amp_length = ae - as
+  pvec <- lapply(str_split(pos, ", *"), as.integer)
+  altered_pvec <- map2(.x = pvec, .y = as, .f = function(x, y) x - y + 1)
+  thinned_pvec <- map2(.x = altered_pvec, .y = amp_length, .f = function(x, y) x[x > 0 & x <= y])
+  ret <- map_chr(.x = thinned_pvec, .f = function(x) paste(x, collapse = ", "))
+  unlist(ret)
+}
+
+tmp <- final %>%
+  mutate(
+    ampli_start = str_locate(ReferenceSequence, TrimmedAmpliconSequence)[,1],
+    ampli_end = str_locate(ReferenceSequence, TrimmedAmpliconSequence)[,2],
+    .before = AmpliconName
+  ) %>%
+  mutate(
+    SNPLocationsInAmpliconSequence = pmap_chr(
+      .l = list(pos = SNPLocationsInReferenceSequence, as = ampli_start, ae = ampli_end),
+      .f = new_locations
+    ),
+    .after = SNPLocationsInReferenceSequence
+  )
+
+# then, pick out columns in the right order
+real_final <- tmp %>% 
+  select(
+    AmpliconName, 
+    Otsh_v2.0_chromosome, 
+    AmpliconStartPos, 
+    LocusOrigin, 
+    OriginalReference, 
+    OtherName, 
+    ForwardPrimerSequence, 
+    ReversePrimerSequence, 
+    TrimmedAmpliconSequence,
+    SNPLocationsInAmpliconSequence, 
+    Otsh_v2.0_coordinates, 
+    Alternate_Otsh_v2.0_coordinates, 
+    Otsh_v1.0_coordinates, 
+    Alternate_Otsh_v1.0_coordinates, 
+    MappingNotes,
+    ReferenceSequence, 
+    SNPLocationsInReferenceSequence, 
+  ) %>%
+  rename(
+    AmpliconSequence = TrimmedAmpliconSequence,
+    DesignSequence = ReferenceSequence,
+    SNPLocationsInDesignSequence = SNPLocationsInReferenceSequence
+  ) %>%
+  mutate(
+    SNPLocationsInAmpliconSequence = ifelse(SNPLocationsInAmpliconSequence == "NA", NA, SNPLocationsInAmpliconSequence)
+  )
+```
+
+## Print that dude out
 
 All right!  That pretty much does it.  Let's just print it out.
 
 ```{r}
-write_csv(final, "../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv", na = "")
+write_csv(real_final, "../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv", na = "")
+write_csv(real_final, "../../tex/supp_data/Supp-Data-1-Amplicon-info.csv", na = "")
 ```
