@@ -25,7 +25,7 @@ if(exists("snakemake")) {
   output_list <- snakemake@output
 } else {
   input_list <- list(
-    final_baseline = "data/subRoSA_baseline_rubias_FEB2024_w_mixture_revised.csv",
+    final_baseline = "data/subRoSA_baseline_rubias_loci_renamed_July_2024.csv.gz",
     final_baseline_apr = "data/subRoSA_baseline_rubias_APR2024_w_mixture_revised_rosa_added.csv",
     lfar_genos = "data/metagenos_hap2col_lfar_all_samps.csv",
     pop_labels = "inputs/reference-collection-names.csv",
@@ -69,21 +69,13 @@ library(hierfstat)
 library(lubridate)
 
 
-# get the full baseline with the new markers, etc.  We will toss out some
-# non-winter Sacto fish of unknown provenance
-###full_base <- read_csv(input_list$final_baseline) %>%
-###  filter(collection != "SacNonW")
+# read in the full baseline
+full_base <- read_csv(input_list$final_baseline)
 
-full_base_apr <- read_csv(input_list$final_baseline_apr) %>%
-  filter(collection != "SacNonW")
-
-# remove the rosa hapstr from it
-full_base <- full_base_apr %>%
-  select(-hapstr)
 
 # capture that rosa hapstr with some meta data from future use
-rosa_hapstrs <- full_base_apr %>%
-  select(indiv:hapstr)
+rosa_genos0 <- full_base %>%
+  select(indiv:rosa_genotypes_str)
 
 
 lfar_genos <- read_csv(input_list$lfar_genos)
@@ -211,31 +203,19 @@ write_delim(fbmet5, delim = "&", eol = "\\tabularnewline\n", file = output_list$
 ```
 
 
-# Include the LFAR in there in a version
+# Get a version with no LFAR
+
+We might want to do a run with no LFAR in there just to see how much
+they add to the power for identifying the late fall.
 
 
-We do these as an additional step to get a sense for how much
-improvement we get from adding the LFAR in there.
-
-First we need to join the LFARs on there:
 ```{r}
-# get just the 2 LFAR markers we are using.  We are dropping 828619 because
-# it really doesn't do much, and so many reads are off-target.
-lfar_columns <- paste(
-  rep(c(
-    "NC_037130.1:1062935-1063235",
-    "NC_037130.1:864908-865208"
-  ), each = 2),
-  rep(c(1,2), 2),
-  sep = "_"
-)
 
+# get the positions of the LFARs:
+lfar_idxs <- which(str_detect(names(full_base2), "lfar"))
 
-lfar3genos <- lfar_genos[c("Sample_ID", lfar_columns)]
-
-
-base_with_lfar <- full_base2 %>%
-  left_join(lfar3genos, by = join_by(indiv == Sample_ID))
+# then make a version of the baseline without them
+base_with_no_lfar <- full_base2[, -lfar_idxs]
 ```
 
 
@@ -247,8 +227,8 @@ science paper.
 
 Let us have a quick look at the hapstrs:
 ```{r}
-rosa_hapstrs %>%
-  count(hapstr) %>%
+rosa_genos0 %>%
+  count(rosa_genotypes_str) %>%
   arrange(desc(n))
 ```
 
@@ -257,10 +237,10 @@ We will explode those into a vector of characters at positions
 well as the Tasha2 SNP that effectively tags the duplication, leaving
 us with the 8 core RoSA SNPs.
 ```{r}
-H8 <- rosa_hapstrs %>%
-  select(indiv, hapstr) %>%
+H8 <- rosa_genos0 %>%
+  select(indiv, rosa_genotypes_str) %>%
   mutate(
-    hvec = map(hapstr, function(x) {y <- strsplit(x, "")[[1]]; y[c(1, 4, 5, 7:11)]}),
+    hvec = map(rosa_genotypes_str, function(x) {y <- strsplit(x, "")[[1]]; y[c(1, 4, 5, 7:11)]}),
     hapstr8 = map_chr(hvec, function(x) paste(x, collapse = "", sep = ""))
   )
 
@@ -273,7 +253,7 @@ H8 %>%
 From that it is clear that there have been some recombinations in here. But there is a bit of
 junk in here.  It looks to me like there are some sites that get N's and some that get ?'s.  Both
 of those are missing data.  I am going to be stringent here and toss anything with missing data,
-which is only about 150 of them, so that should be fine. It will make downstream processing
+which is only about 71 of them, so that should be fine. It will make downstream processing
 much easier, since the number of categories will be a bit smaller. (And we can be quite confident
 in these assignments)
 ```{r}
@@ -293,13 +273,7 @@ H8_nomiss %>%
   arrange(desc(n))
 ```
 
-This is interesting.  I am struck by the 12 instances of EEHEEEEE---that suggests to me that
-it is not simply the result of genotyping error.  I suspect that one of the haplotypes
-has an L at that position.  The cleanest thing here might be to simply go for the
-things that are perfectly pure across all the sites, cuz there is a much lower chance
-of the region being broken up by recombination or gene conversion there.  So, that is what
-I am going to do.  And we can look at the ones that are not monolithic (possible recombinants, etc.
-as well.)
+
 
 ```{r}
 H8_monolith <- H8_nomiss %>%
@@ -342,10 +316,11 @@ H8_recombs %>%
 # Do the self-assignment
 
 We go directly to assigning to repunit, and then to the max-likelihood
-collection within that repunit.  We include the lfar in here.
+collection within that repunit.  We don't include the lfar in here, at first.
 
 ```{r}
-full_sa <- self_assign(full_base2, gen_start_col = 5)
+# gen_start_col is 6 because we have the rosa_genotypes_str column in there
+full_sa <- self_assign(base_with_no_lfar, gen_start_col = 6)
 ```
 
 ```{r}
@@ -372,7 +347,7 @@ no_lfar_ass_table_Rosa <- top_ass$top %>%
 
 And then do the same for the data with the LFAR:
 ```{r}
-lfar_sa <- self_assign(base_with_lfar, gen_start_col = 5)
+lfar_sa <- self_assign(full_base2, gen_start_col = 6)
 lfar_top_ass <- get_top_assignments(lfar_sa, collection_order)
 lfar_ass_table <- plot_self_assignment_table(lfar_top_ass$top, pop_labels, collection_order)
 
@@ -449,9 +424,8 @@ collections.
 ```{r}
 # count up genos at each variant
 marks <- paste("s", 1:12, sep = "")
-exploded <- rosa_hapstrs %>%
-  filter(!(collection %in% c("ColeRHsp", "SmithFall"))) %>%
-  separate(hapstr, into = paste("s", 0:12, sep = ""), sep = "") %>%
+exploded <- rosa_genos0 %>%
+  separate(rosa_genotypes_str, into = paste("s", 0:12, sep = ""), sep = "") %>%
   select(-s0)
 rh_counts <-  exploded %>%
   pivot_longer(cols = starts_with("s"), names_to = "variant", values_to = "geno") %>%
@@ -464,15 +438,23 @@ rh_counts %>%
   filter(geno %in% c("H", "W"))
 ```
 
-So, there is only one more E2-het outside of the Sacto, and that is from TRHsp.
-
+So, in California, there is only one more E2-het outside of the Sacto, and that is from TRHsp. 
 Let's go back and find that:
 ```{r}
 exploded %>% 
   filter(repunit == "klamathspring" & s6 == "H") %>%
-  left_join(rosa_hapstrs, by = join_by(indiv))
+  left_join(rosa_genos0, by = join_by(indiv))
 
 ```
+
+However, at ColeRivers we have 12 instances of heterozygotes at the s6 E2 position. Let's count things up from
+ColeRivers:
+```{r}
+rosa_genos0 %>% 
+  filter(collection == "ColeRHsp") %>%
+  count(rosa_genotypes_str)
+```
+
 
 # Calculating Fst between the collections from the microhaplotype markers
 
@@ -485,10 +467,9 @@ of the markers...
 
 In order to do this we need to convert the data to a lumped format.
 This means making integers of the alleles and then catenating them.
-One locus has 11 allele, so we should use two digits for each allele.  We drop the
-LFAR from this, because those were chosen specifically to be weird in the late fall.
+One locus has 11 allele, so we should use two digits for each allele.
 ```{r}
-full_base_long <-  base_with_lfar %>% 
+full_base_long <-  full_base2 %>% 
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   mutate(
     Pop = as.integer(factor(collection, levels = collection_order)),
@@ -586,7 +567,7 @@ Straightforward tidyverse stuff:
 ```{r}
 
 # long format with no missing data
-long_genos <- base_with_lfar %>%
+long_genos <- full_base2 %>%
 select(-repunit, -sample_type) %>%
 pivot_longer(
 cols = -c(indiv, collection),
@@ -772,7 +753,7 @@ We can do all of our standard population genetic summaries here using `full_base
 It is pretty standard, but I think that i am going to standardize sample sizes.
        
 ```{r}
-fbl_no_miss <- base_with_lfar %>%
+fbl_no_miss <- full_base2 %>%
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   pivot_longer(
     cols = c(-(indiv:sample_type)),
