@@ -15,9 +15,26 @@ amplicons <- read_csv("../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv
 new_names <- amplicons %>%
   select(AmpliconName, OtherName)
 
-base <- read_csv("subRoSA_baseline_rubias_JUN2024_w_mixture_complete-rosa_lfar_vgll3six6_added.csv") %>%
+csv <- read_csv("subRoSA_baseline_rubias_with_rosa_wrap_lfar_vgll3six6_and_mixture_28JUN2024.csv")
+
+# for some reason, there are 22 fish with identical sample_IDs.  
+dupies <- csv %>%
+  count(Sample_ID) %>%
+  filter(n > 1) %>%
+  pull(Sample_ID)
+
+# there doesn't seem to be too much any difference in how much missing data each copy of
+# each duplicated fish has:
+mat <- csv %>% filter(Sample_ID %in% dupies) %>% as.matrix()
+rowSums(is.na(mat))
+
+# So, we will just drop the second instance of each:
+csv2 <- csv %>%
+  filter(!duplicated(Sample_ID))
+
+base <- csv2 %>%
   pivot_longer(
-    cols = -(indiv:sample_type),
+    cols = -(Sample_ID:sample_type),
     names_to = c("locus", "gene_copy"),
     values_to = "allele",
     names_pattern = "^(.+)_([12])$"
@@ -26,6 +43,16 @@ base <- read_csv("subRoSA_baseline_rubias_JUN2024_w_mixture_complete-rosa_lfar_v
 
 ```
 
+Let us count how many things match up here.
+```{r}
+base %>%
+  filter(!is.na(AmpliconName) & !is.na(locus)) %>%
+  count(locus, AmpliconName)
+
+```
+
+193 sounds about right.  Those are probably just the RoSAs and the SexID marker. 
+
 OK, now, let's check and see which ones don't have new names:
 
 ```{r}
@@ -33,7 +60,8 @@ base %>%
   filter(is.na(AmpliconName)) %>%
   count(AmpliconName, locus)
 ```
-OK, cool.  Those are the LFAR's that we dropped.  We expect that they won't have new names
+OK, cool.  Those look like the LFAR's and the WRAPs that we do not include in the
+final baseline.  We expect that they won't have new names
 because we don't really want them in there.  
 
 Let's see if there are any AmpliconName's that don't appear in base.
@@ -41,4 +69,37 @@ Let's see if there are any AmpliconName's that don't appear in base.
 ```{r}
 amplicons %>%
   anti_join(base, by = join_by(AmpliconName))
+```
+Only the RoSA's and the SexID marker.  OK.  That is looking good. 
+
+So, let's put it all back together again with the other names.
+```{r}
+wide <- base %>%
+  filter(!is.na(locus) & !is.na(AmpliconName)) %>% # drops the RoSA stuff
+  select(-locus) %>%
+  pivot_wider(names_from = c(AmpliconName, gene_copy), values_from = allele, names_sep = "_")
+  
+
+# but we want to put things in coordinate sorted order
+loci <- amplicons$AmpliconName # get locus names
+loci <- loci[!loci == "Ots_sexy001_NW024608692.1_00004816"]  # remove the sexID locus, cuz we don't have it
+loci <- loci[!str_detect(loci, "rosa")]  # drop the RoSAs cuz they are in there as the genotype string
+
+loccols <- paste(rep(loci, each = 2), c(1, 2), sep = "_")
+
+wide_ordered_no_rosa <- wide[, c("Sample_ID", "repunit", "collection", "sample_type", loccols)]
+
+# and then we also want to add the rosa genotypes on there, AND remove the SacNonW fish
+final <- wide_ordered_no_rosa %>%
+  left_join(csv2 %>% select(Sample_ID, hapstr), by = join_by(Sample_ID)) %>%
+  mutate(rosa_genotypes_str = hapstr, .after = sample_type) %>%
+  select(-hapstr) %>%
+  filter(!(collection == "SacNonW"))
+```
+
+Now, we can write that out.
+
+```{r}
+dir.create("results", showWarnings = FALSE)
+write_csv(final, "results/subRoSA_baseline_rubias_loci_renamed_July_2024.csv")
 ```
