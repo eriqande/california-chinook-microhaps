@@ -1,0 +1,127 @@
+---
+title: "Plotting Marker Locations in Genome"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+bibliography: "`r here::here('tex/citation.bib')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_knit$set(root.dir = here::here())
+start_time <- Sys.time()
+```
+
+# Input and Output Paths
+
+```{r}
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  # inputs:
+  input_list <- list(
+    locus_info = "inputs/Calif-Chinook-Amplicon-Panel-Information.csv",
+    chr_len = "inputs/Otsh_v2.0_chrom_lengths.tsv"
+  )
+  # outputs:
+  output_list <- list(
+    pdf = "results/genomic-locations-plot/gen-loc.pdf",
+    pdfcrop = "results/genomic-locations-plot/gen-loc-crop.pdf",
+    pdftex = "tex/images/genomic-locations-plot.pdf"
+  )
+}
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+# Introduction
+
+We desire a simple plot for the supplement showing us the location of different markers,
+colored according to their category.  Should be pretty easy.  We will use the Otsh_v2.0
+coordinates.  
+
+```{r}
+library(tidyverse)
+library(ggchicklet)  # for geom_rrect().  Get it with remotes::install_github("hrbrmstr/ggchicklet")
+
+amplicons <- read_csv(input_list$locus_info) %>%
+  mutate(Type = LocusOrigin, .before = AmpliconName)
+
+chroms <- read_tsv(input_list$chr_len) %>%
+  filter(chrom != "MT") %>%
+  mutate(chrom_dbl = as.numeric(chrom))
+```
+
+
+First, we want to plot the chromosomes as rounded rectangles.
+
+```{r}
+chroms2 <- chroms %>%
+  mutate(
+    chrom_y = 35 - chrom_dbl,
+    mb = num_bases / 1e6
+  )
+
+hh <- 0.35  # the half-height of the chromosome
+  
+base <- ggplot() +
+  geom_rrect(
+    data = chroms2, 
+    mapping = aes(ymin = chrom_y - hh, ymax = chrom_y + hh, xmin = 0, xmax = mb),
+    fill = NA,
+    colour = "gray"
+    ) +
+  theme_bw() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank()
+  ) +
+  scale_x_continuous(breaks = seq(10, 100, by = 10)) +
+  scale_y_continuous(breaks = 1:34, labels = 34:1)
+```
+
+Now, we get the markers on there
+```{r}
+amplicons2 <- amplicons %>%
+  filter(!str_detect(Otsh_v2.0_chromosome, "NW")) %>%
+  mutate(
+    chrom_y = 35 - as.numeric(Otsh_v2.0_chromosome),
+    mb = AmpliconStartPos / 1e6,
+    Type = factor(Type, levels = c("SNPtype", "Microhap", "RoSA", "LFAR", "WRAP", "VGLL3", "Six6"))
+  )
+
+final <- base +
+  geom_segment(
+    data = amplicons2,
+    mapping = aes(x = mb, xend = mb, y = chrom_y - hh, yend = chrom_y + hh, colour = Type),
+    lineend = "butt"
+  ) +
+  scale_color_brewer(type = "qual", palette = "Set1") +
+  xlab("Genomic coordinate (in megabases)") +
+  ylab("Chromsome (in Otsh_v2.0)")
+
+final
+```
+
+
+Write the thing out to a PDF file.
+```{r}
+ggsave(final, file = output_list$pdf, width = 7, height = 8.5)
+```
+
+Then pdfcrop it and put it where we can include it in the Supplement.
+```{r}
+# let's crop that down for use, too
+CALL <- paste("pdfcrop ", output_list$pdf, collapse = " ")
+system(CALL)
+
+file.copy(from = output_list$pdfcrop, to = output_list$pdftex, overwrite = TRUE)
+```
