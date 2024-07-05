@@ -1,4 +1,4 @@
-\begin{thebibliography}{60}
+\begin{thebibliography}{62}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -128,6 +128,10 @@ Falush D, Stephens M, Pritchard JK (2003) Inference of population structure
   using multilocus genotype data: linked loci and correlated allele
   frequencies. {\em Genetics\/}, {\bf 164}, 1567--1587.
 
+\bibitem[\protect\citeauthoryear{Fisher}{Fisher}{1994}]{fisher1994past}
+Fisher FW (1994) Past and present status of Central Valley chinook salmon. {\em
+  Conservation Biology\/}, {\bf 8}, 870--873.
+
 \bibitem[\protect\citeauthoryear{Garrison \& Marth}{Garrison \&
   Marth}{2012}]{garrison2012haplotype}
 Garrison E, Marth G (2012) Haplotype-based variant detection from short-read
@@ -164,6 +168,11 @@ Hasselman DJ, Anderson EC, Argo EE, Bethoney ND, Gephard SR, Post DM,
   composition of marine bycatch reveals disproportional impacts on depleted
   river herring genetic stocks. {\em Canadian Journal of Fisheries and Aquatic
   Sciences\/}, {\bf 73}, 951--963.
+
+\bibitem[\protect\citeauthoryear{Healey}{Healey}{1991}]{healey1991life}
+Healey M (1991) Life history of chinook salmon (Oncorhynchus tshawytscha), {\em
+  in:\/} {\em Pacific salmon life histories\/}, 311--394, University of British
+  Columbia Press Vancouver.
 
 \bibitem[\protect\citeauthoryear{Hess, Whiteaker, Fryer, \& Narum}{Hess {\em
   et~al.\/}}{2014}]{hess2014monitoring}
@@ -252,6 +261,15 @@ Milner GB, Teel DJ, Utter FM, Winans GA (1985) A genetic method of stock
 Moran BM, Anderson EC (2019) Bayesian inference from the conditional genetic
   stock identification model. {\em Canadian Journal of Fisheries and Aquatic
   Sciences\/}, {\bf 76}, 551--560.
+
+\bibitem[\protect\citeauthoryear{Myers, Kope, Bryant, Teel, Lierheimer,
+  Wainwright, Grant, Waknitz, Neely, Lindley, \& Waples}{Myers {\em
+  et~al.\/}}{1998}]{myers1998status}
+Myers JM, Kope RG, Bryant GJ, Teel D, Lierheimer LJ, Wainwright TC, Grant WS,
+  Waknitz FW, Neely K, Lindley ST, Waples RS (1998) Status review of chinook
+  salmon from Washington, Idaho, Oregon, and California, {\em Technical
+  report\/}, U.S. Dept. of Commerce, National Oceanic and Atmospheric
+  Administration, National Marine Fisheries Service, Seattle, WA.
 
 \bibitem[\protect\citeauthoryear{Nandor, Longwill, \& Webb}{Nandor {\em
   et~al.\/}}{2010}]{nandor2010overview}
@@ -380,11 +398,5 @@ Wilmot RL, Kondzela CM, Guthrie~III CM, Moles A, Martinson E, Helle JH (1999)
   {\em Technical report\/}, (NPAFC Doc.) Auke Bay Fisheries Laboratory, Alaska
   Fisheries Science Center, NMFS, NOAA, 11305 Glacier Highway, Juneau, AK
   99801-8626. 20 pp.
-
-\bibitem[\protect\citeauthoryear{Yoshiyama, Fisher, \& Moyle}{Yoshiyama {\em
-  et~al.\/}}{1998}]{yoshiyama1998historical}
-Yoshiyama RM, Fisher FW, Moyle PB (1998) Historical abundance and decline of
-  chinook salmon in the Central Valley region of California. {\em North
-  American Journal of Fisheries Management\/}, {\bf 18}, 487--521.
 
 \end{thebibliography}
