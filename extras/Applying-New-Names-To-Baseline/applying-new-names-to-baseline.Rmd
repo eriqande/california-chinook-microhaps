@@ -102,5 +102,5 @@ Now, we can write that out.
 
 ```{r}
 dir.create("results", showWarnings = FALSE)
-write_csv(final, "results/subRoSA_baseline_rubias_loci_renamed_July_2024.csv.gz")
+write_csv(final, "results/subRoSA_baseline_rubias_loci_renamed_July_2024-Coho-renamed.csv.gz")
 ```
