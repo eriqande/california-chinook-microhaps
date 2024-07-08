@@ -1,4 +1,4 @@
-\begin{thebibliography}{62}
+\begin{thebibliography}{63}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -19,6 +19,11 @@ Ali OA, O’Rourke SM, Amish SJ, Meek MH, Luikart G, Jeffres C, Miller MR
 Allendorf FW, Phelps SR (1981) Use of allelic frequencies to describe
   population structure. {\em Canadian Journal of Fisheries and Aquatic
   Sciences\/}, {\bf 38}, 1507--1514.
+
+\bibitem[\protect\citeauthoryear{Anderson}{Anderson}{2010}]{anderson2010assessing}
+Anderson E (2010) Assessing the power of informative subsets of loci for
+  population assignment: standard methods are upwardly biased. {\em Molecular
+  ecology resources\/}, {\bf 10}, 701--710.
 
 \bibitem[\protect\citeauthoryear{Anderson \& Thompson}{Anderson \&
   Thompson}{2002}]{anderson2002model}
