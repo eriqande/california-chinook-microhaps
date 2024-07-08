@@ -25,7 +25,7 @@ if(exists("snakemake")) {
 } else {
   # inputs:
   input_list <- list(
-    final_baseline = "data/subRoSA_baseline_rubias_loci_renamed_July_2024.csv.gz",
+    final_baseline = "data/SWFSC-chinook-reference-baseline.csv.gz",
     pop_labels = "inputs/reference-collection-names.csv",
     locus_info = "inputs/Calif-Chinook-Amplicon-Panel-Information.csv"
   )

@@ -25,9 +25,7 @@ if(exists("snakemake")) {
   output_list <- snakemake@output
 } else {
   input_list <- list(
-    final_baseline = "data/subRoSA_baseline_rubias_loci_renamed_July_2024.csv.gz",
-    final_baseline_apr = "data/subRoSA_baseline_rubias_APR2024_w_mixture_revised_rosa_added.csv",
-    lfar_genos = "data/metagenos_hap2col_lfar_all_samps.csv",
+    final_baseline = "data/SWFSC-chinook-reference-baseline.csv.gz",
     pop_labels = "inputs/reference-collection-names.csv",
     map_notations = "inputs/map-notations.tsv"
   )
@@ -78,7 +76,6 @@ rosa_genos0 <- full_base %>%
   select(indiv:rosa_genotypes_str)
 
 
-lfar_genos <- read_csv(input_list$lfar_genos)
 
 # read the pop labels for proper sorting
 pop_labels <- read_csv(input_list$pop_labels)
@@ -566,22 +563,23 @@ number of observed genotypes in a population.
 Straightforward tidyverse stuff:
 ```{r}
 
-# long format with no missing data
+# long format with no missing data.  We filter out NA locus to get rid of the rosa_geno_str which
+# we are not using
 long_genos <- full_base2 %>%
-select(-repunit, -sample_type) %>%
-pivot_longer(
-cols = -c(indiv, collection),
-names_to = c("locus", "gene_copy"),
-values_to = "allele",
-names_pattern = "(.*)[_.]([12])$"
-) %>%
-filter(!is.na(allele))
+  select(-repunit, -sample_type) %>%
+  pivot_longer(
+    cols = -c(indiv, collection),
+    names_to = c("locus", "gene_copy"),
+    values_to = "allele",
+    names_pattern = "(.*)[_]([12])$"
+  ) %>%
+  filter(!is.na(allele) & !is.na(locus))
 
 # now get the minimum sample sizes for each
 min_sampled <- long_genos %>%
-count(collection, locus) %>%
-group_by(locus) %>%
-summarise(min_ngc = min(n))
+  count(collection, locus) %>%
+  group_by(locus) %>%
+  summarise(min_ngc = min(n))
 
 # having looked at those, if we keep anything with
 # at least 38 gene copies, we have most of the loci.
@@ -590,33 +588,33 @@ summarise(min_ngc = min(n))
 # slice_sample requires that the n argument is a constant.  BOGUS!
 set.seed(5)
 long_genos_subsampled <- long_genos %>%
-left_join(min_sampled, by = "locus") %>%
-filter(min_ngc >= 38) %>%
-group_by(collection, locus, min_ngc) %>%
-nest() %>%
-mutate(
-ssd = map2(.x = data, .y = min_ngc, .f = function(x, y) slice_sample(x, n = y))
-) %>%
-select(-data) %>%
-unnest(ssd) %>%
-select(-min_ngc)
+  left_join(min_sampled, by = "locus") %>%
+  filter(min_ngc >= 38) %>%
+  group_by(collection, locus, min_ngc) %>%
+  nest() %>%
+  mutate(
+    ssd = map2(.x = data, .y = min_ngc, .f = function(x, y) slice_sample(x, n = y))
+  ) %>%
+  select(-data) %>%
+  unnest(ssd) %>%
+  select(-min_ngc)
 
 
 
 # get allele frequencies
 alle_freqs <- long_genos_subsampled %>%
-count(collection, locus, allele) %>%
-group_by(collection, locus) %>%
-mutate(freq = n / sum(n)) %>%
-select(-n) %>%
-ungroup()
+  count(collection, locus, allele) %>%
+  group_by(collection, locus) %>%
+  mutate(freq = n / sum(n)) %>%
+  select(-n) %>%
+  ungroup()
 
 
 # get all pairwise comparisons of population allele frequencies
 backbone <- expand_grid(
-row_coll =  unique(alle_freqs$collection),
-col_coll = unique(alle_freqs$collection),
-alle_freqs %>% distinct(locus, allele)
+  row_coll =  unique(alle_freqs$collection),
+  col_coll = unique(alle_freqs$collection),
+  alle_freqs %>% distinct(locus, allele)
 )
 
 # now get the freqs on there, order the collections and ensure

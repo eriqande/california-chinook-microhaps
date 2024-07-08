@@ -95,7 +95,7 @@ amplicons2 <- amplicons %>%
   mutate(
     chrom_y = 35 - as.numeric(Otsh_v2.0_chromosome),
     mb = AmpliconStartPos / 1e6,
-    Type = factor(Type, levels = c("SNPtype", "Microhap", "RoSA", "LFAR", "WRAP", "VGLL3", "Six6"))
+    Type = factor(Type, levels = c("SNPtype", "Microhap", "RoSA", "LFAR", "WRAP", "VGLL3", "Six6", "Coho"))
   )
 
 final <- base +
@@ -125,3 +125,24 @@ system(CALL)
 
 file.copy(from = output_list$pdfcrop, to = output_list$pdftex, overwrite = TRUE)
 ```
+
+# Citations
+
+::: {#refs}
+:::
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
+
+
