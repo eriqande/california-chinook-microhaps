@@ -1,0 +1,69 @@
+---
+title: "Renaming all Amplicons to add the Coho-species-id marker"
+output: html_notebook
+---
+
+After running through the Amplicon-renaming.Rmd notebook, we realized that we
+really should add the species ID marker in there.   Doing so wil mean
+renumbering all the new names for the scon markers.  No worries.  We can do that.
+
+We will pull it from the renamed input file. Should not be a big deal.
+
+```{r}
+library(tidyverse)
+
+amplicons <- read_csv("../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv")
+
+amp2 <- amplicons %>%
+  mutate(LocusOrigin = ifelse(OtherName == "OkiOts_120255-113", "Coho", LocusOrigin))
+
+
+
+# now we just rename all these guys:
+renamed <- amp2 %>%
+  mutate(
+    tmpname = case_match(
+      LocusOrigin,
+      "Coho" ~ "coho",
+      "LFAR" ~ "lfar",
+      "Microhap" ~ "mhap",
+      "RoSA" ~ "rosa",
+      "SNPtype" ~ "scon",
+      "Sex ID" ~ "sexy",
+      "Six6" ~ "sixx",
+      "VGLL3" ~ "vgll",
+      "WRAP" ~ "wrap"
+    )
+  ) %>% 
+  group_by(tmpname) %>%
+  mutate(
+    AmpliconName = str_c(
+      "Ots_", tmpname,
+      sprintf("%03d", 1:n()), "_", 
+      Otsh_v2.0_chromosome, "_", 
+      sprintf("%08d",AmpliconStartPos)),
+    .before = Otsh_v2.0_chromosome
+  ) %>%
+  ungroup() %>%
+  select(-tmpname)
+
+# I checked and that is all good with just the change in the coho one (and renumbering).
+
+# So, we can write it out now.
+write_csv(renamed, "../../inputs/Calif-Chinook-Amplicon-Panel-Information.csv")
+```
+
+Now, let's just go ahead and record the number of amplicons of each type.
+```{r}
+renamed %>%
+  count(LocusOrigin)
+```
+
+And make sure that comports with how we have named them all:
+```{r}
+renamed %>%
+  extract(AmpliconName, into = "categ", regex = "Ots_([a-z]+).*$") %>%
+  count(categ)
+```
+
+Yep.  That is all good.  
