@@ -61,6 +61,13 @@ chroms <- read_tsv(input_list$chr_len) %>%
 ```
 
 
+Let's make a quick tally of what we have here.
+```{r}
+amplicons %>%
+  count(LocusOrigin)
+```
+
+
 First, we want to plot the chromosomes as rounded rectangles.
 
 ```{r}
