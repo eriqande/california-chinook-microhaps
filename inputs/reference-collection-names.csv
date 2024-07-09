@@ -1,7 +1,7 @@
 old_name,collection,repunit,run_timing_group,ckmr_sim_group
-ColeRHsp,CRHS,SO-Ncal-Coast,Spring run,ck-SONC
-SmithFall,SmRF,SO-Ncal-Coast,Fall run,ck-SONC
-BlueCKFall,BCkF,SO-Ncal-Coast,Fall run,ck-SONC
+ColeRHsp,CRHS,SO-NCal-Coast,Spring run,ck-SONC
+SmithFall,SmRF,SO-NCal-Coast,Fall run,ck-SONC
+BlueCKFall,BCkF,SO-NCal-Coast,Fall run,ck-SONC
 IGHfall,IGHF,Klamath-Trinity,Fall run,ck-IGH
 TRHsp,TRS,Klamath-Trinity,Spring run,ck-TRH
 TRHfall,TRF,Klamath-Trinity,Fall run,ck-TRH

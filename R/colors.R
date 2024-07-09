@@ -1,7 +1,7 @@
 
 # These are for the genetic-marker-resolvable genomic backgrounds
 repunit_colors <- c(
-  `SO-Ncal-Coast` = "beige",
+  `SO-NCal-Coast` = "beige",
   `Klamath-Trinity` = "#6e8b3d",
   `Cent. Cal. Coast` = "#79cdcd",
   `CV-Winter` = "#ffff99",            # a "cool-ish" color for winter
