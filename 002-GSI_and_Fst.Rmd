@@ -166,7 +166,8 @@ fbmet3 <- fbmet2 %>%
 
 # now, add all the columns we might need.
 fbmet4 <- fbmet3 %>%
-  left_join(map_notations %>% select(abbrv, repository_name, map_text, basin, ESU, `Mainstem River` ))
+  left_join(map_notations %>% select(abbrv, repository_name, map_text, basin, ESU, `Mainstem River` )) %>%
+  left_join(pop_labels %>% select(collection, repunit), by = join_by(abbrv == collection))
 
 # and now do some formatting
 fbmet5 <- fbmet4 %>%
@@ -175,7 +176,7 @@ fbmet5 <- fbmet4 %>%
     `Sampling Months` = sprintf("\\raisebox{-0.12 em}{\\includegraphics[height=1.02em]{../%s}}", sparkline_path),
     `Year Range` = sprintf("%d--%d", min_year, max_year)
   ) %>%
-  select(`Mainstem River`, abbrv, map_text, run_timing_for_table, ESU, N, N_date, `Sampling Months`, `Year Range`) %>%
+  select(`Mainstem River`, abbrv, map_text, run_timing_for_table, repunit, ESU, N, N_date, `Sampling Months`, `Year Range`) %>%
   mutate(map_text = str_replace(map_text, ",.*$", "")) %>% # this removes the abbreviations after the commas on the map names
   mutate(N_date = replace_na(N_date, 0L)) %>%
   rename(
@@ -183,9 +184,10 @@ fbmet5 <- fbmet4 %>%
     Code = abbrv,
     `Location Name$^2$` = map_text,
     Run = run_timing_for_table,
-    `ESU$^3$` = ESU,
+    `Reporting Unit$^4$` = repunit,
+    `ESU$^4$` = ESU,
     `$N$` = N,
-    `$N_\\mathrm{day}^4$` = N_date
+    `$N_\\mathrm{day}^5$` = N_date
   ) %>%
   arrange(factor(Code, levels = collection_order))
 
