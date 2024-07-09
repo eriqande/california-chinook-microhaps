@@ -1,4 +1,4 @@
-\begin{thebibliography}{63}
+\begin{thebibliography}{68}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -165,6 +165,10 @@ Gilbey J, Coughlan J, Wennevik V, Prod{\"o}hl P, Stevens JR, Garcia~de Leaniz
 Goudet J, Jombart T (2022) {\em hierfstat: Estimation and Tests of Hierarchical
   F-Statistics\/}. R package version 0.5-11.
 
+\bibitem[\protect\citeauthoryear{Hardy}{Hardy}{1908}]{hardy1908mendelian}
+Hardy GH (1908) Mendelian proportions in a mixed population. {\em Science\/},
+  {\bf 28}, 49--50.
+
 \bibitem[\protect\citeauthoryear{Hasselman, Anderson, Argo, Bethoney, Gephard,
   Post, Schondelmeier, Schultz, Willis, \& Palkovacs}{Hasselman {\em
   et~al.\/}}{2016}]{hasselman2016genetic}
@@ -178,6 +182,14 @@ Hasselman DJ, Anderson EC, Argo EE, Bethoney ND, Gephard SR, Post DM,
 Healey M (1991) Life history of chinook salmon (Oncorhynchus tshawytscha), {\em
   in:\/} {\em Pacific salmon life histories\/}, 311--394, University of British
   Columbia Press Vancouver.
+
+\bibitem[\protect\citeauthoryear{Hendricks, Anderson, Antao, Bernatchez,
+  Forester, Garner, Hand, Hohenlohe, Kardos, Koop {\em et~al.\/}}{Hendricks
+  {\em et~al.\/}}{2018}]{hendricks2018recent}
+Hendricks S, Anderson EC, Antao T, Bernatchez L, Forester BR, Garner B, Hand
+  BK, Hohenlohe PA, Kardos M, Koop B, {\em et~al.\/} (2018) Recent advances in
+  conservation and population genomics data analysis. {\em Evolutionary
+  Applications\/}, {\bf 11}, 1197--1211.
 
 \bibitem[\protect\citeauthoryear{Hess, Whiteaker, Fryer, \& Narum}{Hess {\em
   et~al.\/}}{2014}]{hess2014monitoring}
@@ -234,6 +246,18 @@ Lange K, Papp JC, Sinsheimer JS, Sripracha R, Zhou H, Sobel EM (2013) Mendel:
   Durbin}{2009}]{bwa-mem2009}
 Li H, Durbin R (2009) {Fast and accurate short read alignment with
   Burrows–Wheeler transform}. {\em Bioinformatics\/}, {\bf 25}, 1754--1760.
+
+\bibitem[\protect\citeauthoryear{Li, Handsaker, Wysoker, Fennell, Ruan, Homer,
+  Marth, Abecasis, Durbin, \& Subgroup}{Li {\em
+  et~al.\/}}{2009}]{li2009sequence}
+Li H, Handsaker B, Wysoker A, Fennell T, Ruan J, Homer N, Marth G, Abecasis G,
+  Durbin R, Subgroup GPDP (2009) The sequence alignment/map format and
+  SAMtools. {\em bioinformatics\/}, {\bf 25}, 2078--2079.
+
+\bibitem[\protect\citeauthoryear{Mago{\v{c}} \& Salzberg}{Mago{\v{c}} \&
+  Salzberg}{2011}]{magovc2011flash}
+Mago{\v{c}} T, Salzberg SL (2011) FLASH: fast length adjustment of short reads
+  to improve genome assemblies. {\em Bioinformatics\/}, {\bf 27}, 2957--2963.
 
 \bibitem[\protect\citeauthoryear{McKinney, Seeb, \& Seeb}{McKinney {\em
   et~al.\/}}{2017}]{mckinney2017managing}
@@ -348,6 +372,15 @@ Steele CA, Hess M, Narum S, Campbell M (2019) Parentage-based tagging:
 Thompson NF, Anderson EC, Clemento AJ, Campbell MA, Pearse DE, Hearsey JW,
   Kinziger AP, Garza JC (2020) A complex phenotype in salmon controlled by a
   simple change in migratory timing. {\em Science\/}, {\bf 370}, 609--613.
+
+\bibitem[\protect\citeauthoryear{Thompson, Bellinger, O’Rourke, Prince,
+  Stevenson, Rodrigues, Sloat, Speller, Yang, Butler {\em et~al.\/}}{Thompson
+  {\em et~al.\/}}{2019}]{thompson2019anthropogenic}
+Thompson TQ, Bellinger MR, O’Rourke SM, Prince DJ, Stevenson AE, Rodrigues
+  AT, Sloat MR, Speller CF, Yang DY, Butler VL, {\em et~al.\/} (2019)
+  Anthropogenic habitat alteration leads to rapid loss of adaptive variation
+  and restoration potential in wild salmon populations. {\em Proceedings of the
+  National Academy of Sciences\/}, {\bf 116}, 177--186.
 
 \bibitem[\protect\citeauthoryear{Untergasser, Cutcutache, Koressaar, Ye,
   Faircloth, Remm, \& Rozen}{Untergasser {\em

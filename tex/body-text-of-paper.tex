@@ -166,12 +166,12 @@ as spring-run broodstock, the rest are included in the fall-run broodstock. We s
 In total, the samples in the baseline represent fish from five different Evolutionarily Significant 
 Units (ESUs) of Chinook salmon \citep{waples1991pacific}.
 %%%%%%%%%%%%%%%%
-\begin{table*}
+\begin{sidewaystable*}
 \caption{\footnotesize Collections of fish in the reference baseline.  The Sampling Months column shows
 a pictorial representation of the proportion of each collection sampled in each month.  Colors in
 this column correspond to run-timing groups as described in the caption of Fig.~\protect\ref{fig:map}.}
 \label{tab:samples}
-{\footnotesize 
+{\small 
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} llllllrcr}
 \hline\hline\vspace*{0.4ex}
 \input{inputs/samples-table.tex}
@@ -179,7 +179,7 @@ this column correspond to run-timing groups as described in the caption of Fig.~
 }
 \rule{3cm}{0.3pt}
 
-{\footnotesize
+{\scriptsize
 $^1$R. = River.\\
 $^2$Ck. = Creek; NFH = National Fish Hatchery; R. = River; H. = Hatchery.\\
 $^3$ESU = Evolutionarily Significant Unit; CVFR = Central Valley Fall Run ESU; CVSR = Central Valley Spring Run ESU; CVWR = 
@@ -187,7 +187,7 @@ Central Valley Winter Run ESU; CC = California Coastal ESU; UKTR = Upper Klamath
 $^4N_\mathrm{day}$: the number of samples for which the specific sampling day was recorded.
 }
 \hrule\vspace*{0.3ex}\hrule
-\end{table*}
+\end{sidewaystable*}
 %%%%%%%%%%%%%%%%%%%%%
 
 \subsection*{Genetic Markers}
@@ -195,37 +195,42 @@ $^4N_\mathrm{day}$: the number of samples for which the specific sampling day wa
 The genetic markers in the baseline include newly discovered microhaplotypes, SNP assays
 that were translated into amplicons, markers associated with phenotypes, as well
 as species- and sex-specific markers.
-We assembled genetic markers for this reference baseline dataset from several different
-efforts, detailed in the separate sections below.
+These genetic markers were compiled from several different
+efforts, as detailed in the sections below.
 
 \subsubsection*{Novel microhaplotype discovery}
 
-We undertook a process to discover and validate  multiallelic
-microhaplotype \citep{baetscher2018microhaplotypes} markers in California Chinook salmon, with a focus on Central Valley populations. 
-
-We identified candidate loci with variation among multiple populations and with multiple single-nucleotide polymorphisms using reduced representation genome sequencing of 2--4 individuals each from a number of
+We identified candidate loci with multiple single-nucleotide polymorphisms (SNPs) among multiple
+populations using reduced-representation genome sequencing of 2--4 Chinook salmon, each, from a number of
 populations ranging from California to British 
 Columbia and the interior Columbia River (\comment{Table SX}).
 Genomic DNA was extracted using Qiagen DNeasy 96 Blood and Tissue Kits on a BioRobot 3000 
-(Qiagen, Inc). We used double-digest restriction-site associated DNA sequencing (ddRAD) and with different size selections (400 bp and 500 bp 
+(Qiagen, Inc). We used double-digest restriction-site associated DNA sequencing (ddRAD) with different size selections (400 bp and 500 bp 
 fragments) to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
 \citet{peterson2012double} with the modifications described in \citep{baetscher2018microhaplotypes}.
 Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing. 
 
-Stacks v1.45 \cite{catchen2013stacks} was used to analyze ddRAD sequence data.  As there was not a well assembled Chinook salmon genome at the time, a {\em de novo} assembly was performed.  Initial filtering retained RAD loci with two or more SNPs that 
-amplified in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
+Stacks v1.45 \cite{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome 
+at the time, a {\em de novo} assembly was performed.  Initial filtering retained RAD loci with two or more SNPs present
+in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
 4,794 retained in the data with 500 bp size selection. 
-Gene regions were then selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation in the winter-run 
-population and at least one other.
+Gene regions were then selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation amongst the winter run and at least one other population.
 A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is diminished in amplicons larger than 100 bp. Primer3 
-software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.  These gene regions were amplified and variants 
+software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.  
 
-FreeBayes output was filtered to remove indels and retain variants with a Quality score of 30 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci was conducted in MICROHAPLOT (Ng et al., DOI: 10.5281/zenodo.820110). Loci that did not conform to Mendelian segregation, that is, loci that produced more than two haplotypes within an individual were removed. Hardy-Weinberg equilibrium was assessed using MICROHAPLOT. 
+These gene regions were PCR-amplified and sequenced on a MiSeq sequencer using a $2\times 75$-cycle kit.
+The sequences were mapped using
+bwa-mem \citep{bwa-mem2009} to the reference sequences
+from the de novo assembly for each locus, sorted with samtools \citep{li2009sequence} and provided to
+freeyayes \citep{garrison2012haplotype} for variant calling. 
+freebayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
+or greater and a read depth of 10 or higher. Further filtering and analysis of the loci, including
+assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng et al., DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, as well as those clearly violating Hardy-Weinberg equilibrium within populations were removed. 
 
 
 \subsubsection*{Conversion of existing SNPtype assays}
 
-A number of SNP markers from earlier discovery efforts \citep{clemento2011discovery} had already 
+A number of SNP markers from an earlier discovery effort \citep{clemento2011discovery} had already 
 been validated as useful for GSI
 and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
 using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (Standard BioTools Inc., South San Francisco, CA).
@@ -236,31 +241,15 @@ Specific Primers respectively.  We then dropped any loci that produced genotypes
 frequently inconsistent with genotypes produced with the SNPtype assays and any loci that 
 did not amplify well or those that amplified so well that they were grossly over-represented
 among the reads on the sequencer.  We 
-used Freebayes \citep{garrison2012haplotype} to identify all variants on the fragment (not just the SNPs targeted by the original TaqMan assays).  This allows us to score each locus as a
+used freebayes \citep{garrison2012haplotype} to identify all variants on the fragment (not just the SNPs targeted by the original TaqMan assays).  This allows us to score each locus as a
 microhaplotype \citep{baetscher2018microhaplotypes} when multiple variants occur in the sequence.  We filtered out variants
-that were considered multinucleotide or complex variants by Freebayes. The resulting genetic markers are hereafter referred to as 'SNPlicons'.
+that were considered multinucleotide or complex variants by freebayes. The resulting genetic markers are hereafter referred to as 'SNPlicons'.
 
 
-\subsubsection*{Localizing markers within the genome}
-
-The SNPlicons targets and the additional microhaplotype markers were
-developed prior to the advent of a well-assembled genome for Chinook salmon.
-As a consequence, many of these markers had
-been used previously without certainty about their location in the genome.
-After designing and validating an amplicon-sequencing approach to type both the
-existing SNPtype assays and the product of the additional microhaplotype
-discovery process we identified the locations of these markers within the genome by mapping the
-consensus sequences (roughly 300 bp) around the markers
-to both the Chinook salmon version 1 (Otsh\_v1.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002872995.1/}) and version 2  (Otsh\_v2.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018296145.1/}) genome assemblies,
-using both the Burrows-Wheeler Aligner \citep{bwa-mem2009} and the BLAST-like Alignment tool \citep{kent2002blat}.
-A similar mapping exercise was performed for the remaining markers so that we can
-report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
-
-
-\subsubsection*{Identifying the Late-Fall Associated Region and designing markers therein}
+\subsubsection*{Identifying the Late-Fall Associated Region (LFAR) and designing markers therein}
 
 To identify loci with large allele frequency differences between late-fall and fall-run Chinook salmon, 
-we first conducted a simple case-control GWAS using the low-coverage whole genome sequencing 
+we first conducted a simple case-control GWAS using the low-coverage whole-genome sequencing 
 data of \citet{thompson2020complex}, mapped to Otsh\_v1.0.  We conducted
 two separate association-study comparisons.  
 The first involved the 16 late-fall-run fish as cases with 16 fall-run fish from the Feather River Hatchery as controls. 
@@ -271,18 +260,19 @@ ANGSD \citep{pmid21663684,korneliussen_angsd_2014}, using the following command:
 -out \{prefix\}  -bam \{bamlist\}}, where {\tt \{ybin\} } is the path to a file indicating the cases and 
 controls, 
 {\tt \{chrom\} } indicates the chromosome name, {\tt \{prefix\} } is the prefix to use for output files, and 
-{\tt \{bamlist\} } is the path to the text file holding paths to the BAM files, one for each individual, ordered as in {\tt \{ybin\} }.
+{\tt \{bamlist\} } is the path to the text file holding paths to the binary alignment map (BAM) files
+of aligned sequence data, one for each individual, ordered as in {\tt \{ybin\}}.
 
 There was only one peak in association scores that was shared between both comparisons (see 
-Results). From this peak we identified candidates for followup genotyping by including the 10 
-SNPs with the lowest association p-values, and supplementing those with additional SNPs that 
+Results). From this peak we identified candidates for follow-up genotyping by including the 10 
+SNPs with the lowest association $p$-values, and supplementing those with additional SNPs that 
 showed:
 \begin{itemize}
-\item An estimated absolute allele frequency difference (between late-fall and all 32 fall-run fish)  $>0.75$,  with an approximate lower confidence interval of that figure of 0.5,  or
-\item An estimated absolute frequency difference of >0.5 with a lower confidence interval >0.25 and 
+\item An estimated absolute allele frequency difference between late-fall and all 32 fall-run fish, $|d| >0.75$,  with an approximate lower confidence interval of $|d|$ greater than 0.5,  or
+\item $|d| >0.5$ with a lower confidence interval $>$0.25 and 
 with either fall-run or late-fall run being nearly fixed for one of the alleles, or
 \item An annotation from snpEff \citep{cingolani2012program} of “High” or “Moderate”, or
-\item An absolute frequency difference $>0.48$ and a lower confidence interval of $>0.25$ and a 
+\item $|d|>0.48$ and a lower confidence interval of $>$0.25 and a 
 genomic  coordinate $> 2.2$~Mb.
 \end{itemize}
 The final condition was implemented to gather several SNPs within the flanking region to the right of 
@@ -293,62 +283,104 @@ Primer3 \citep{koressaar2007enhancements,untergasser2012primer3} and tested ampl
 subset of Chinook salmon 
 samples. The primer pairs that amplified sequence that reliably mapped back to the association-peak region were then typed
 in a separate collection of 1,638 Sacramento River Chinook salmon sampled from the fish trap below Keswick Dam, including 1,169 winter run, 281 spring 
-run, and 188 fall/late-fall run. We divided the fish identified as fall/late-fall via the 125-locus genetic 
-stock identification data set into fall run and late fall run according to their sampling date at Keswick: 
-99 fish arriving before Dec 26 were classified as fall run and 89 fish arriving after Dec 26 were 
+run, and 188 fall/late-fall run. We divided the fish identified as fall/late-fall (via the 125-locus genetic 
+stock identification data set of \citealt{thompson2020complex} into fall run and late-fall run according
+to their sampling date at Keswick:  99 fish arriving before Dec 26 were classified as fall run and 89 fish arriving after Dec 26 were 
 classified as late-fall run.   The allele frequencies of the target SNPs at the remaining amplicons 
 were 
 estimated for each of these four groups: winter, spring, fall, and late-fall, and we retained
-amplicons showing large allele frequency  differences between late-fall fish and all other runs.
+amplicons showing large allele frequency differences between late-fall fish and all other runs.
 
 
-\subsubsection*{Markers potentially associated with phenotypes \citet{thompson2020complex}}
+\subsubsection*{Winter-run associated polymorphisms (WRAPs)}
 
-Additionally, we include here genetic markers that characterize variation in two genes, VGLL3 and SIX6,
+Using the whole genome sequencing data of \citet{thompson2020complex}, we also sought
+genomic regions that might provide diagnostic markers for the the Sacramento winter-run
+Chinook salmon.  This ecotype is highly differentiated from all other Chinook salmon populations
+throughout its genome, which complicates the process of finding diverged genome regions using
+a simple association study, with only 16 samples, as done to identify the LFAR.  Consequently we pursued a bespoke
+analysis to find regions we could expect to have large allele frequency differences between
+the winter-run and all other ecotypes of Chinook salmon in California's Central Valley.   This analysis
+screened for regions with large allele frequency differences across large blocks of the genome, and is
+described in the supplemental text section \ref{sec:wrap-methods}.
+
+\subsubsection*{Run-timing associated markers}
+
+We include six amplicons that capture the eight  SNPs within the ``Region of Strongest Assocation'' (RoSA)
+between spring-run and fall-run fish on Chromosome 28 listed in Table~S3 of \citet{thompson2020complex}.  
+We add three more amplicons in the same RoSA region to the panel, as well as one more amplicon that
+allows genotyping of snp670329, which was discovered and described by \citet{thompson2019anthropogenic}.
+Including all these markers in the panel allows them to be routinely typed, creating
+ a data base for understanding the spatial and temporal
+distribution of the alleles in this genomic region; however we have omitted these markers for calculating likelihoods for
+GSI, since their distribution across populations in the Feather River has been clearly and evidently
+influenced by hatchery practices (see Results), it is not necessary to include them for accurate assignment,
+and because the 12 SNPs within these three amplicons are typically in profound linkage disequilibrium (LD)
+making them inappropriate for use as separate markers in most software for population assignment or GSI, that
+typically assumes markers are not in LD within the component populations of the baseline.
+
+
+
+
+\subsubsection*{Additional phenotypically associated markers}
+
+The baseline also includes three amplicons with genetic variation
+in two genes, VGLL3 and SIX6,
 that have been found to be associated with phenotypes related to reproductive maturity in both
 Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmonids. We include
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-We include in the reference baseline amplicons targeting SNPs within the ``Region of Strongest Assocation'' (RoSA)
-between spring-run and fall-run fish on Chromosome Ots28 described in \citet{thompson2020complex}.  These are useful markers to
-have in the panel, as typing them routinely will create a data base for understanding the spatial and temporal
-distribution of the alleles at this region; however we have omitted these markers for calculating likelihoods for
-GSI, since their distribution across populations in the Feather River has been clearly and evidently
-influenced by hatchery practices (see Results), and it is not necessary to include them for accurate assignment.
-\comment{Describe additional E1/E2 markers (additional markers within the RoSA region) and
-Tasha Marker (because it is close to the duplication noted
-by Thompson et al.). We don't go into detail here---keeping it vague because it is
-going to be described in the subRoSA paper, but don't mention that.}
+Finally, we include a marker that targets the sex-determining region ({\em sdY} on the Y chromosome in Chinook salmon.
+This marker characterizes genetic sex in Central Valley populations \comment{\citep{von2015development}}.
+
+\subsection*{Localizing markers within the genome}
+
+The novel microhaplotype markers and the SNPlicon targets were
+developed prior to the advent of a well-assembled genome for Chinook salmon.
+As a consequence, many of these markers had
+been used previously without certainty about their location in the genome.
+After designing and validating an amplicon-sequencing approach to type both of these
+groups of markers we identified their locations within the genome by mapping the
+consensus sequences (roughly 100--300 bp) around the markers
+to both the Chinook salmon version 1 (Otsh\_v1.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002872995.1/}) and version 2  (Otsh\_v2.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018296145.1/}) genome assemblies,
+using both bwa-mem \citep{bwa-mem2009} and the BLAST-like Alignment tool \citep{kent2002blat}.
+A similar mapping exercise was performed for the remaining markers so that we can
+report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
 
 
-We also include a marker that targets the sex-determining region on the Y chromosome in Chinook salmon
-and that characterizes genetic sex in Central Valley populations \comment{\citep{von2015development}}
+\subsection*{Amplicon sequencing, microhaplotype calling, and further quality control}
 
-
-\subsection*{Amplicon sequencing and microhaplotype calling}
-
-Amplicon sequencing was performed with the Genotyping-in-Thousands by sequencing (GT-seq) method from Campbell et al. (2015). All loci were 
-multiplexed with primer concentrations ranging from 0.083 uM to 0.5 uM to increase uniformity of read depths across all loci. Sample normalization was 
-performed using the SequalPrep Normalization Plate Kit (Applied Biosystems) according to the manufacturer's instructions. Samples were pooled by plate 
-and then purified using Agencourt AMPure XP magnetic beads. Libraries were quantified by qPCR with the NEBNext Library Quant Kit for Illumina (New 
-England BioLabs) before dilution and pooling for sequencing. All samples were sequenced on a MiSeq using $2\times 75$-cycle paired-end sequencing protocols. 
+Amplicon sequencing was performed with the Genotyping-in-Thousands by sequencing (GT-seq)
+method \citep{campbell2015genotyping}. All loci were 
+multiplexed with primer concentrations ranging from 0.083 uM to 0.5 uM to increase
+uniformity of read depths across all loci. Sample normalization was 
+performed using the SequalPrep Normalization Plate Kit (Applied Biosystems) according
+to the manufacturer's instructions. Samples were pooled by plate 
+and then purified using Agencourt AMPure XP magnetic beads.
+Libraries were quantified by qPCR with the NEBNext Library Quant Kit for Illumina (New 
+England BioLabs) before dilution and pooling for sequencing.
+All samples were sequenced on a MiSeq using $2\times 75$-cycle paired-end sequencing protocols. 
 Primer sequences and concentrations for making the primer pool are in Supplemental Table 1. 
 
-For evaluation of candidate loci, dual-barcoded sequences were used to identify individual tissue samples using the MiSeq analysis software (Illumina). The paired-end sequence reads were joined together using Fast Length Adjustment of SHort reads (FLASH: Magoc and Salzberg 2011) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and FreeBayes (Garrison and Marth 2012) was used to call variants.
+For evaluation of candidate loci, dual-barcoded sequences were used
+to identify individual tissue samples using the MiSeq analysis software (Illumina).
+The paired-end sequence reads were joined together using Fast Length Adjustment
+of SHort reads (FLASH: \citealt{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and freebayes (Garrison and Marth 2012) was used to call variants.
 
-For genotyping of project samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts. 
+For genotyping of baseline samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts. 
 
-Before parentage analysis began each locus was assessed for the presence of null alleles using R scripts (eric citation). Twelve loci appeared to have null alleles in the winter-run population and were removed in all subsequent analyses. Additionally, two loci were monomorphic in the winter-run, but contained multiple alleles in other populations. The two monomorphic loci were removed in all winter-run analyses resulting in a final dataset of genotypes for 111 microhaplotype loci for this project. For more diverse salmon populations, it's likely that nearly all of the 125 microhaplotype loci could be used without Hardy-Weinberg Equilibirum or null allele issues.
-
+Each locus was assessed for the presence of null alleles using the R package `whoa' 
+(\url{https://github.com/eriqande/whoa}; {\em see} \citealt{hendricks2018recent}). 
 
 \subsection*{Population genetic analyses}
 
-Basic data summaries were calculated for each collection
+Basic data summaries were calculated for each population/collection
+in the reference baseline
 using simple operations in the R programming language, Version 4.3
 \citep{rcore}. We started with a simple tally of the number of alleles
 found at each locus.  To provide a summary of the genetic variation and
-missing data we report:
+missing data we further summarized:
 \begin {itemize}
 \item the average over loci of the number of fish
 in which each locus was successfully genotyped, $\bar{N}$;
@@ -370,14 +402,14 @@ replacement, taking the average of 1,000 different random subsamples.
 
 We calculated \citet{weir1984estimating}'s pairwise $F_\mathrm{ST}$ between
 all collections, using the {\footnotesize\tt pp.fst} function from the R
-package 'hierfstat' \citep{hierfstat}. Finally, we evaluated population
+package `hierfstat' \citep{hierfstat}. Finally, we evaluated population
 structure in the data by performing unsupervised clustering of
 the complete data set
 using the program STRUCTURE \citep{pritchard2000inference,falush2003inference}.
 We performed 20 replicate runs at each value of the assumed number of
 subpopulations, $K$, in $\{2, 3, 4, 5, 6, 7\}$ 
 using default settings of the program.  STRUCTURE output was
-a summarized and visualized using CLUMPAK version~\comment{??}
+a summarized and visualized using CLUMPAK
 \citep{kopelman2015clumpak}.
 
 
@@ -388,7 +420,7 @@ a summarized and visualized using CLUMPAK version~\comment{??}
 \subsection*{Power for genetic stock identification and population assignment}
 
 To assess the power of the marker panel for GSI, we used the R package
-'rubias' \citep{moran2019bayesian}.  We used the function {\tt self\_assign()}
+`rubias' \citep{moran2019bayesian}.  We used the function {\tt self\_assign()}
 to perform assignment of each individual in the reference baseline to one of the
 collections within the baseline.  Each fish was removed from the reference baseline
 when calculating the likelihood that it originated from the collection it actually belongs
@@ -398,14 +430,19 @@ The scaled likelihoods of collection membership returned by
 {\tt self\_assign()} were summed within reporting units, and fish were
 assigned to the reporting unit with the largest value of that sum.  Subsequently,
 fish were assigned to the collection within that reporting unit with the highest
-scaled likelihood.  We considered two criteria for assignment.  In the first,
+scaled likelihood.  We considered two thresholds for assignment.  In the first,
 all fish are assigned, in the second only fish with a summed (i.e., summed
 over all collections in a reporting unit)
 scaled likelihood greater than 0.8 were assigned.
 
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
-the RoSA.  For this, \comment{Eric. Describe this from what you have in the notebook}. 
+the RoSA.  For this we identified the RoSA genotype (EE, EL, or LL, see
+\citealt{thompson2020complex}) from the concordance of the genotypes
+at all 8 markers described in \citep{thompson2020complex}, requiring no missing
+data at any of those 8 markers, and discarding data from 12 individuals
+in which the E or L haplotypes had clearly recombined.
+
 
 
 \subsection*{Power for relationship inference}
@@ -417,7 +454,7 @@ to estimate the false-positive rates (FPRs) expected at
 different values of the false negative rate (FNR) for a variety of different pairwise
 relationships in different populations.  For these purposes, we divided the
 collections into 10 different groups.  The members of each group are
-relatively similar For all cases, we assumed that the genotyping error rate
+relatively, genetically similar.  For all cases, we assumed that the genotyping error rate
 was 1\% per locus and the genotyping error model was the default
 "True-genotype-independent" model. 
 
@@ -427,7 +464,8 @@ pairs we used importance sampling to estimate the very small FPRs.  The
 FNRs were estimated in each case using simple Monte Carlo.  For the FS and
 HS cases the FNRs were calculated from Monte Carlo sampling while taking account
 of the physical linkage of the markers by inputting their genomic positions into
-'CKMRsim' and using the MENDEL \citep{lange2013mendel} software to simulate genotypes of related pairs
+`CKMRsim' and using the package's interface to the MENDEL \citep{lange2013mendel}
+software to simulate genotypes of related pairs
 in the presence of physical linkage.  For PO pairs (and U pairs),
 FNRs were calculated without reference to the genomic locations of the markers
 because physical linkage does not
@@ -439,10 +477,11 @@ a parent and its child or between two unrelated individuals.
 For errors involving misidentifications between the relationship
 types of avuncular (AN: aunt-niece, uncle-nephew, etc.), PO, FS, and HS,
 we used regular Monte Carlo to estimate the FPRs and FNRs, because
-importance sampling cannot be used in those cases, and, since there are
+importance sampling cannot be used in those cases. Since there are
 expected to be far fewer such relationships than the number of unrelated
-pairs expected, the relevant FPRs are not so tiny and can be estimated
-(at least down to rates of $10^{-3}$) reliably.  For AN, FS, and HS, both the
+pairs, the relevant FPRs are large enough that they can be reliably estimated
+(at least down to rates of $10^{-3}$) without importance sampling.
+For AN, FS, and HS, both the
 FPRs and FNRs were estimated while taking account of physical linkage
 of the markers, as described above.
 
@@ -450,37 +489,30 @@ of the markers, as described above.
 
 \subsection*{Genetic Markers}
 
-\subsubsection*{Conversion of existing SNPtype assays}
-
-Of the 96 existing SNPtype assays, we were able to convert 79
-into reliable amplicon-sequenced assays that were included in the panel.
+A summary, which includes genomic location, consensus sequence, and primer sequences,
+of all the amplicons used in the baseline is available
+in Data Supplement~1. 
 
 \subsubsection*{Additional microhaplotype discovery} 
 
-We tested 229 candidates from our additional microhaplotype discovery and
+We tested the 229 candidates from our novel microhaplotype discovery process and
 initially retained the 125 markers described in \citep{thompson2020complex}
 for use in stock identification within
 the Klamath Basin.  However, further evaluation of those markers in other
-populations led us to drop some, and retain 106 of those markers in the current panel.
+populations led us to remove some of the markers.
+Twelve loci appeared to have null alleles in the winter-run population and were removed.
+Additionally, two loci were monomorphic in the winter-run, even though they contained
+multiple alleles in other populations, and an additional 5 amplicons were deemed
+difficult to score in routine application of the baseline, and were removed, leaving 106
+novel microhaplotype amplicons in the current panel.
 
-\subsubsection*{Localizing markers within the genome}
 
-Of these \comment{185} loci that originated from SNPtype assays or from our additional
-microhaplotype discovery, \comment{179} of them mapped identically to a single
-location on an assembled chromosome in the Otsh\_v2.0 genome, using both bwa mem and BLAT.
-Of the remaining 6 loci, one of them was mapped to the same location by BLAT and bwa mem, but
-the alignments differed by one base pair in the length of an embedded insertion, two of them had a single secondary alignment on a different chromosome
-that was identical in both bwa mem and BLAT, two of them had secondary alignments that
-disagreed slightly between BLAT and bwa mem, and one of them had multiple
-non-primary alignments (Table~S1 \comment{This is the Excel File.  It needs to
-be edited so as to: 1) have a column
-giving the category or provenance of the markers (i.e. LFAR or MHAP or SNPTYPE, etc.) 2) retain
-only the 2 LFAR markers we actually use. 3) Definitely rename the E2 markers to be something other
-than winter-run-greb1L-diagnostic}).
+\subsubsection*{Conversion of existing SNPtype assays}
 
-Mapping to Otsh\_v1.0 was similar, except that a greater number of markers mapped to unplaced
-scaffolds in Otsh\_v1.0 than in Otsh\_v2.0, likely reflecting the more complete nature of the
-second assembly.  
+Of the 96 existing SNPtype assays, we were able to convert 78
+into reliable amplicon-sequenced assays that were included in the panel.
+
+
 
 \subsubsection*{Late-fall Associated Region Markers}
 
@@ -494,7 +526,7 @@ the San Joaquin River (Fig.~\ref{fig:lfar-assoc}).
 
 The Manhattan plot of Fig.~\ref{fig:lfar-assoc} shows sporadic SNPs with low association
 $p$-values.  These are not shared between the two different late-fall to fall comparisons, and
-sites that we investigated were concentrated in areas of poor mapping suggesting that their
+sites that we investigated were concentrated in areas of poor mapping, suggesting that their
 $p$-values were artifactual.  By contrast, a large number of sites near the prominent peak on
 chromosome 34 had large allele frequency differences between late-fall and fall run.  Taking the
 10 SNPs with the lowest association $p$-values, and including additional ones from the filtering criteria given in the
@@ -509,7 +541,10 @@ late-fall and spring or winter run.
 Analysis of the mapping of amplicons for Chr34:828,768 
 showed that many ($\approx$89\%) of the reads were off-target (aligning to other chromosomes, 
 etc.), making it costly (in terms of sequencing effort) to include the marker in the baseline panel. 
-\comment{Consequently it was dropped.}  The frequency of the different alleles at the two remaining loci
+Consequently it was dropped from the panel.  The two remaining loci, which are at coordinates
+Chr34:865,057, and Chr34:1,063,084 in the Otsh\_v1.0 assembly are at coordinates
+Chr34:954,054 and  Chr34:1,151,868 in the Otsh\_v2.0 assembly, and
+the frequency of the different alleles at the two remaining loci
 within different reporting units in the baseline are shown in Table~\ref{tab:lfar-freqs}.
 %%%%%%%%%%%%%%
 \begin{table}
@@ -529,6 +564,23 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 \vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
 \end{table}
 %%%%%%%%%%%%%%%
+
+\subsection*{Localizing markers within the genome}
+
+Of the 184 loci that originated from our novel
+microhaplotype discovery or from SNPtype assays, 179 of them mapped identically to a single
+location on an assembled chromosome in the Otsh\_v2.0 genome, using both bwa mem and BLAT.
+Of the remaining 5 loci, one of them was mapped to the same location by BLAT and bwa mem, but
+the alignments differed in length, two of them had a single secondary alignment on a different chromosome
+that was identical in both bwa mem and BLAT, one of them had only a fragment mapping to
+the secondary alignment, and one of them had multiple
+non-primary alignments (Supp.~Data~1).
+
+Mapping to Otsh\_v1.0 was similar, except that a greater number of markers mapped to unplaced
+scaffolds in Otsh\_v1.0 than in Otsh\_v2.0, likely reflecting the more complete nature of the
+second assembly.  
+
+
 \subsection*{Population genetic summaries}
 
 The total number of alleles per locus varied between 2 and 10 (Fig.~\ref{fig:num-alle}). Biallelic 
