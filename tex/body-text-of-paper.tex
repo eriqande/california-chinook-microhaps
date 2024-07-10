@@ -333,8 +333,11 @@ Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmo
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-Finally, we include a marker that targets the sex-determining region ({\em sdY} on the Y chromosome in Chinook salmon.
+We include a marker that targets the sex-determining region ({\em sdY} on the Y chromosome in Chinook salmon.
 This marker characterizes genetic sex in Central Valley populations \comment{\citep{von2015development}}.
+And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
+coho salmon and Chinook salmon.  This is helpful when samplers have unwitting
+collected coho salmon from ocean catches.
 
 \subsection*{Localizing markers within the genome}
 
@@ -589,7 +592,9 @@ second assembly.
 
 \subsection*{Population genetic summaries}
 
-The total number of alleles per locus varied between 2 and 10 (Fig.~\ref{fig:num-alle}). Biallelic
+The total number of alleles per locus varied between 1 and 10 (Fig.~\ref{fig:num-alle}), with the
+only locus with a single allele being the species-specific marker Ots\_coho001\_05\_32691399
+used to distinguish coho from Chinook salmon. Biallelic
 loci were most common, at 66 of the total, but two-thirds of the microhaplotype markers
 showed more than two alleles, which has been shown to provide significantly more
 power for relationship inference than a comparably sized panel of biallelic SNPs
@@ -616,45 +621,19 @@ codes are as given in Table~\ref{tab:samples}}
 \end{table}
 %%%%%%%%%%%%%%%
 The average number of fish with non-missing data in each population varied from
-a low of 39.2 (BCF) to a high of 275.2 (CHLF).  The average number of alleles
-per locus, standardized to the smallest sample size, ranged from 2.35 (SRW) to
-2.68 (RRF), with  SRW also having the smallest value of the
-standardized fraction of polymorphic markers at 0.9 and RRF sharing the highest value
-(0.97) with ERF and BCkF.
+a low of 40.2 (TRF) to a high of 279.6 (CHLF).  The average number of alleles
+per locus, standardized to the smallest sample size, ranged from 2.32 (SRW) to
+2.64 (RRF), with  SRW also having the smallest value of the
+standardized fraction of polymorphic markers at 0.88 and RRF sharing the highest value
+(0.96) with FHRF and BCkF.
 SRW also had the lowest values for expected and observed heterozygosity:
-0.349 and 0.340, respectively. While the highest for expected heterozygosity
-was 0.412 (SmRF) and for observed heterozygosity, 0.411 (CRHS).
+0.338 and 0.329, respectively. While the highest for expected heterozygosity
+was 0.401 (SmRF) and for observed heterozygosity, 0.399 (CRHS).
 
 The estimated pairwise $F_\mathrm{ST}$ values between the collections
-varied from a low of 0.0 to a high of 0.273 (Figure~\ref{fig:gsi}a).
+varied from a low of 0.0 to a high of 0.288 (Figure~\ref{fig:gsi}a).
 Notably, most of the largest values
 of $F_\mathrm{ST}$ occurred between SRW and another collection.
-
-The program STRUCTURE clustered fish at all values of $K$ from 2 to \comment{7}.
-(Fig.~\ref{fig:struct}).  The clusters generally corresponded to groupings of related populations, and confirmed
-{\em a priori} knowledge about which collections in the baseline could and should be
-grouped together into reporting units.  At every value of $K$ CLUMPAK discerned at least
-11 of 20 replicates in the major mode (Fig.~\ref{fig:struct}). Clustering solutions in the minor
-modes appear in Fig.~\ref{fig:minor-modes}.
-%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-\newcommand{\structcap}{\footnotesize Major modes found by STRUCTURE and summarized
-by CLUMPAK out of 20 replicates for each value of $K$, the assumed number of
-subpopulations. \comment{We kind of need to make our own figure here that doesn't take up
-as much whitespace and also gives the number of occurrences of each mode.} }
-\begin{center}
-\includegraphics[width=\columnwidth]{images/major-modes-crop.pdf}
-\end{center}
-\caption[\structcap]{\structcap}
-\label{fig:struct}
-\end{figure}
-
-\subsection*{Power for genetic stock identification and population assignment}
-
-Leave-one-out cross-validation (self-assignment) analysis demonstrates that this
-reference baseline provides a high degree of accuracy for distinguishing the major
-groups of Chinook salmon in California.  The results of the analysis are summarized
-in a self-assignment matrix (Figure~\ref{fig:gsi}).
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
 \newcommand{\gsicap}{\footnotesize Pairwise $F_\mathrm{ST}$ values and allele frequencies({\bf a)}
@@ -677,12 +656,45 @@ to the true source collection and the column corresponds to the assigned collect
 \label{fig:gsi}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%
-This figure shows the collections divided into seven different reporting groups:
-SO-NCal-Coast,  Klamath-Trinity, Cent. Cal. Coast,
-CV-Winter, CV-Spring, CV-Fall, and  CV-Late-Fall.  \comment{Really, where and how
-do we want to introduce these reporting units?} These groupings correspond
-largely to the divisions in the data found by STRUCTURE, and they also correspond
-with divisions amongst the stocks as defined for management.
+
+
+
+The program STRUCTURE clustered fish at all values of $K$ from 2 to 7.
+(Fig.~\ref{fig:struct}).  The clusters generally corresponded to groupings of related populations, and confirmed
+{\em a priori} knowledge about which collections in the baseline could and should be
+grouped together into reporting units.  At every value of $K$ CLUMPAK discerned \comment{at least
+11 of 20 replicates} in the major mode (Fig.~\ref{fig:struct}).   
+\comment{Need to add more description of the patterns, especially at $K=7$.}
+\comment{Clustering solutions in the minor
+modes appear in Fig.~\ref{fig:minor-modes}, which likely needs to be updated.  Get all this done
+when AC is back and can vet it.}
+%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+\newcommand{\structcap}{\footnotesize Major modes found by STRUCTURE and summarized
+by CLUMPAK out of 20 replicates for each value of $K$, the assumed number of
+subpopulations. }
+\begin{center}
+\includegraphics[width=\columnwidth]{images/clumpak-crop.pdf}
+\end{center}
+\caption[\structcap]{\structcap}
+\label{fig:struct}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection*{Power for genetic stock identification and population assignment}
+
+Leave-one-out cross-validation (self-assignment) analysis demonstrates that this
+reference baseline provides a high degree of accuracy for distinguishing the major
+groups of Chinook salmon in California.  The results of the analysis are summarized
+in a self-assignment matrix (Figure~\ref{fig:gsi}b).
+This figure shows the collections divided into the seven different reporting groups:
+SO-NCal-Coast,  Klamath-Trinity, Cent.\ Cal.\ Coast,
+CV-Winter, CV-Spring, CV-Fall, and  CV-Late-Fall.  These groupings correspond
+largely to the divisions in the data found by STRUCTURE, they also correspond
+with divisions amongst the stocks as defined for management, and, as seen in the
+figure, they correspond with groups of populations that can be reliably distinguished
+from one another for population assignment.
 
 Overall, of the 1613 fish in the reference baseline, 1587 (98.4\%) were correctly
 assigned to their reporting unit of origin, while 26 (1.6\%) were incorrectly assigned.
