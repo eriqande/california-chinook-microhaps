@@ -3,7 +3,7 @@
 repunit_colors <- c(
   `SO-NCal-Coast` = "beige",
   `Klamath-Trinity` = "#6e8b3d",
-  `Cent. Cal. Coast` = "#79cdcd",
+  `Cent-Cal-Coast` = "#79cdcd",
   `CV-Winter` = "#ffff99",            # a "cool-ish" color for winter
   `CV-Spring` = "#99CC33",             # green like spring
   `CV-Fall` = "#F06292",
