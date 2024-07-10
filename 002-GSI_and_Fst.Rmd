@@ -335,7 +335,7 @@ source("R/plot_self_assigment_table.R")
 no_lfar_ass_table <- plot_self_assignment_table(top_ass$top, pop_labels, collection_order)
 
 no_lfar_ass_table_80 <- top_ass$top %>% 
-  filter(scaled_likelihood > 0.8) %>%
+  filter(repu_sclike > 0.8) %>%
   plot_self_assignment_table(pop_labels, collection_order)
 
 no_lfar_ass_table_Rosa <- top_ass$top %>%
@@ -354,7 +354,7 @@ lfar_ass_table <- plot_self_assignment_table(lfar_top_ass$top, pop_labels, colle
 lfar_ass_table_no_legend <- plot_self_assignment_table(lfar_top_ass$top, pop_labels, collection_order, no_legend = TRUE)
 
 lfar_ass_table_80 <- lfar_top_ass$top %>% 
-  filter(scaled_likelihood > 0.8) %>%
+  filter(repu_sclike > 0.8) %>%
   plot_self_assignment_table(pop_labels, collection_order)
 
 lfar_ass_table_Rosa <- lfar_top_ass$top %>%
@@ -376,11 +376,79 @@ lfar_top_ass$top %>%
   mutate(fract = n/tot_fish)
 ```
 
+Look at the distribution there:
 ```{r}
-over80 <- nrow(lfar_top_ass$top %>% filter(repu_sclike > 0.8))
-
-lfar_top_ass$top %>% filter(repu_sclike > 0.8) %>% count(repunit == inferred_repunit) %>% mutate(fract = n / over80)
+lfar_top_ass$top %>%
+  filter(repunit != inferred_repunit) %>%
+  count(collection, inferred_repunit)
 ```
+
+Get some more values for the paper:
+
+From CHLF to Fall
+```{r}
+lfar_top_ass$top %>%
+  filter(collection == "CHLF") %>%
+  count(repunit == inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+  
+```
+
+From Fall to CHLF
+```{r}
+lfar_top_ass$top %>%
+  filter(repunit == "CV-Fall") %>%
+  count(repunit,inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+  
+```
+
+```{r}
+lfar_top_ass$top %>%
+  filter(collection == "MDS") %>%
+  count(repunit,inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+  
+```
+
+
+#### Now, look at the >80% criterion.
+```{r}
+# first, the number and fraction of fish that are still assigned
+lfar_top_ass$top %>% 
+  mutate(gt80 = repu_sclike > 0.8) %>%
+  count(gt80, repunit == inferred_repunit)
+```
+
+```{r}
+lfar_top_80 <- lfar_top_ass$top %>% 
+  filter(repu_sclike > 0.8)
+
+lfar_top_80 %>%
+  count(repunit == inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+```
+
+Drop the clear winter run strays
+```{r}
+
+lfar_top_80 %>%
+  filter(!((inferred_collection == "SRW") & (inferred_repunit != repunit))) %>%
+  count(repunit == inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+```
+
+And particularly look at misassignments to the CHLF and CV-Spring
+
+From Fall to other repunits
+```{r}
+lfar_top_80 %>%
+  filter(repunit == "CV-Fall") %>%
+  count(repunit,inferred_repunit) %>%
+  mutate(fract = n / sum(n))
+  
+```
+
 
 
 ## Make a Plot for scaled likelihood > 0.8

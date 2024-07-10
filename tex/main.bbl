@@ -1,4 +1,4 @@
-\begin{thebibliography}{68}
+\begin{thebibliography}{69}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -197,6 +197,14 @@ Hess JE, Whiteaker JM, Fryer JK, Narum SR (2014) Monitoring stock-specific
   abundance, run timing, and straying of Chinook salmon in the Columbia River
   using genetic stock identification (GSI). {\em North American Journal of
   Fisheries Management\/}, {\bf 34}, 184--201.
+
+\bibitem[\protect\citeauthoryear{Hillary, Bravington, Patterson, Grewe,
+  Bradford, Feutry, Gunasekera, Peddemors, Werry, Francis {\em
+  et~al.\/}}{Hillary {\em et~al.\/}}{2018}]{hillary2018genetic}
+Hillary R, Bravington M, Patterson T, Grewe P, Bradford R, Feutry P, Gunasekera
+  R, Peddemors V, Werry J, Francis M, {\em et~al.\/} (2018) Genetic relatedness
+  reveals total population size of white sharks in eastern Australia and New
+  Zealand. {\em Scientific reports\/}, {\bf 8}, 2661.
 
 \bibitem[\protect\citeauthoryear{Horn, Hess, Harmon, Hess, Delomas, Campbell,
   \& Narum}{Horn {\em et~al.\/}}{2023}]{horn2023multigeneration}
