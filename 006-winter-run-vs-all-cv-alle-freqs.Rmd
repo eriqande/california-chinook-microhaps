@@ -1,0 +1,510 @@
+---
+title: "Absolute Value of Alle Freq Diff between Winter Run and all other Central Valley fish"
+biblio-style: apalike
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_knit$set(root.dir = here::here())
+start_time <- Sys.time()
+```
+
+# Input and Output Paths
+
+```{r}
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  # inputs:
+  input_list <- list(
+    wrap_chr_len = "inputs/wrap/chrom_lengths.txt",
+    win_non_win_abs_diffs = "stored_results/win-non-win-abs-diffs-gt0.5.rds"
+  )
+  # outputs:
+  output_list <- list(
+    mh_plot = "results/wrap-discover/winter-v-non-winter-mh-plot_nind_ge10.pdf",
+    mh4tex = "tex/images/winter-v-non-winter-mh-plot_nind_ge10.pdf",
+    pdf = "results/genomic-locations-plot/gen-loc.pdf",
+    hundy_kb_plot = "results/wrap-discover/100-kb-intervals-plot.pdf",
+    hundy_kb4tex = "tex/images/wrap-slide-window.pdf",
+    fuv2 = "results/wrap-discover/follow_up_variants2.rds",
+    wrap61_plot = "results/wrap-discover/wrap-candi.pdf",
+    wrap61_4tex = "tex/images/wrap-candi.pdf"
+  )
+}
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+
+
+
+# Stuff Run on the Cluster
+
+## Computing the allele frequencies across the whole genome
+
+### Packages and paths 
+```r
+library(tidyverse)
+library(viridis)
+dir.create("outputs/501", recursive = TRUE, showWarnings = FALSE)
+dir.create("intermediates/501", recursive = TRUE, showWarnings = FALSE)
+```
+
+## Text files with names of fall-run and spring-run fish
+
+We do this in R.
+```r
+pmeta <- read_csv("data/wgs-chinook-samples.csv")
+
+# get file with fall-run names in it
+pmeta %>%
+  filter(run_type == "Winter") %>%
+  .$vcf_name %>%
+  cat(., file = "intermediates/501/winter-run.txt", sep = "\n")
+
+# get file with spring-run names in it
+pmeta %>%
+  filter(
+    !str_detect(Population, "^Salmon|^Trinity"),
+    run_type != "Winter") %>%
+  .$vcf_name %>%
+  cat(., file = "intermediates/501/non-winter-run-cv.txt", sep = "\n")
+```
+
+
+## Clean up the damn VCF files
+
+Why is this still a problem?  Three of the VCF files have non-ascii gremlins in them.
+We clean them up with `tr` as shown below. Doing so gave us the correct md5 hashes for the
+files when we got them from Russ.  But apparently, the fixed versions were never put back
+up onto Google Drive.  WTF?!  I will fix and do that now...
+```sh
+conda activate bioinf # to get bgzip
+cd chinook_WGS_processed
+for i in NC_037097.1.vcf.gz NC_037109.1.vcf.gz NC_037116.1.vcf.gz; do 
+  echo $i;
+  zcat $i | tr -cd '\11\12\15\40-\176' | bgzip > cleaned_$i; 
+done
+
+# when done:
+for i in cleaned_NC_037*.vcf.gz; do j=${i/cleaned_/}; echo $i $j; mv $i $j; done 
+
+# after I had indexed all the VCFs I then rcloned everything back
+# to the Google Drive
+rclone copy --drive-shared-with-me chinook_WGS_processed gdrive-rclone:chinook_WGS_processed
+
+```
+
+## Do it all in a job array
+
+**NOTE!!** I installed angsd 0.921 with conda because the latest version
+fails when parsing the VCFs.  
+
+
+First, some prep:
+```sh
+# get a list of the vcf files to process
+ls -l chinook_WGS_processed/*.vcf.gz | awk 'BEGIN{printf("index\tvcf\n");} {printf("%d\t%s\n", ++n, $NF);}' > intermediates/501/vcflist.txt
+
+# get some directories where we need them:
+mkdir -p intermediates/501/slurm_{out,err}
+```
+
+Then we make a quick job array script called `script/501-winter-non-winter-alle-freqs.sh`
+and run it.
+
+First test it on the first 3:
+```sh
+sbatch --array=1-3 script/501-winter-non-winter-alle-freqs.sh
+```
+That seems successful, so we crank it out on the remining ones
+```sh
+sbatch --array=4-41 script/501-winter-non-winter-alle-freqs.sh
+```
+
+
+## Filtering, alle freq diffs, and plotting
+
+I am still doing this on the cluster within R. Our strategy
+is to read the winter run and the non-winter-run-cv separately, and filter each
+on the read depth requirement, separately.  Then we will do an inner join of all those.
+
+I am requiring 62.5% or more having at least one read. So that is 10/16 for the
+winter run and 50/80 for the nonwinter run.
+
+Get the winter run:
+```r
+winter_files <- dir(
+  path = "intermediates/501/winter-run",
+  pattern = "*mafs.gz",
+  full.names = TRUE
+)
+
+winter_freqs <- lapply(winter_files, function(x) {
+  read_tsv(x) %>%
+    filter(nInd >= 10)
+}) %>%
+  bind_rows()
+```
+
+Then get the non-winter-run:
+```r
+nonwinter_files <- dir(
+  path = "intermediates/501/non-winter-run-cv",
+  pattern = "*mafs.gz",
+  full.names = TRUE
+)
+
+nonwinter_freqs <- lapply(nonwinter_files, function(x) {
+  read_tsv(x) %>%
+    filter(nInd >= 50)
+}) %>%
+  bind_rows()
+```
+Now we do the inner join:
+```r
+all_them <- inner_join(
+  winter_freqs,
+  nonwinter_freqs,
+  by = c("chromo", "position"),
+  suffix = c("_winter", "_nonwinter")
+) %>%
+  mutate(
+    ave_freq = (unknownEM_winter + unknownEM_nonwinter) / 2,
+    abs_diff = abs(unknownEM_winter - unknownEM_nonwinter)
+  )
+```
+And it is quite straightforward from here. Note that we have 7,295,001 SNPs here.
+
+First, just look at the distribution of absolute differences:
+```r
+g <- ggplot(all_them, aes(x = abs_diff)) +
+  geom_histogram(binwidth = 0.001)
+g
+```
+That looks good.  What if we focus on everything with an abs diff > 0.25?
+```r
+g +
+  xlim(0.25, 1.01)
+```
+There is a gradual decline toward 1.00, but a tiny bump up at 1.00 itself.  
+
+This is going to be hard...
+```r
+g +
+  xlim(0.8, 1.01)
+```
+
+Have a look at everything > 0.95 with rView:
+```r
+library(rView)
+all_them %>%
+  filter(abs_diff > 0.95) %>%
+  arrange(desc(abs_diff)) %>%
+  select(chromo, position, abs_diff, everything()) %>%
+  count(chromo) %>%
+  arrange(desc(n)) %>%
+  rView()
+```
+
+So, I think what I want to do now is put everything > 0.5 into stored_results.
+That still gives us 175 K SNPs to plot.
+```r
+dir.create("stored_results/501", showWarnings = FALSE, recursive = TRUE)
+all_them %>%
+  filter(abs_diff >=  0.5) %>%
+  write_rds("stored_results/501/win-non-win-abs-diffs-gt0.5.rds", compress = "xz")
+```
+
+
+# Back to the laptop
+
+## "Manhattan" plot
+
+I have some code for this, but need the chromosome lengths:
+We need to get the chromosome lengths for all of these.  We can pull those out of the
+VCF file.
+```sh
+mkdir -p intermediates/501
+mkdir -p outputs/501
+(echo "Chromosome chrom_length"; gunzip -c data/greb1l-ish-region.vcf.gz 2> /dev/null | awk -F"=" '/^##contig/ {print $3, $4} !/^#/ {exit}' | sed 's/,length//g; s/>//g;') > inputs/wrap/chrom_lengths.txt
+```
+
+Now, filter down to abs_diff > 0.25, and get the chrom_lengths
+```{r}
+library(tidyverse)
+
+wnw_lite <- read_rds(input_list$win_non_win_abs_diffs) %>%
+  rename(Chromosome = chromo)
+
+chrom_lengths <- read_table(input_list$wrap_chr_len)
+```
+
+Now, my function to make the plot. This website [https://www.r-graph-gallery.com/wp-content/uploads/2018/02/Manhattan_plot_in_R.html](https://www.r-graph-gallery.com/wp-content/uploads/2018/02/Manhattan_plot_in_R.html) had a nice discussion of it. We've store
+two functions in `R/`: `my_mh_prep` and `plot_mh` and source them here: 
+```{r}
+source("R/manhattan_plot_funcs.R")
+```
+
+Now, use those funcs:
+```{r}
+wnw_prepped <- my_mh_prep(wnw_lite, chrom_lengths)
+
+mh_plot <- plot_mh(wnw_prepped$snps, wnw_prepped$axisdf) +
+  xlab("Position along chromosome") +
+  ylab("Absolute value of allele frequency difference, spring-run vs. fall-run")
+
+mh_plot
+```
+
+So, as expected, there are a lot of things with large allele frequency differences.  And there are
+those gaps, from before, too.  (Places where the VCFs got screwed up, somehow).
+
+Let us also be clear that some of these SNPs might have only 10 individuals, each with just one read.  So, even though they are diploids, that is still just a sample of 10 gene copies---not 20.  Let's try filtering to 
+16 individuals.
+
+First, just look at the distribution of number of winter indivs with reads:
+```{r}
+wnw_lite %>%
+  count(nInd_winter)
+```
+
+
+Plot it with sites with at least 14.
+```{r}
+wnw_prepped_filt <- my_mh_prep(wnw_lite %>% filter(nInd_winter >= 14), chrom_lengths)
+
+mh_plot_filt <- plot_mh(wnw_prepped_filt$snps, wnw_prepped_filt$axisdf) +
+  xlab("Position along chromosome") +
+  ylab("Absolute value of allele frequency difference, spring-run vs. fall-run")
+
+mh_plot_filt
+```
+
+So, the standouts there are still interesting.  
+
+Hell, do it with 16, too:
+```{r}
+wnw_prepped_filt <- my_mh_prep(wnw_lite %>% filter(nInd_winter >= 16), chrom_lengths)
+
+mh_plot_filt <- plot_mh(wnw_prepped_filt$snps, wnw_prepped_filt$axisdf) +
+  xlab("Position along chromosome") +
+  ylab("Absolute value of allele frequency difference, spring-run vs. fall-run")
+
+mh_plot_filt
+```
+
+Which confirms that the NC_037112.1 chromosome is the most interesting.
+
+
+Let's plot a big long version of the full plot so we can 
+see the points and point density better.
+```{r}
+ggsave(mh_plot + ylim(0.5, 1.0), filename = output_list$mh_plot,
+       height = , width = 12)
+
+file.copy(from = output_list$mh_plot, to = output_list$mh4tex, overwrite = TRUE)
+```
+
+## Zoom in on NC077112.1
+
+```{r}
+wnw_lite %>%
+  filter(Chromosome == "NC_037112.1", position > 2.37e7, position < 2.65e7) %>%
+  ggplot(aes(x = position, y = abs_diff)) + 
+  geom_point()
+```
+
+Let's also just do a smooth for average number of sites with abs_diff > .9 per megabase.
+```{r}
+hundy_kb_chunks <- wnw_lite %>%
+  select(Chromosome, position, abs_diff) %>%
+  mutate(
+    geq90 = abs_diff >= 0.9
+  ) %>%
+  group_by(Chromosome) %>%
+  mutate(length = max(position) - min(position)) %>%
+  dplyr::do(
+    as_tibble(
+      ksmooth(
+        .$position,
+        .$geq90,
+        bandwidth = 1e6,
+        n.points = 10 * (1 + .$length[1] / 1e6)
+      )
+    )
+  ) %>%
+  ungroup() %>%
+  rename(
+    `100kb_midpoint` = x,
+    fract_snps_with_abs_diff_geq_0.9 = y  
+  ) 
+
+hundy_kb_chunks %>%
+  arrange(desc(fract_snps_with_abs_diff_geq_0.9 )) %>%
+  slice(1:20)
+
+```
+
+That is pretty compelling.  There a 1 Mb chunk on 37112 that is more interesting than anythign else.
+Let's make a smoothed Manhattan plot of this:
+```{r}
+hundy_prepped <- hundy_kb_chunks %>%
+  mutate(
+    position = floor(`100kb_midpoint`),
+    abs_diff = fract_snps_with_abs_diff_geq_0.9
+  ) %>% 
+  my_mh_prep(chrom_lengths)
+
+hundy_mh_plot <- plot_mh(hundy_prepped$snps, hundy_prepped$axisdf) +
+  xlab("Midpoint of 100 Kb interval") +
+  ylab("Fraction of sites with abs_diff > 0.5 that have abs_diff >= 0.9") +
+  ylim(0,NA) +
+  geom_line(aes(color = color_band, group = Chromosome), size = 0.4) +
+  geom_point(aes(color = color_band), size = 0.9)
+
+hundy_mh_plot
+```
+
+
+
+
+
+## Investigate SNPs in the "six peaks"
+
+We are going to look at SNPs in the 6 highest peaks from our smoothed 100 Kb windows,
+with the possibility of designing some primers for them.
+
+We will define those peaks as places where the smoothed fraction of sites > 0.9 is
+greater than 0.124
+```{r}
+# filter it down and break them into groups of the different "adjacent" chunks
+follow_up_chunks <- hundy_kb_chunks %>%
+  filter(fract_snps_with_abs_diff_geq_0.9 > 0.124) %>%
+  mutate(
+    dist = `100kb_midpoint` - lag(`100kb_midpoint`, default = 200000),
+    group = cumsum(Chromosome != lag(Chromosome, default = "bonkers") | dist > 100000), # this breaks the second peak on Chr 16 into two, so we will merge them
+    group = case_when(
+      group == 6 ~ 5L,
+      group > 6 ~ group - 1L,
+      TRUE ~ group
+    )
+  )
+
+follow_up_chunks
+```
+
+That gives us 6 groups of adjacent (more or less) 100 Kb windows. Let us plot
+those out:
+```{r}
+fups <- hundy_prepped$snps %>% semi_join(follow_up_chunks %>% filter(Chromosome != "NC_037103.1"), by = join_by(Chromosome, `100kb_midpoint`))
+
+red_balloons <- hundy_mh_plot +
+  geom_point(data = fups, shape = 21, fill = NA, colour = "red", size = 2)
+
+red_balloons
+```
+
+While we are at it, let's put a copy of that into outputs
+```{r}
+ggsave(red_balloons, filename = output_list$hundy_kb_plot, width = 10, height = 6)
+
+file.copy(from = output_list$hundy_kb_plot, to = output_list$hundy_kb4tex, overwrite = TRUE)
+```
+
+
+I want to plot the
+estimated allele freq diffs from those windows (plus a buffer of 70 Kb on either side)
+in a big facet_wrap.  
+```{r}
+follow_up_variants <- follow_up_chunks %>%
+  group_by(group) %>%
+  summarise(
+    Chromosome = Chromosome[1],
+    min_pos = min(`100kb_midpoint`) - 5e4,
+    max_pos = max(`100kb_midpoint`) + 5e4
+    ) %>%
+  left_join(wnw_lite, by = "Chromosome") %>%
+  filter(position >= min_pos - 7e4, position <= max_pos + 7e4) 
+```
+
+With that, we can then plot things. I will color by the number of winter run that
+we obtained reads from:
+```{r, fig.height=10, fig.width=8}
+
+group_facet_inds <- ggplot(follow_up_variants, aes(x = position, y = abs_diff)) +
+  facet_wrap(~ group, scales = "free_x") +
+  geom_point(aes(colour = nInd_winter)) +
+  scale_color_viridis_c()
+
+
+# make another showing the SNPs to design on.  That will be: anything above 0.975
+# absolute difference, or the highest abs diff, up to 8 variants.
+fuv2 <- follow_up_variants %>%
+  ungroup() %>%
+  arrange(group, desc(abs_diff)) %>%
+  group_by(group) %>%
+  mutate(
+    abs_diff_rank = 1:n(),
+    try_design = abs_diff_rank <= 8 | abs_diff > 0.975
+  )
+
+
+group_facet_selecto <- ggplot(fuv2, aes(x = position / 1e06, y = abs_diff)) +
+  facet_wrap(~ Chromosome, scales = "free_x") +
+  geom_point(aes(fill = try_design), shape = 21, stroke = 0.05) +
+  scale_fill_manual(values = c("blue", "red")) +
+  xlab("Position on Chromosome (in megabases)") +
+  ylab("Absolute difference in allele frequency between\nwinter-run and non-winter-run")
+
+
+
+group_facet_selecto
+```
+
+How many is that?
+```{r}
+sum(fuv2$try_design)
+```
+
+Let's make a plot of that for the supplement.
+```{r}
+ggsave(group_facet_selecto, filename = output_list$wrap61_plot, width = 9, height = 6)
+
+file.copy(from = output_list$wrap61_plot, to = output_list$wrap61_4tex, overwrite = TRUE)
+```
+
+## Finally, save fuv2 for later use
+
+```{r}
+write_rds(fuv2, path = output_list$fuv2, compress = "xz")
+```
+
+# Citations
+
+::: {#refs}
+:::
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```

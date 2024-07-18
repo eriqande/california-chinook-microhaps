@@ -1,7 +1,38 @@
 %!TEX root = supplement.tex
 
-\section{Winter-run-associated polymorphism (WRAP) methods\label{sec:wrap-methods}}
+\section{Winter-run-associated polymorphism (WRAP) methods and results\label{sec:wrap-methods}}
 
+We used the whole genome sequencing data from \citet{thompson2020complex} to seek variants with
+large allele frequency differences between winter-run Chinook salmon and all the other
+Chinook salmon ecotypes in the Central Valley of California (CCV).  Because winter-run Chinook are
+already highly differentiated from all others, we did not pursue an association study as used
+for identifying the late-fall-run associated variants.  Rather, we first identified regions with a high
+density of variants with large allele frequency differences between winter-run and non-winter-run
+fish in the CCV\@. Subsequently we identified SNPs within those regions with particularly
+large allele frequency differences.  This approach was taken to avoid targeting single SNPs
+with large allele frequency differences resulting from sampling variation, which was a
+concern because we had whole genome sequencing data from only 16 winter run fish.
+
+More specifically, we calculated allele frequencies for 16 winter-run fish and 84 non-winter-run
+fish from the  \citet{thompson2020complex} variant data VCF files using ANGSD version~0.921.
+Sites were retained if at least 62.5\% of samples in each group had read data (10 of 16 for the
+winter run and 50 of 80 for the non-winter run), resulting in 7,295,001 SNPs for downstream
+analysis.  We first investigated the distribution throughout the genome of $|d|$, the absolute difference
+of the alternate allele frequency between the two groups  (Fig.~\ref{fig:wrap-absdiff}). This revealed
+that many loci had large values of $|d|$, but there were several
+regions in the genome, in particular, with prominent peaks in allele frequency difference and one
+or more SNPs apparently fixed for alternate alleles between the two sample groups.  
+
+To leverage information from multiple SNPs to identify regions in the genome with large
+allele frequency differences, we calculated the fraction of SNPs with $|d| > 0.5$ that also
+had $|d| > 0.9$ within non-overlapping 100 kb sliding windows throughout the genome. This metric indicated
+several prominent peaks.  We focused on all of those
+100 kb windows in which more than 12.4\% of sites with $|d|>0.5$ also had $|d|>0.9$ which were
+also adjacent to at least one window in which $>10\%$ of sites with $|d|>0.5$ also had $|d|>0.9$ 
+(Fig.~\ref{fig:wrap-slide-window}).  Within the windows found on four different chromosomes using
+the above criteria, we then attempted to design amplicons to type the SNPs at a subset of the sites
+within each window.  We chose all sites with $|d|>0.975$, as well as the 8 SNPs on each chromosome
+with the highest values of $|d|$.  
 
 \comment{ECA has to add the WRAP text here}
 
