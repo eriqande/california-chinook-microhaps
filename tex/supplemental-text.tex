@@ -9,8 +9,8 @@ already highly differentiated from all others, we did not pursue an association 
 for identifying the late-fall-run associated variants.  Rather, we first identified regions with a high
 density of variants with large allele frequency differences between winter-run and non-winter-run
 fish in the CCV\@. Subsequently we identified SNPs within those regions with particularly
-large allele frequency differences.  This approach was taken to avoid targeting single SNPs
-with large allele frequency differences resulting from sampling variation, which was a
+large allele frequency differences.  This approach was taken to avoid targeting single, isolated SNPs
+with large allele frequency differences that may have resulted merely from sampling variation, which was a
 concern because we had whole genome sequencing data from only 16 winter run fish.
 
 More specifically, we calculated allele frequencies for 16 winter-run fish and 84 non-winter-run
@@ -32,7 +32,33 @@ also adjacent to at least one window in which $>10\%$ of sites with $|d|>0.5$ al
 (Fig.~\ref{fig:wrap-slide-window}).  Within the windows found on four different chromosomes using
 the above criteria, we then attempted to design amplicons to type the SNPs at a subset of the sites
 within each window.  We chose all sites with $|d|>0.975$, as well as the 8 SNPs on each chromosome
-with the highest values of $|d|$.  
+with the highest values of $|d|$, yielding 61 candidate SNPs (Fig.~\ref{fig:wrap-candi}).  
 
-\comment{ECA still has to add the WRAP marker-exploration steps here}
+Some of those 61 candidate SNPs were close enough that it was possible to consider amplifying them
+with PCR on 58 different short sequences.  We used Primer3 \citep{untergasser2012primer3} to return
+three possible primer-pair designs for each of the 58 sequences and then chose the primer pair
+with the fewest penalties, optimal target size, and most consistent
+melting temperatures.  One primer pair was dropped from consideration because it
+amplified a large indel that was apparent in the sequence data which would have rendered
+the sequence too large to efficiently amplify and several others were dropped because the primers
+overlapped other amplicons.  Finally, several amplicons with the lowest $|d|$ on chromosome 16
+(RefSeq NC\_037112.1) were removed from consideration, leaving us with 48 amplicons to test
+for amplification and for evaluation of allele frequencies.
+
+%% Note to self.  The next section is documented in the project at:
+%% /Users/eriq/Documents/work/assist/anthony_clemento/WRAP-crunching
+These 48 amplicons were amplified and sequenced in 192 fish---96 Feather River spring run
+and 96 winter run---on a MiSeq sequencer, and the variants were called using
+GATK.  The resulting VCF file was used to estimate allele frequency differences between
+winter run and feather river spring.  We also processed the sequence data using
+microhaplot (\url{https://github.com/ngthomas/microhaplot}) and visually inspected
+loci for consisten allele depth ratio and numbers of haplotypes.  We then chose 24 amplicons for further
+testing on the basis of allele frequency differences between Feather River spring run and
+winter run, number of haplotypes, and ease of scoring.  These 24 markers were typed on
+a variety of fish over the course of a year, and we finally chose three to include in
+our California Chinook reference baseline: one amplicon on each of chromosomes
+8, 12, and 16.  The estimated frequencies of all the alleles present in the reference baseline
+in those three amplicons appears shows that there are not fixed differences between
+winter run and all other reporting units (Table~\ref{tab:wrap-freqs}).
+
 

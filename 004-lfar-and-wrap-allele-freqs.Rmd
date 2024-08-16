@@ -1,5 +1,5 @@
 ---
-title: "LFAR Allele Freqs"
+title: "LFAR and WRAP Allele Freqs"
 author: "Eric C. Anderson"
 date: "Last Updated: `r Sys.Date()`"
 output:
@@ -31,7 +31,8 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    lfar_tex_table = "tex/inputs/lfar-freqs.tex"
+    lfar_tex_table = "tex/inputs/lfar-freqs.tex",
+    wrap_tex_table = "tex/inputs/wrap-freqs.tex"
   )
 }
 # you can create the necessary output directories like this:
@@ -176,6 +177,76 @@ lfar_info %>%
 
 So, we put those in the header of the TeX table for these.
 
+
+# WRAP allele frequencies
+
+Here we do something similar to what we did above, but we use the WRAP.
+```{r}
+wrap_base <- full_base2 %>%
+  select(indiv:collection, starts_with("Ots_wrap")) %>%
+  pivot_longer(
+    cols = starts_with("Ots_wrap"), 
+    names_to = c("locus", "gene_copy"),
+    names_pattern = "^(.*)_([12])",
+    values_to = "allele"
+  )
+```
+
+Then count up the alleles in each reporting group:
+```{r}
+wrap_freqs <- wrap_base %>%
+  filter(!is.na(allele)) %>%
+  count(locus, repunit, allele) %>%
+  group_by(locus, repunit) %>%
+  mutate(freq = n / sum(n)) %>%
+  ungroup()
+```
+
+Now, for properly sorting the alleles, let's get the freqs in Winter-Run for each.
+```{r}
+alle_ord <- wrap_freqs %>%
+  filter(repunit == "CV-Winter") %>%
+  arrange(locus, desc(freq)) %>%
+  group_by(locus) %>%
+  mutate(order = 1:n()) %>%
+  ungroup() %>%
+  select(locus, allele, order)
+```
+
+This turns out to be all the alleles, too.  Good.
+
+Now we can format a table:
+```{r}
+wrap_for_table <- wrap_freqs %>%
+  left_join(alle_ord, by = join_by("locus", "allele"), relationship = "many-to-one") %>%
+  select(-n) %>%
+  pivot_wider(names_from = repunit, values_from = freq, values_fill = 0.0) %>%
+  arrange(locus, order) %>%
+  select(locus:order, `CV-Winter`, `CV-Spring`, everything())
+
+wrap_for_table
+```
+
+Write it to a table:
+```{r}
+wft2 <- wrap_for_table %>%
+  select(-order) %>%
+  extract(
+    locus, 
+    into = c("chrom", "pos"), 
+    regex = "Ots_wrap[0-9]+_([0-9]+)_([0-9]+)", 
+    convert = FALSE, 
+    remove = FALSE
+  ) %>%
+  mutate(locus = str_c("Chr", chrom, ":", pos)) %>%
+  select(-chrom, -pos) %>%
+  mutate(across(.cols = -c(locus, allele), .fns = function(x) sprintf("%.3f", x)))
+
+
+write_delim(wft2, delim = "&", eol = "\\tabularnewline\n", file = output_list$wrap_tex_table, col_names = FALSE)
+```
+
+  
 
 # Citations
 
