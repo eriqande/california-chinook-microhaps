@@ -163,7 +163,7 @@ as spring-run broodstock, the rest are included in the fall-run broodstock. We s
 
 
 
-In total, the samples in the baseline represent fish from five different Evolutionarily Significant
+In total, the samples in the baseline represent fish from five (Table~\ref{tab:samples}) different Evolutionarily Significant
 Units (ESUs) of Chinook salmon \citep{waples1991pacific}.
 %%%%%%%%%%%%%%%%
 \begin{sidewaystable*}
@@ -222,11 +222,11 @@ A 100 bp window was used because the success of multiplex PCR and MiSeq sequenci
 software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
 
 These gene regions were PCR-amplified and sequenced on a MiSeq sequencer using a $2\times 75$-cycle kit.
-The sequences were mapped using
-bwa-mem \citep{bwa-mem2009} to the reference sequences
-from the de novo assembly for each locus, sorted with samtools \citep{li2009sequence} and provided to
-freeyayes \citep{garrison2012haplotype} for variant calling.
-freebayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
+The sequences from each locus were mapped to the de novo reference sequences (produced by Stacks) with
+the Burrows-Wheeler aligner using the mem algorithm \citep{bwa-mem2009}. 
+Subsequently, alignmets were sorted with SAMtools \citep{li2009sequence} and provided to
+FreeBayes \citep{garrison2012haplotype} for variant calling.
+FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci, including
 assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng et al., DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, as well as those clearly violating Hardy-Weinberg equilibrium within populations were removed.
 
