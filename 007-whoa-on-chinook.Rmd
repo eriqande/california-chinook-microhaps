@@ -1,0 +1,251 @@
+---
+title: "Running the California Microhap Baseline through `whoa` and Deciding We Should Drop Two of the Amplicons"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_knit$set(root.dir = here::here())
+start_time <- Sys.time()
+
+```
+
+# Input and Output Paths
+
+```{r}
+if(exists("snakemake")) {
+  input_list <- snakemake@input
+  output_list <- snakemake@output
+} else {
+  input_list <- list(
+    final_baseline = "data/SWFSC-chinook-reference-baseline.csv.gz",
+    pop_labels = "inputs/reference-collection-names.csv"
+  )
+  # outputs:
+  output_list <- list(
+    zs = "results/whoa/heterozygote-z-scores.pdf"
+  )
+}
+
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(whoa)
+
+
+# read in the full baseline
+full_base <- read_csv(input_list$final_baseline)
+
+
+# capture that rosa hapstr with some meta data from future use
+rosa_genos0 <- full_base %>%
+  select(indiv:rosa_genotypes_str)
+
+
+
+# read the pop labels for proper sorting
+pop_labels <- read_csv(input_list$pop_labels)
+
+# rename those collections and repunits
+full_base2 <- full_base %>%
+  rename(old_name = collection) %>%
+  select(-repunit) %>%
+  left_join(pop_labels %>% select(old_name, collection, repunit), by = join_by(old_name)) %>%
+  select(-old_name) %>%
+  select(indiv, repunit, collection, sample_type, everything()) %>%
+  filter(!duplicated(indiv))  # necessary cuz clemento stuck mill and deer together into a single code
+
+# finally, get the order of collections and repunits we want
+collection_order <- unique(pop_labels$collection)
+
+```
+
+
+Get things into long format:
+```{r}
+fb_long <- full_base2 %>%
+  select(-sample_type, -rosa_genotypes_str) %>%
+  pivot_longer(
+    cols = -(indiv:collection), 
+    names_to = c("locus", "gene_copy"),
+    values_to = "allele",
+    names_pattern = "^(.*)_([12])$"
+  )
+```
+
+
+Now, for every allele in the data set we define a new locus---one in which the
+allele is the 1 allele and everything else is the 0 allele. 
+
+For the purposes of passing things off to whoa, we
+are going to use as "loki" the combination of `locus` and `recoding`, so we will
+just paste those with a dot.  
+
+Whoa says it wants loci named by Chrom-Pos but I don't think that is actually
+necessary, so I will just paste recoding on with a dot to the locus name.
+
+```{r}
+RecodedAlleles <- fb_long %>%
+  filter(!is.na(allele)) %>%   # it is very important to remove missing genotypes
+  filter(locus != "Ots_coho001_05_32691399") %>%  # no reason to have the coho allele
+  group_by(locus) %>%
+  mutate(
+    alle_int = as.integer(factor(allele, levels = sort(unique(allele)))),
+    alle_cnt = length(levels(factor(allele)))
+  ) %>%
+  ungroup() %>%
+  mutate(
+    boing = map2(.x = alle_int, .y = alle_cnt, .f = function(x, y) {
+      list(
+        recoding = 1:y,
+        new_alle = ifelse(x == 1:y, 1L, 0L)
+      )
+    })
+  ) %>%
+  mutate(
+    recoding = map(boing, "recoding"),
+    new_alle = map(boing, "new_alle")
+  ) %>%
+  select(-boing) %>%
+  unnest(cols = c(recoding, new_alle)) %>%
+  #extract(locus, into = c("chrom", "pos"), regex = "Ots_[a-z]+[0-9]+_([0-9]+)_([0-9]+)", remove = FALSE) %>%
+  #mutate(loki = str_c("Ots", chrom, "_", recoding, "-", pos ), .after = locus) %>%
+  mutate(loki = str_c(locus, recoding, sep = "."))
+  #select(-chrom, -pos)
+```
+
+That seemed to go well.  In order to be able to get back from the new_alle and
+recoding to the actual allele, in case we want to, and to verify that things worked,
+we can collapse this into the different cases:
+```{r}
+haplo_integers <- RecodedAlleles %>%
+  distinct(locus, loki, allele, alle_int, alle_cnt, recoding, new_alle) %>%
+  arrange(locus, recoding, allele)
+
+haplo_integers
+```
+
+That all looks just right.
+
+Recall, for whoa we want an 012 matrix with missing data denoted by -1.
+
+So, we need to turn these thing back into genotypes for the different
+individuals.  Once I am done with that, I am going to nest the 012 matrices
+up by repunit and collection
+
+```{r}
+Recoded_012_full_tib <- RecodedAlleles %>%
+  select(repunit, collection, indiv, loki, new_alle) %>%
+  group_by(repunit, collection, indiv, loki) %>%
+  summarise(geno = sum(new_alle)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = loki, values_from = geno, values_fill = -1L) %>%
+  nest(tibble = -c(repunit, collection)) %>%
+  mutate(
+    d012 = map(tibble, function(x) x %>% select(-indiv) %>% as.matrix() %>% t())
+  )
+```
+
+Cool, now we have a list column with a d012 for each collection.  
+
+Now we can make a new list column with the whoa output.
+```{r}
+tib_with_plots <- Recoded_012_full_tib %>%
+  mutate(
+    exp_and_obs = map(d012, function(x) whoa::exp_and_obs_geno_freqs(d012 = x)),
+    scatter = pmap(
+      list(eo = exp_and_obs, col = collection, ti = tibble),
+      function(eo, col, ti) {
+        whoa::geno_freqs_scatter(eo, max_plot_loci = 1000) +
+          ggtitle(str_c(col, "  (", nrow(ti), ")"))
+      }
+    ) 
+  )
+```
+
+We can see those all in the notebook like this
+```{r}
+tib_with_plots$scatter
+```
+
+There are clearly a few alleles that do not show up in heterozygous
+form as freuquently as expected.  I suspect that these may belong
+to just one or two loci.
+
+To find which loci are involved, we will simply sort on the z-scores
+for the heterozygotes.
+```{r}
+sorted_losers <- tib_with_plots %>%
+  select(repunit, collection, exp_and_obs) %>%
+  unnest(exp_and_obs) %>%
+  filter(geno == "1") %>%
+  arrange(z_score)
+  
+```
+
+Looking at that, it is clear that two amplicons are heavily implicated: `Ots_mhap073_19_03686095`
+and `Ots_mhap093_27_16923862`.  In the Eel river we also see `Ots_mhap053_11_42403691` pop up
+once or twice amongst the most extremely low z-scores for hets, and also
+we see `Ots_mhap057_13_38673256.2` at Cole Rivers.  Eventually with z-scores above
+-3 we start to see more loci that are suspect are just due to random variation.
+
+But, let's investigate those few loci that we saw in the context of all of the loci.
+This makes a massive faceted thing that is really only viewable as a PDF, so we just
+save it.
+```{r}
+zs <- sorted_losers %>%
+  extract(snp, into = "locus", regex = "^(.+)\\.[0-9]+", remove = FALSE) %>%
+  ggplot(aes(x = z_score)) +
+  geom_vline(xintercept = 0, color = "red") +
+  geom_histogram() +
+  theme_bw() +
+  facet_wrap(~ locus, ncol = 10) 
+
+  ggsave(zs, filename = output_list$zs, width = 20, height = 30)
+```
+
+That provides a lovely perspective on things.  mhap073 and mhap093 are clearly pathological.
+mhap053 and mhap057 show a slight downward trend in the z-scores, but it must be somewhat
+variable by population, and I don't think it is enough to toss them out.  
+
+mhap073 and mhap093 have 4 and 2 alleles respectively, so tossing them won't be
+a big deal.  mhap093 only has two alleles but the are named things like
+`CCGCCGTTGCT` and `CTGCCGTTGCT`, so that is pretty messed up anyway.  
+
+So, I think we should toss those two loci out.
+
+If we do toss them out, this is what the geno freq plots look like.
+```{r}
+tib_with_dropped_plots <- tib_with_plots %>%
+  mutate(dropped_eo = map(exp_and_obs, function(x) x %>% filter(!str_detect(snp, "Ots_mhap073_19_03686095|Ots_mhap093_27_16923862")))) %>%
+  mutate(
+    dropped_scatters = pmap(
+      list(eo = dropped_eo, col = collection, ti = tibble),
+      function(eo, col, ti) {
+        whoa::geno_freqs_scatter(eo, max_plot_loci = 1000) +
+          ggtitle(str_c(col, "  (", nrow(ti), ")"))
+      }
+    ) 
+  )
+
+tib_with_dropped_plots$dropped_scatters
+```
+
+
+So, what we see is that most of the really egregious ones are gone, but in some
+populations there are a few that look a little wonky, but those are only
+in a few pops.  So, I don't think we really need to toss any others.
+
