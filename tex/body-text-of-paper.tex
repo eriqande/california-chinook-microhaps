@@ -411,9 +411,9 @@ replacement, taking the average of 1,000 different random subsamples.
 We calculated \citet{weir1984estimating}'s pairwise $F_\mathrm{ST}$ between
 all collections, using the {\footnotesize\tt pp.fst} function from the R
 package `hierfstat' \citep{hierfstat}. Finally, we evaluated population
-structure in the data by performing unsupervised clustering of
-the complete data set
+structure in the data by performing unsupervised clustering 
 using the program STRUCTURE \citep{pritchard2000inference,falush2003inference}.
+For this analysis, we omitted the run-timing associated markers.
 We performed 20 replicate runs at each value of the assumed number of
 subpopulations, $K$, in $\{2, 3, 4, 5, 6, 7\}$
 using default settings of the program.  STRUCTURE output was
@@ -672,15 +672,13 @@ when only fish with a scaled likelihood $>0.80$ to reporting unit are assigned, 
 
 
 
-The program STRUCTURE clustered fish at all values of $K$ from 2 to 7.
-(Fig.~\ref{fig:struct}).  The clusters generally corresponded to groupings of related populations, and confirmed
+At value of $K$ from 2 to 7, clusters identified by the program STRUCTURE
+generally corresponded to groupings of related populations, and confirmed
 {\em a priori} knowledge about which collections in the baseline could and should be
-grouped together into reporting units.  At every value of $K$ CLUMPAK discerned at least
+grouped together into reporting units (Fig.~\ref{fig:struct}).  At every value of $K$, CLUMPAK discerned at least
 12 of 20 replicates in the major mode (Fig.~\ref{fig:struct}).   
-\comment{Need to add more description of the patterns, especially at $K=7$.}
 Clustering solutions in the minor
-modes appear in Fig.~\ref{fig:minor-modes}, which likely needs to be updated.  Get all this done
-when AC is back and can vet it.
+modes generally converged on a single alternative solution and appear in Fig.~\ref{fig:minor-modes}.
 %%%%%%%%%%%%%%%%%%%%
 \begin{figure}
 \newcommand{\structcap}{\footnotesize Major modes found by STRUCTURE and summarized
@@ -694,6 +692,13 @@ of replicate runs of structure that converged to this major mode.}
 \label{fig:struct}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%
+The late-fall run collection (CHLF) appears as a separate cluster at $K$ values
+as low as 4, with the inclusion of the LFAR markers.  This is notable, since accurately discriminating between the late-fall and
+fall-run Chinook salmon of the Central Valley has been impossible with previously used genetic marker sets.
+Another noteworthy feature appears at $K=7$, with STRUCTURE separating the fall-run reporting unit
+into two clusters (orange and red) that do not correspond exactly with the individual
+collections within the reference baseline. For example, fish from the
+orange cluster that predominates in the FRHS collection are also found in the FRHF and MDS collections.
 
 
 \subsection*{Power for genetic stock identification and population assignment}
@@ -735,7 +740,7 @@ Notably with the $>0.8$ criterion, the misassignment rates from the abundant CV-
 reporting unit to CV-Late-Fall or to CV-Spring both drop below 0.2\% (1/502).  
 
 As seen in previous studies, FRHS, the Feather River Hatchery
-spring-run stock, is considerably differntiated from the remaining spring-run
+spring-run stock, is considerably differentiated from the remaining spring-run
 stocks in the Central Valley (MDS and BCS). This is reflected in the low
 misassignment rates of FRHS fish to the CV-Spring, and is also evident in the
 STRUCTURE results.   We note, however, that the RoSA markers provide
@@ -853,6 +858,13 @@ be ideal for producing reference baselines simultaneously applicable to broad sc
 coverage and high resolution within sub-regions.   For the present, however,
 baselines tailored to specific regions are essential for regional management questions.
 
+\comment{Maybe discuss: A large fraction of the Feather River
+Hatchery Spring-run (FRHS) collection into a cluster (colored orange in Fig.~\ref{fig:struct}).
+A large fraction of the samples from the fall-run hatchery
+program at the Feather River (FRHF) are also members of that same orange cluster, while others
+belong to a cluster composed of other fall-run Chinook salmon. These STRUCTURE results at $K=7$,
+validate the finding that all populations outside of the }
+
 Although previous work using genome-scale data has shown that many of
 these populations or stocks can be resolved \cite{thompson2020complex,meek2020identifying},
 such data are not practical for most large-scale applications of GSI and PBT, particularly because
@@ -898,3 +910,6 @@ We note that, as in previous work, it is nearly impossible to identify HS pairs 
 with data from this, or any standard marker dataset. Accurate identification of HS pairs
 typically relies on thousands of SNP markers \citep{hillary2018genetic}. 
 
+Results from the model-based clustering analysis with the program STRUCTURE, revealed patterns of population relationships that are coincident with previous work (Clemento et al. 2014; Kinziger et al. 2013), emphasizing the distinction between Chinook salmon
+populations in Coastal California and the Central Valley. These analyses also uncover some additional patterns, including the clear
+presence of mixed ancestry in the Coastal California population in the Russian River, which is consistent with its location, at the southernmost edge of the Coastal Chinook salmon between the mouths of the Sacramento River and the other Coastal Chinook salmon basins to the north.
