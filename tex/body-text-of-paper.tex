@@ -109,7 +109,8 @@ In the following, we present a new reference baseline that includes 1,636 Chinoo
 from 17 collections, genotyped at 204 microhaplotypes \citep{baetscher2018microhaplotypes} from throughout the genome.
 This baseline is
 highly effective for GSI within California and the markers within it provide ample power
-for PBT.
+for PBT, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program 
+\citep{garza2007large,beacham2021parentage}.
 We describe how we identified and compiled the markers, including several new markers
 that are particularly effective at distinguishing between closely related groups of fish,
 such as late-fall and fall-run Chinook salmon in the CCV.  We also provide a comprehensive analysis of this
@@ -839,45 +840,38 @@ require much more statistical power, it is clear that PO-trio inference with the
 \section*{Discussion}
 
 We describe a novel panel of microhaplotype genetic markers for Chinook salmon
-in California that includes multiallelic gene regions with high variability for
-relationship inference and gene regions identified in whole-genome sequence data
-for increased power for population identification. We show how this set of markers
-provides sufficient power for highly accurate identification of parent and offspring
-pairs and full siblings in California Chinook salmon, and also allows near-perfect
-identification of individuals to population or genetic group of origin. This set of
-genetic markers lays the foundation for a comprehensive genetic monitoring and evaluation effort
-that facilitates multiple types of inference and is flexible and extensible.
+in California that provides sufficient power for highly accurate identification 
+of parent and offspring pairs and full siblings, and also allows near-perfect
+identification of individuals to population or genetic group of origin in California. 
+This set of genetic markers includes multiallelic gene regions with high variability for
+relationship inference, gene regions identified in whole-genome sequence data
+for increased power for identification of specific populations and incorporates markers that have
+long been in use for both GSI and PBT in California (Clemento et al. 2014), by converting them
+into so-called 'SNPlicons'. This set of markers lays the foundation for a comprehensive 
+genetic monitoring and evaluation effort that facilitates multiple types of inference 
+and is flexible and extensible.
 
 
-When, and if, sequencing costs drop sufficiently, it may be possible to include
-all different populations of a single species within a single standardized reference baseline
-that performs equally well at broad and regional scales. A statistical approach for population
-assignment from low coverage whole genome sequences appeared recently
-\citep{desaixINPRESSpopulation}, and its authors noted that such a data type could
-be ideal for producing reference baselines simultaneously applicable to broad scale
-coverage and high resolution within sub-regions.   For the present, however,
-baselines tailored to specific regions are essential for regional management questions.
-
-\comment{Maybe discuss: A large fraction of the Feather River
-Hatchery Spring-run (FRHS) collection into a cluster (colored orange in Fig.~\ref{fig:struct}).
-A large fraction of the samples from the fall-run hatchery
-program at the Feather River (FRHF) are also members of that same orange cluster, while others
-belong to a cluster composed of other fall-run Chinook salmon. These STRUCTURE results at $K=7$,
-validate the finding that all populations outside of the }
-
-Although previous work using genome-scale data has shown that many of
-these populations or stocks can be resolved \cite{thompson2020complex,meek2020identifying},
-such data are not practical for most large-scale applications of GSI and PBT, particularly because
-of the much higher costs, longer turnaround time and challenges of producing highly
-replicable datasets with reduced representation and low-coverage whole genome sequencing methods \cite{ali2016rad}.
-
+This marker set and baseline reference dataset provide
+unprecedented power for identifying fish from all of the Chinook salmon ESUs in California,
+as well as individual populations within those ESUs (Fig.~\ref{fig:gsi}).
 Accurate identification of the distinct ecotypes of Chinook salmon in the
 California Central Valley is of utmost importance for designing and implementing
-effective conservation and management actions. This has been challenging,
-given the recent common ancestors of these ecotypes and ongoing migration between subbasins.
-We describe the first replicable, reproducible panel of genetic markers that identifies the late-fall-run salmon ecotype,
-which occurs only in the CCV and shares a genomic background with the more
-common CCV fall-run salmon ecotype. Moreover, we show how the FRH spring-run lineage is
+effective conservation and management actions. The CCV is one of the largest river
+basins on the west coast of North America and has the highest diversity of recognized Chinook salmon
+ecotypes in the species range, with four named ecotypes, two of which are protected
+under the US Endangered Species Act. This basin drains the Sierra Nevada and southern Cascade
+mountain ranges and is the source of water for several major urban areas as well as the
+largest and most valuable agriculture area in North America. As such, monitoring and
+evaluation of individual ecotypes and populations is of critical importance. This has been challenging,
+given the recent common ancestors of these ecotypes \citep{clemento2014evaluation}, and
+ongoing migration between subbasins where different ecotypes predominate.
+
+
+We describe the first set of genetic markers that produces easily replicable data and
+that identifies all of the ecotypes in the CCV, including the late-fall-run Chinook salmon ecotype.
+The late-fall-run occurs only in the CCV and shares a genomic background with the more
+common CCV fall-run salmon ecotype, so has been refractory to previous GSI efforts with other marker types \citep{seeb2007development,clemento2014evaluation,thompson2024genomics}. Moreover, we show how the FRH spring-run lineage is
 easily identifiable through a combination of traditional GSI and the characterization
 of functional genetic markers in the RoSA. Finally, although previous work has described
 GSI capabilities that distinguish the natural-spawning CCV spring-run lineages from
@@ -889,9 +883,33 @@ genetically identified as winter-run salmon clearly carry the winter-run genomic
 are strays from the winter-run stock, as these 
 could not realistically be misidentified on the basis of the genetic data.
 
-This marker set and baseline reference dataset also provides
-unprecedented power for identifying fish from not only the other ESUs in California,
-but even the individual populations within those ESUs (Fig. 3).
+
+As sequencing costs drop, whole genome sequence (WGS) data may become the preferred
+data type for salmon genetics. If so, it may become possible to include
+all >200 genetically distinct Chinook salmon populations within a single standardized reference baseline
+constructed with WGS data
+that performs equally well at broad and regional scales \citep{desaixINPRESSpopulation}.
+Such an approach would be highly flexible and extensible, as it would allow for the use
+just about any marker type, including reduced representation DNA sequencing (e.g. RADseq,
+\citealt{meek2020identifying,thompson2024genomics}),
+as regional monitoring datasets would not need to be replicable.  For the present, however,
+baselines tailored to specific regions are essential for regional management questions and
+targeted sequencing approaches have proven to be the most practical for large-scale
+applications of either GSI, PBT or an integrated monitoring program \citep{beacham2021parentage}.
+
+%\comment{Maybe discuss: A large fraction of the Feather River
+%Hatchery Spring-run (FRHS) collection into a cluster (colored orange in Fig.~\ref{fig:struct}).
+%A large fraction of the samples from the fall-run hatchery
+%program at the Feather River (FRHF) are also members of that same orange cluster, while others
+%belong to a cluster composed of other fall-run Chinook salmon. These STRUCTURE results at $K=7$,
+%validate the finding that all populations outside of the }
+
+%Although previous work using genome-scale data has shown that many of
+%these populations or stocks can be resolved \cite{thompson2020complex,meek2020identifying},
+%such data are not practical for most large-scale applications of GSI and PBT, particularly because
+%of the much higher costs, longer turnaround time and challenges of producing highly
+%replicable datasets with reduced representation and low-coverage whole genome sequencing methods \cite{ali2016rad}.
+
 
 Previous genetic marker sets for California Chinook salmon had sufficient power for inferring
 parent-offspring relationships, but only when both parents were sampled and genotyped.
@@ -908,8 +926,16 @@ inference in even the most genetically depauperate Chinook salmon population in 
 and rangewide \citep{seeb2007development,clemento2014evaluation} is therefore possible with this marker set.
 We note that, as in previous work, it is nearly impossible to identify HS pairs accurately
 with data from this, or any standard marker dataset. Accurate identification of HS pairs
-typically relies on thousands of SNP markers \citep{hillary2018genetic}. 
+typically relies on many hundreds of microhaplotype markers \citep{baetscher2018microhaplotypes} or thousands of SNP markers \citep{hillary2018genetic}. 
 
-Results from the model-based clustering analysis with the program STRUCTURE, revealed patterns of population relationships that are coincident with previous work (Clemento et al. 2014; Kinziger et al. 2013), emphasizing the distinction between Chinook salmon
+Results from the model-based clustering analysis with the program STRUCTURE, revealed patterns of population relationships that are
+coincident with previous work (Clemento et al. 2014; Kinziger et al. 2013), emphasizing the distinction between Chinook salmon
 populations in Coastal California and the Central Valley. These analyses also uncover some additional patterns, including the clear
-presence of mixed ancestry in the Coastal California population in the Russian River, which is consistent with its location, at the southernmost edge of the Coastal Chinook salmon between the mouths of the Sacramento River and the other Coastal Chinook salmon basins to the north.
+presence of mixed ancestry in the Coastal California population in the Russian River, which is consistent with its location, at the 
+southernmost edge of the Coastal Chinook salmon distribution and proximate to the mouth of the Sacramento River (the Golden Gate). In the
+Central Valley, the clustering results emphasize the genetic distinction of the SWR population, which is likely at least partially due to 
+the extreme bottleneck that it passed through 15-20 generations prior. The inclusion of the LFAR markers also resulted in the clear 
+distinction of the CHLF group, which is coincident with the long-known phenotypic distinction of this population, but represents a novel 
+genetic result. Moreover, at K = 7, the fall-run reporting group breaks into two clusters, which are distributed across almost all of the 
+spring and fall-run populations in the Central Valley, albeit not equivalently, emphasizing both current and historical  migration and 
+gene flow between them. 
