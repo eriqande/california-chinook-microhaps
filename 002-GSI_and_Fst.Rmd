@@ -800,7 +800,11 @@ gsi_fst_fig_for_paper <- plot_grid(
   ),
   lfar_ass_table_no_legend$plot,
   nrow = 3,
-  rel_heights = c(6,1.5,6)
+  rel_heights = c(6,1.5,6), 
+  labels = c("a)", "", "b)"),
+  label_size = 32, 
+  label_x = -0.02,
+  label_y = 1.013
 )
 
 # and then save that
