@@ -469,6 +469,7 @@ collection.   For all cases, we assumed that the genotyping error rate
 was 1\% per locus and the genotyping error model was the default
 "True-genotype-independent" model.
 
+
 For errors involving misidentifying
 unrelated (U) pairs as parent-offspring (PO), full-sibling (FS), or half-sibling (HS)
 pairs we used importance sampling to estimate the very small FPRs.  The
@@ -769,7 +770,7 @@ The results are summarized in Fig.~\ref{fig:fprs}.
 %%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
 \newcommand{\fprcap}{\footnotesize False positive rates (FPRs) as a function of false negative
-rates (FNRs) for distinguishing between different relationships. Groupings for panels that are neither a previously defined reporting unit nor a single collection as follows: TRH = \{TRS, TRF\}; FRH = \{FRHS, FRHF\}; CVF = \{BCF, MDF, SJRF\}.  {\bf (a)} FPRs calculated
+rates (FNRs) for distinguishing between different relationships. Groupings for panels that are neither a previously defined reporting unit nor a single collection (Table \protect\ref{tab:samples}) are as follows: TRH = \{TRS, TRF\}; FRH = \{FRHS, FRHF\}; CVF = \{BCF, MDF, SJRF\}.  {\bf (a)} FPRs calculated
 using importance sampling of unrelated pairs of individuals being incorrectly categorized as parent-offspring (PO),
 full-sibling (FS) or half-sibling (HS) pairs.  {\bf (b)}  FPRs calculated using regular Monte Carlo
 sampling of avuncular pairs (AN: aunt-niece, uncle-nephew, etc.) or full-siblings (FS) or half-siblings (HS) being
