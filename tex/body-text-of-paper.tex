@@ -11,9 +11,9 @@ to statistical methodology
 Two broadly applicable techniques that have been
 actively fostered by the Pacific salmon research community are genetic
 stock identification
-(GSI:~\citealt{milner1982genetic,beacham2004dna,seeb2007development})
+\citep[GSI:~][]{milner1982genetic,beacham2004dna,seeb2007development}
 and parentage based tagging
-(PBT:~\citealt{anderson2006power, garza2007large, abadia2013large, steele2013validation}).
+\citep[PBT:~][]{anderson2006power, garza2007large, abadia2013large, steele2013validation}.
 
 
 
@@ -289,8 +289,9 @@ Primer3 \citep{koressaar2007enhancements,untergasser2012primer3} and tested ampl
 subset of Chinook salmon
 samples. The primer pairs that amplified sequence that reliably mapped back to the association-peak region were then typed
 in a separate collection of 1,638 Sacramento River Chinook salmon sampled from the fish trap below Keswick Dam, including 1,169 winter run, 281 spring
-run, and 188 fall/late-fall run. We divided the fish identified as fall/late-fall (via the 125-locus genetic
-stock identification data set of \citealt{thompson2020complex} into fall run and late-fall run according
+run, and 188 fall/late-fall run. We divided the fish identified
+from the 125-locus genetic
+stock identification data set of \citet{thompson2020complex}  as fall/late-fall into fall run and late-fall run according
 to their sampling date at Keswick:  99 fish arriving before Dec 26 were classified as fall run and 89 fish arriving after Dec 26 were
 classified as late-fall run.   The allele frequencies of the target SNPs at the remaining amplicons
 were
@@ -337,7 +338,7 @@ Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmo
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-We include a marker that targets the sex-determining region ({\em sdY} on the Y chromosome in Chinook salmon.
+We include a marker that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon.
 This marker characterizes genetic sex in Central Valley populations \comment{\citep{von2015development}}.
 And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
 coho salmon and Chinook salmon.  This is helpful when samplers have unwitting
@@ -375,12 +376,12 @@ Primer sequences and concentrations for making the primer pool are in Supplement
 For evaluation of candidate loci, dual-barcoded sequences were used
 to identify individual tissue samples using the MiSeq analysis software (Illumina).
 The paired-end sequence reads were joined together using Fast Length Adjustment
-of SHort reads (FLASH: \citealt{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and freebayes (Garrison and Marth 2012) was used to call variants.
+of SHort reads \citep[FLASH:~][]{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and freebayes (Garrison and Marth 2012) was used to call variants.
 
 For genotyping of baseline samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts.
 
 Each locus was assessed for the presence of null alleles using the R package `whoa'
-(\url{https://github.com/eriqande/whoa}; {\em see} \citealt{hendricks2018recent}).
+\citep[\url{https://github.com/eriqande/whoa};  see][]{hendricks2018recent}.
 
 \subsection*{Population genetic analyses}
 
@@ -446,8 +447,7 @@ scaled likelihood greater than 0.8 were assigned.
 
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
-the RoSA.  For this we identified the RoSA genotype (EE, EL, or LL, see
-\citealt{thompson2020complex}) from the concordance of the genotypes
+the RoSA.  For this we identified the RoSA genotype \citep[EE, EL, or LL, see~][]{thompson2020complex} from the concordance of the genotypes
 at all 8 markers described in \citep{thompson2020complex}, requiring no missing
 data at any of those 8 markers, and discarding data from 12 individuals
 in which the E or L haplotypes had clearly recombined.

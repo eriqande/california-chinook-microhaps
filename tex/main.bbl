@@ -1,18 +1,12 @@
-\begin{thebibliography}{69}
+\begin{thebibliography}{74}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
-  Carlos~Garza}{Abad{\'\i}a-Cardoso {\em et~al.\/}}{2013}]{abadia2013large}
-Abad{\'\i}a-Cardoso A, Anderson EC, Pearse DE, Carlos~Garza J (2013)
-  Large-scale parentage analysis reveals reproductive patterns and heritability
-  of spawn timing in a hatchery population of steelhead (O ncorhynchus mykiss).
+  Garza}{Abad{\'\i}a-Cardoso {\em et~al.\/}}{2013}]{abadia2013large}
+Abad{\'\i}a-Cardoso A, Anderson EC, Pearse DE, Garza JC (2013) Large-scale
+  parentage analysis reveals reproductive patterns and heritability of spawn
+  timing in a hatchery population of steelhead ({\em Oncorhynchus mykiss}).
   {\em Molecular Ecology\/}, {\bf 22}, 4733--4746.
-
-\bibitem[\protect\citeauthoryear{Ali, O’Rourke, Amish, Meek, Luikart,
-  Jeffres, \& Miller}{Ali {\em et~al.\/}}{2016}]{ali2016rad}
-Ali OA, O’Rourke SM, Amish SJ, Meek MH, Luikart G, Jeffres C, Miller MR
-  (2016) RAD capture (Rapture): flexible and efficient sequence-based
-  genotyping. {\em Genetics\/}, {\bf 202}, 389--400.
 
 \bibitem[\protect\citeauthoryear{Allendorf \& Phelps}{Allendorf \&
   Phelps}{1981}]{allendorf1981use}
@@ -81,12 +75,31 @@ Beacham TD, Lapointe M, Candy JR, Miller KM, Withler RE (2004) DNA in action:
   rapid application of DNA variation to sockeye salmon fisheries management.
   {\em Conservation Genetics\/}, {\bf 5}, 411--416.
 
+\bibitem[\protect\citeauthoryear{Beacham, Wallace, Jonsen, McIntosh, Candy,
+  Horst, Lynch, Willis, Luedke, Kearey {\em et~al.\/}}{Beacham {\em
+  et~al.\/}}{2021}]{beacham2021parentage}
+Beacham TD, Wallace CG, Jonsen K, McIntosh B, Candy JR, Horst K, Lynch C,
+  Willis D, Luedke W, Kearey L, {\em et~al.\/} (2021) Parentage-based tagging
+  combined with genetic stock identification is a cost-effective and viable
+  replacement for coded-wire tagging in large-scale assessments of marine
+  Chinook salmon fisheries in British Columbia, Canada. {\em Evolutionary
+  Applications\/}, {\bf 14}, 1365--1389.
+
 \bibitem[\protect\citeauthoryear{Beulke, Abad{\'\i}a-Cardoso, Pearse, Goetz,
   Thompson, Anderson, \& Garza}{Beulke {\em
   et~al.\/}}{2023}]{beulke2023distinct}
 Beulke AK, Abad{\'\i}a-Cardoso A, Pearse DE, Goetz LC, Thompson NF, Anderson
   EC, Garza JC (2023) Distinct patterns of inheritance shape life-history
   traits in steelhead trout. {\em Molecular Ecology\/}, {\bf 32}, 6896--6912.
+
+\bibitem[\protect\citeauthoryear{Bjorkstedt, Spence, Garza, Hankin, Fuller,
+  Jones, Smith, \& Macedo}{Bjorkstedt {\em
+  et~al.\/}}{2005}]{bjorkstedt2005analysis}
+Bjorkstedt EP, Spence BC, Garza JC, Hankin DG, Fuller D, Jones WE, Smith JJ,
+  Macedo R (2005) An analysis of historical population structure for
+  evolutionary significant units of Chinook salmon, coho salmon, and steelhead
+  in the North-Central California Coast Recovery Domain, {\em Technical
+  report\/}, NOAA Technical Memorandum.
 
 \bibitem[\protect\citeauthoryear{Campbell, Harmon, \& Narum}{Campbell {\em
   et~al.\/}}{2015}]{campbell2015genotyping}
@@ -97,7 +110,7 @@ Campbell NR, Harmon SA, Narum SR (2015) Genotyping-in-Thousands by sequencing
 \bibitem[\protect\citeauthoryear{Catchen, Hohenlohe, Bassham, Amores, \&
   Cresko}{Catchen {\em et~al.\/}}{2013}]{catchen2013stacks}
 Catchen J, Hohenlohe PA, Bassham S, Amores A, Cresko WA (2013) Stacks: an
-  analysis tool set for population genomics. {\em Molecular ecology\/}, {\bf
+  analysis tool set for population genomics. {\em Molecular Ecology\/}, {\bf
   22}, 3124--3140.
 
 \bibitem[\protect\citeauthoryear{Cingolani, Platts, Coon, Nguyen, Wang, Land,
@@ -136,6 +149,10 @@ Falush D, Stephens M, Pritchard JK (2003) Inference of population structure
 \bibitem[\protect\citeauthoryear{Fisher}{Fisher}{1994}]{fisher1994past}
 Fisher FW (1994) Past and present status of Central Valley chinook salmon. {\em
   Conservation Biology\/}, {\bf 8}, 870--873.
+
+\bibitem[\protect\citeauthoryear{Fry}{Fry}{1961}]{fry1961king}
+Fry DH (1961) King salmon spawning stocks of the California Central Valley,
+  1940-1959. {\em California Fish and Game\/}, {\bf 47}, 55--7l.
 
 \bibitem[\protect\citeauthoryear{Garrison \& Marth}{Garrison \&
   Marth}{2012}]{garrison2012haplotype}
@@ -179,9 +196,9 @@ Hasselman DJ, Anderson EC, Argo EE, Bethoney ND, Gephard SR, Post DM,
   Sciences\/}, {\bf 73}, 951--963.
 
 \bibitem[\protect\citeauthoryear{Healey}{Healey}{1991}]{healey1991life}
-Healey M (1991) Life history of chinook salmon (Oncorhynchus tshawytscha), {\em
-  in:\/} {\em Pacific salmon life histories\/}, 311--394, University of British
-  Columbia Press Vancouver.
+Healey M (1991) Life history of Chinook salmon ({em/ Oncorhynchus
+  tshawytscha}), {\em in:\/} {\em Pacific salmon life histories\/}, 311--394,
+  University of British Columbia Press Vancouver.
 
 \bibitem[\protect\citeauthoryear{Hendricks, Anderson, Antao, Bernatchez,
   Forester, Garner, Hand, Hohenlohe, Kardos, Koop {\em et~al.\/}}{Hendricks
@@ -215,7 +232,7 @@ Horn RL, Hess M, Harmon S, Hess J, Delomas TA, Campbell MR, Narum S (2023)
   794--820.
 
 \bibitem[\protect\citeauthoryear{Kent}{Kent}{2002}]{kent2002blat}
-Kent WJ (2002) BLAT—the BLAST-like alignment tool. {\em Genome research\/},
+Kent WJ (2002) BLAT—the BLAST-like alignment tool. {\em Genome Research\/},
   {\bf 12}, 656--664.
 
 \bibitem[\protect\citeauthoryear{Kim, Lohmueller, Albrechtsen, Li,
@@ -231,7 +248,7 @@ Kim SY, Lohmueller KE, Albrechtsen A, Li Y, Korneliussen T, Tian G, Grarup N,
   Mayrose}{Kopelman {\em et~al.\/}}{2015}]{kopelman2015clumpak}
 Kopelman NM, Mayzel J, Jakobsson M, Rosenberg NA, Mayrose I (2015) Clumpak: a
   program for identifying clustering modes and packaging population structure
-  inferences across K. {\em Molecular ecology resources\/}, {\bf 15},
+  inferences across K. {\em Molecular Ecology Resources\/}, {\bf 15},
   1179--1191.
 
 \bibitem[\protect\citeauthoryear{Koressaar \& Remm}{Koressaar \&
@@ -262,6 +279,14 @@ Li H, Handsaker B, Wysoker A, Fennell T, Ruan J, Homer N, Marth G, Abecasis G,
   Durbin R, Subgroup GPDP (2009) The sequence alignment/map format and
   SAMtools. {\em bioinformatics\/}, {\bf 25}, 2078--2079.
 
+\bibitem[\protect\citeauthoryear{Lindley, Grimes, Mohr, Peterson, Stein,
+  Anderson, Botsford, Bottom, Busack, Collier {\em et~al.\/}}{Lindley {\em
+  et~al.\/}}{2009}]{lindley2009caused}
+Lindley ST, Grimes CB, Mohr MS, Peterson WT, Stein JE, Anderson JJ, Botsford
+  LW, Bottom DL, Busack CA, Collier TK, {\em et~al.\/} (2009) What caused the
+  Sacramento River fall Chinook stock collapse, {\em Technical Memorandum
+  NOAA-TM-NMFS-SWFSC~447\/}, NOAA.
+
 \bibitem[\protect\citeauthoryear{Mago{\v{c}} \& Salzberg}{Mago{\v{c}} \&
   Salzberg}{2011}]{magovc2011flash}
 Mago{\v{c}} T, Salzberg SL (2011) FLASH: fast length adjustment of short reads
@@ -277,8 +302,8 @@ McKinney GJ, Seeb JE, Seeb LW (2017) Managing mixed-stock fisheries: genotyping
   Baerwald}{Meek {\em et~al.\/}}{2020}]{meek2020identifying}
 Meek MH, Stephens MR, Goodbla A, May B, Baerwald MR (2020) Identifying hidden
   biocomplexity and genomic diversity in Chinook salmon, an imperiled species
-  with a history of anthropogenic influence. {\em Canadian journal of fisheries
-  and aquatic sciences\/}, {\bf 77}, 534--547.
+  with a history of anthropogenic influence. {\em Canadian Journal of Fisheries
+  and Aquatic Sciences\/}, {\bf 77}, 534--547.
 
 \bibitem[\protect\citeauthoryear{Milner, Teel, \& Utter}{Milner {\em
   et~al.\/}}{1982}]{milner1982genetic}
@@ -303,7 +328,7 @@ Moran BM, Anderson EC (2019) Bayesian inference from the conditional genetic
   Wainwright, Grant, Waknitz, Neely, Lindley, \& Waples}{Myers {\em
   et~al.\/}}{1998}]{myers1998status}
 Myers JM, Kope RG, Bryant GJ, Teel D, Lierheimer LJ, Wainwright TC, Grant WS,
-  Waknitz FW, Neely K, Lindley ST, Waples RS (1998) Status review of chinook
+  Waknitz FW, Neely K, Lindley ST, Waples RS (1998) Status review of Chinook
   salmon from Washington, Idaho, Oregon, and California, {\em Technical
   report\/}, U.S. Dept. of Commerce, National Oceanic and Atmospheric
   Administration, National Marine Fisheries Service, Seattle, WA.
@@ -390,12 +415,19 @@ Thompson TQ, Bellinger MR, O’Rourke SM, Prince DJ, Stevenson AE, Rodrigues
   and restoration potential in wild salmon populations. {\em Proceedings of the
   National Academy of Sciences\/}, {\bf 116}, 177--186.
 
+\bibitem[\protect\citeauthoryear{Thompson, O'Leary, O'Rourke, Tarsa, Baerwald,
+  Goertler, \& Meek}{Thompson {\em et~al.\/}}{2024}]{thompson2024genomics}
+Thompson TQ, O'Leary S, O'Rourke S, Tarsa C, Baerwald MR, Goertler P, Meek MH
+  (2024) Genomics and 20 years of sampling reveal phenotypic differences
+  between subpopulations of outmigrating Central Valley Chinook salmon. {\em
+  Evolutionary Applications\/}, {\bf 17}, e13705.
+
 \bibitem[\protect\citeauthoryear{Untergasser, Cutcutache, Koressaar, Ye,
   Faircloth, Remm, \& Rozen}{Untergasser {\em
   et~al.\/}}{2012}]{untergasser2012primer3}
 Untergasser A, Cutcutache I, Koressaar T, Ye J, Faircloth BC, Remm M, Rozen SG
-  (2012) Primer3—new capabilities and interfaces. {\em Nucleic acids
-  research\/}, {\bf 40}, e115--e115.
+  (2012) Primer3—new capabilities and interfaces. {\em Nucleic Acids
+  Research\/}, {\bf 40}, e115--e115.
 
 \bibitem[\protect\citeauthoryear{Urawa, Sato, Crane, Agler, Josephson, \&
   Azumaya}{Urawa {\em et~al.\/}}{2009}]{urawa2009stock}
@@ -435,7 +467,7 @@ Waters CD, Clemento A, Aykanat T, Garza JC, Naish KA, Narum S, Primmer CR
 \bibitem[\protect\citeauthoryear{Weir \& Cockerham}{Weir \&
   Cockerham}{1984}]{weir1984estimating}
 Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of
-  population structure. {\em evolution\/}, 1358--1370.
+  population structure. {\em Evolution\/}, 1358--1370.
 
 \bibitem[\protect\citeauthoryear{Wilmot, Kondzela, Guthrie~III, Moles,
   Martinson, \& Helle}{Wilmot {\em et~al.\/}}{1999}]{wilmot1999origins}
@@ -444,5 +476,11 @@ Wilmot RL, Kondzela CM, Guthrie~III CM, Moles A, Martinson E, Helle JH (1999)
   {\em Technical report\/}, (NPAFC Doc.) Auke Bay Fisheries Laboratory, Alaska
   Fisheries Science Center, NMFS, NOAA, 11305 Glacier Highway, Juneau, AK
   99801-8626. 20 pp.
+
+\bibitem[\protect\citeauthoryear{Yoshiyama, Fisher, \& Moyle}{Yoshiyama {\em
+  et~al.\/}}{1998}]{yoshiyama1998historical}
+Yoshiyama RM, Fisher FW, Moyle PB (1998) Historical abundance and decline of
+  chinook salmon in the Central Valley region of California. {\em North
+  American Journal of Fisheries Management\/}, {\bf 18}, 487--521.
 
 \end{thebibliography}
