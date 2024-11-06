@@ -18,7 +18,7 @@ fish from the  \citet{thompson2020complex} variant data VCF files using ANGSD ve
 Sites were retained if at least 62.5\% of samples in each group had read data (10 of 16 for the
 winter run and 50 of 80 for the non-winter run), resulting in 7,295,001 SNPs for downstream
 analysis.  We first investigated the distribution throughout the genome of $|d|$, the absolute difference
-of the alternate allele frequency between the two groups  (Fig.~\ref{fig:wrap-absdiff}). This revealed
+of the alternate allele frequency between the two groups  (Figure~\ref{fig:wrap-absdiff}). This revealed
 that many loci had large values of $|d|$, but there were several
 regions in the genome, in particular, with prominent peaks in allele frequency difference and one
 or more SNPs apparently fixed for alternate alleles between the two sample groups.  
@@ -29,10 +29,10 @@ had $|d| > 0.9$ within non-overlapping 100 kb sliding windows throughout the gen
 several prominent peaks.  We focused on all of those
 100 kb windows in which more than 12.4\% of sites with $|d|>0.5$ also had $|d|>0.9$ which were
 also adjacent to at least one window in which $>10\%$ of sites with $|d|>0.5$ also had $|d|>0.9$ 
-(Fig.~\ref{fig:wrap-slide-window}).  Within the windows found on four different chromosomes using
+(Figure~\ref{fig:wrap-slide-window}).  Within the windows found on four different chromosomes using
 the above criteria, we then attempted to design amplicons to type the SNPs at a subset of the sites
 within each window.  We chose all sites with $|d|>0.975$, as well as the 8 SNPs on each chromosome
-with the highest values of $|d|$, yielding 61 candidate SNPs (Fig.~\ref{fig:wrap-candi}).  
+with the highest values of $|d|$, yielding 61 candidate SNPs (Figure~\ref{fig:wrap-candi}).  
 
 Some of those 61 candidate SNPs were close enough that it was possible to consider amplifying them
 with PCR on 58 different short sequences.  We used Primer3 \citep{untergasser2012primer3} to return
@@ -50,15 +50,16 @@ for amplification and for evaluation of allele frequencies.
 These 48 amplicons were amplified and sequenced in 192 fish---96 Feather River spring run
 and 96 winter run---on a MiSeq sequencer, and the variants were called using
 GATK.  The resulting VCF file was used to estimate allele frequency differences between
-winter run and feather river spring.  We also processed the sequence data using
-microhaplot (\url{https://github.com/ngthomas/microhaplot}) and visually inspected
-loci for consisten allele depth ratio and numbers of haplotypes.  We then chose 24 amplicons for further
+winter run and Feather River spring run.  We also processed the sequence data using
+the R package,
+'microhaplot' (\url{https://github.com/ngthomas/microhaplot}), and visually inspected
+loci for consistent allele depth ratio and numbers of haplotypes.  We then chose 24 amplicons for further
 testing on the basis of allele frequency differences between Feather River spring run and
 winter run, number of haplotypes, and ease of scoring.  These 24 markers were typed on
 a variety of fish over the course of a year, and we finally chose three to include in
 our California Chinook reference baseline: one amplicon on each of chromosomes
 8, 12, and 16.  The estimated frequencies of all the alleles present in the reference baseline
-in those three amplicons shows that there are not fixed differences between
+in those three amplicons shows that there are not fixed differences at these markers between
 winter run and all other reporting units (Table~\ref{tab:wrap-freqs}).
 
 

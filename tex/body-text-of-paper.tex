@@ -150,7 +150,7 @@ R. = River; Ck. = Creek; H. = Hatchery; NFH = National Fish Hatchery.}
 Collections in each location were separated into fish from the different adult migration timing ecotypes according
 to a variety of criteria.  Winter-run Chinook salmon are propagated at the Livingston
 Stone National Fish Hatchery for supplementation (released as juveniles into the river) and as a captive broodstock;
-sampling of this population was performed by hatchery staff during spawning. In Central Valley Rivers with both
+sampling of this population was performed by hatchery staff during spawning. In Central Valley rivers with both
 spring-run and fall-run ecotypes (i.e. Mill, Deer and Butte Creeks), previous research has documented different  (but overlapping) ranges of spawning time (Julian date) for each ecotype \citep{fry1961king,yoshiyama1998historical}.
 As such, sampling targeted carcasses found in each of these
 rivers at times representative of their run-timing designation, which we were able to further confirm using their genotypes
@@ -160,9 +160,9 @@ fall-run Chinook salmon adults were found, so the samples there were
 easily categorized. Run-timing
 designation at the Feather River Hatchery is more complicated but it is managed by the hatchery practices in place:
 early returning fish in May and April (expressing the spring-run life history) are visibly tagged and re-released
-to the river. Subsequently in the Fall, when hatchery raceways are reopened, only fish with the visible tag are included
+to the river. Subsequently in the fall, when hatchery raceways are reopened, only fish with the visible tag are included
 as spring-run broodstock, and the rest are included in the fall-run broodstock. We sampled putative spring-run and fall-run fish 
-from these two broodstocks. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype then confirmed by RoSA genotype. Elsewhere, samples were taken from live broodstock at Cole Rivers (Rogue), Rowdy Creek (Smith), Iron Gate (Klamath) and Warm Springs (Russian River) Hatcheries, where only fall-run fish have been documented. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
+from these two broodstocks. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype then confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith), Iron Gate (Klamath) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath); all locations where only fall-run fish have been documented.  Spring run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
 
 
 
@@ -171,7 +171,7 @@ Units (ESUs) of Chinook salmon \citep{waples1991pacific}.
 %%%%%%%%%%%%%%%%
 \begin{sidewaystable*}
 \caption{\footnotesize Collections of fish in the reference baseline.  The Sampling Months column shows
-a pictorial representation of the proportion of each collection sampled in each month.  Colors in
+a pictorial representation of the proportion of each collection sampled in each month. BCkF were sampled as juveniles, all other collections were of adults. Colors in
 this column correspond to run-timing groups as described in the caption of Figure~\protect\ref{fig:map}.}
 \label{tab:samples}
 {\small
@@ -216,7 +216,7 @@ fragments) to produce a broad array of locus targets. Library preparation and se
 \citet{peterson2012double} with the modifications described in \citep{baetscher2018microhaplotypes}.
 Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing.
 
-Stacks v1.45 \cite{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome
+Stacks v1.45 \citep{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome
 at the time, a {\em de novo} assembly was performed.  Initial filtering retained RAD loci with two or more SNPs present
 in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
 4,794 retained in the data with 500 bp size selection.
@@ -231,7 +231,7 @@ Subsequently, alignmets were sorted with SAMtools \citep{li2009sequence} and pro
 FreeBayes \citep{garrison2012haplotype} for variant calling.
 FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci, including
-assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng et al., DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, as well as those clearly violating Hardy-Weinberg equilibrium within populations were removed.
+assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng {\em et al.}, DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, as well as those clearly violating Hardy-Weinberg equilibrium within populations were removed.
 
 
 \subsubsection*{Conversion of existing SNPtype assays}
@@ -338,8 +338,8 @@ Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmo
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-We include a novel marker that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this marker through examination of whole-genome sequence data in multiple populations of California Chinook salmon (Thompson et al., 2020.)
-This marker characterizes genetic sex in diverse California salmon populations more accurately than previously published marker assays \comment{\citep{von2015development}}.
+We include a novel marker that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this marker through examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex}.
+This marker characterizes genetic sex in diverse California salmon populations more accurately than previously published marker assays \citep{von2015development}.
 And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
 coho salmon and Chinook salmon.  This is helpful when samplers have unwitting
 collected coho salmon from ocean catches.
@@ -361,7 +361,7 @@ report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
 
 \subsection*{Amplicon sequencing, microhaplotype calling, and further quality control}
 
-Amplicon sequencing was performed with the Genotyping-in-Thousands by sequencing (GT-seq)
+Amplicon sequencing was performed with the Genotyping-in-Thousands-by-sequencing (GT-seq)
 method \citep{campbell2015genotyping}. All loci were
 multiplexed with primer concentrations ranging from 0.083 uM to 0.5 uM to increase
 uniformity of read depths across all loci. Sample normalization was
@@ -376,7 +376,8 @@ Primer sequences and concentrations for making the primer pool are in Supplement
 For evaluation of candidate loci, dual-barcoded sequences were used
 to identify individual tissue samples using the MiSeq analysis software (Illumina).
 The paired-end sequence reads were joined together using Fast Length Adjustment
-of SHort reads \citep[FLASH:~][]{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci using BWA (Li and Durbin 2010). Mapped reads were converted to BAM files using SAMtools (Li et al. 2009) and freebayes (Garrison and Marth 2012) was used to call variants.
+of SHort reads \citep[FLASH:~][]{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci (for the novel microhaplotypes, SNPlicons and RoSA markers) or from the entire Otsh\_v1.0 genome
+(for the LFAR, WRAP, VGLL3, and Six6 markers) using BWA mem\citep{bwa-mem2009}. Mapped reads were converted to BAM files using SAMtools \citep{li2009sequence} and freebayes \citep{garrison2012haplotype} was used to call variants.
 
 For genotyping of baseline samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts.
 
@@ -448,8 +449,8 @@ scaled likelihood greater than 0.8 were assigned.
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
 the RoSA.  For this we identified the RoSA genotype \citep[EE, EL, or LL, see~][]{thompson2020complex} from the concordance of the genotypes
-at all 8 markers described in \citep{thompson2020complex}, requiring no missing
-data at any of those 8 markers, and discarding data from 12 individuals
+at all 8 markers described in \citep{thompson2020complex}, requiring that no genotypes be missing
+within and individual from any of those 8 markers, and discarding data from 12 individuals
 in which the E or L haplotypes had clearly recombined.
 
 
@@ -605,9 +606,8 @@ second assembly.
 \subsection*{Population genetic summaries}
 
 The total number of alleles per locus varied between 1 and 10 (Figure~\ref{fig:num-alle}), with the
-only locus with a single allele being the species-specific marker Ots\_coho001\_05\_32691399
-used to distinguish coho from Chinook salmon. Biallelic
-loci were most common, at 66 of the total, but two-thirds of the microhaplotype markers
+only locus bearing a single allele in Chinook salmon being the species-specific marker Ots\_coho001\_05\_32691399. 
+Biallelic loci were most common, at 66 of the total, but two-thirds of the microhaplotype markers
 showed more than two alleles, which has been shown to provide significantly more
 power for relationship inference than a comparably sized panel of biallelic SNPs
 \citep{baetscher2018microhaplotypes}.
@@ -674,7 +674,7 @@ when only fish with a scaled likelihood $>0.80$ to reporting unit are assigned, 
 
 
 
-At value of $K$ from 2 to 7, clusters identified by the program STRUCTURE
+At values of $K$ from 2 to 7, clusters identified by the program STRUCTURE
 generally corresponded to groupings of related populations, and confirmed
 {\em a priori} knowledge about which collections in the baseline could and should be
 grouped together into reporting units (Figure~\ref{fig:struct}).  At every value of $K$, CLUMPAK discerned at least
@@ -712,7 +712,7 @@ in a self-assignment matrix (Figure~\ref{fig:gsi}b).
 This figure shows the collections divided into the seven different reporting groups:
 SO-NCal-Coast,  Klamath-Trinity, Cent-Cal-Coast,
 CV-Winter, CV-Spring, CV-Fall, and  CV-Late-Fall.  These groupings correspond
-largely to the divisions in the data found by STRUCTURE, they also correspond
+largely to the divisions in the data found by STRUCTURE, and they also correspond
 with divisions amongst the stocks as defined for management, and, as seen in the
 figure, they correspond with groups of populations that can be reliably distinguished
 from one another for population assignment.
@@ -721,8 +721,8 @@ Overall, of the 1636 fish in the reference baseline, 1612 (98.5\%) were correctl
 assigned to their reporting unit of origin, while 24 (1.5\%) were incorrectly assigned.
 Four of those 24 misassignments which involved fish being incorrectly assigned to
 SRW, were clearly fish from SRW that had been incorrectly sampled into a different
-collection, likely due to straying. (This is evident because SRW are so distinct that it is not possible
-to incorrectly identify them).  Of the remaining 20 misassignments,  8 involved fish from the
+collection, likely due to straying. (This is evident because SRW are so distinct that it is highly improbable they
+would be incorrectly identified).  Of the remaining 20 misassignments,  8 involved fish from the
 CHLF (late fall run) collection being misassigned to the CV-Fall reporting unit and 6 were
 fish from the MDS (Mill-Deer spring run) collection being assigned to the CV-Fall reporting unit.
 It is possible that some of these misassignments represent CV-Fall fish that were incorrectly
@@ -738,7 +738,7 @@ of only 0.4\% (2/508).
 When assignments are only accepted with a scaled likelihood greater than 0.8,
 20 assignments are discarded, and half of those (10) were the incorrect assignments.  Thus,
 at the 0.8 threshold, the total fraction of correct assignments is 99.1\% (Figure~\ref{fig:eighty}).
-Notably with the $>0.8$ criterion, the misassignment rates from the abundant CV-Fall
+Notably with the $>$0.8 criterion, the misassignment rates from the abundant CV-Fall
 reporting unit to CV-Late-Fall or to CV-Spring both drop below 0.2\% (1/502).  
 
 As seen in previous studies, FRHS, the Feather River Hatchery
@@ -826,7 +826,7 @@ amplicon (\ref{fig:ckmr-comp}).  The figures show a considerable increase
 in separation between the relationships categories from calling genotypes
 as microhaplotypes in these amplicons.
 
-While there is not a currently available method (like that of \citeauthor{anderson2006power}) for estimating error rates in
+While there is not a currently available method \citep[like that of][]{anderson2006power}) for estimating error rates in
 inference of parent-offspring trios with multiallelic marker data, given the substantial amount of statistical power for identifying PO and FS pairs, which 
 require much more statistical power, it is clear that PO-trio inference with these markers will be essentially error free.
 
@@ -845,9 +845,9 @@ of parent and offspring pairs and full siblings, and also allows near-perfect
 identification of individuals to population or genetic group of origin in California. 
 This set of genetic markers includes multiallelic gene regions with high variability for
 relationship inference, gene regions identified in whole-genome sequence data
-for increased power for identification of specific populations and incorporates markers that have
-long been in use for both GSI and PBT in California (Clemento et al. 2014), by converting them
-into so-called 'SNPlicons'. This set of markers lays the foundation for a comprehensive 
+for increased power for identification of specific populations, and markers that have
+long been in use for both GSI and PBT in California \citep{clemento2014evaluation}, by converting them
+into so-called 'SNPlicons.' This set of markers lays the foundation for a comprehensive 
 genetic monitoring and evaluation effort that facilitates multiple types of inference 
 and is flexible and extensible.
 
@@ -859,8 +859,9 @@ The California Central Valley (CCV) is one of the largest river
 basins on the west coast of North America and drains the Sierra Nevada and southern Cascade
 mountain ranges. It has the highest diversity of recognized Chinook salmon
 ecotypes in the species range, with four named ecotypes, two of which are protected
-under the US Endangered Species Act. It is also the source of water for several major urban areas as well as the
-largest and most valuable agriculture area in North America. As such, accurate identification of the distinct ecotypes of CCV Chinook salmon is of utmost importance for monitoring and
+under the US Endangered Species Act. It is also the source of water for several major urban areas as well as, arguably,  
+the most productive and most valuable agriculture area in North America. As such, accurate identification of the distinct 
+ecotypes of CCV Chinook salmon is of utmost importance for monitoring and
 evaluation of individual ecotypes, as well as designing and implementing
 effective conservation and management actions. This has been challenging,
 given the recent common ancestors of these ecotypes \citep{clemento2014evaluation}, and
@@ -882,8 +883,9 @@ are strays from the winter-run stock, as these could not realistically be miside
 basis of the genetic data.
 
 Results from the model-based clustering analysis with the program STRUCTURE, revealed patterns 
-of population relationships that are coincident with previous work (Clemento et al. 2014; 
-Kinziger et al. 2013), emphasizing the distinction between Chinook salmon populations 
+of population relationships that are coincident with previous work 
+\citep{clemento2014evaluation,kinziger2013contemporary}, emphasizing
+the distinction between Chinook salmon populations 
 in Coastal California and the Central Valley. These analyses also uncover some additional patterns, 
 including the clear presence of mixed ancestry in the Coastal California population in the 
 Russian River, which is consistent with its location, at the southernmost edge of the 
@@ -901,7 +903,7 @@ gene flow between them.
 Examination of the geographic patterns of allele frequencies for the RoSA-associated loci found a
 clear instance of the early-migrating haplotype present in the California Coastal Chinook salmon lineage.
 This is of note because this lineage does not currently have an early migrating component, although it
-has long been speculated that the Eel River, at least, historically harbored early-migrating Chinook salmon
+has long been speculated that the Eel River, at least, historically harbored early-migrating Chinook salmon,
 and early migrating steelhead ({\em O. mykiss}) persist in the basin \citep{bjorkstedt2005analysis}. Moreover, we
 discovered several recombinant RoSA haplotypes in both of the CCC populations that indicate a long-standing
 presence of both the early- and late-migrating haplotypes in these populations. This is consistent with the
@@ -913,10 +915,11 @@ River \citep{thompson2020complex}.
 
 As sequencing costs drop, whole genome sequence (WGS) data may become the preferred
 data type for salmon genetics. If so, it may become possible to include
-all >200 genetically distinct Chinook salmon populations within a single standardized reference baseline
+all the >200 genetically distinct Chinook salmon populations in North America within a
+single standardized reference baseline
 constructed with WGS data
 that performs equally well at broad and regional scales \citep{desaixINPRESSpopulation}.
-Such an approach would be highly flexible and extensible, as it would allow for the use
+Such an approach would be highly flexible and extensible, as it would allow for the use of
 just about any marker type, including reduced representation DNA sequencing
 \citep[e.g.,~RADseq,][]{meek2020identifying,thompson2024genomics},
 as regional monitoring datasets would not need to be replicable.  For the present, however,
@@ -943,10 +946,12 @@ parent-offspring relationships, but only when both parents were sampled and geno
 This marker set considerably increases the capacity for relationship inference in California
 salmon, by providing sufficient power for parent-offspring relationship inference, when only
 one parent is sampled, as well as identifying pairs of full siblings when no parents are sampled.
-Groups of full siblings larger than two are identified even more accurately than expressed in Figure~\ref{fig:fprs}.
+Groups of full siblings larger than two can be identified even more accurately than expressed in Figure~\ref{fig:fprs},
+when using statistical approaches that account for the joint relationships between more than two individuals,
+such as COLONY \citep{wang2004sibship}.
 Although some additional errors might be
 expected when related but non-target kin pairs are sampled,  the false positive rates
-for these non-targe kin pairs are sufficiently small
+for these non-target kin pairs are sufficiently small
 for almost all realistic scenarios.
 Accurate relationship
 inference in even the most genetically depauperate Chinook salmon population in California

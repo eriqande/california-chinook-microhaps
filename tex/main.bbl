@@ -1,4 +1,4 @@
-\begin{thebibliography}{74}
+\begin{thebibliography}{76}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -244,6 +244,13 @@ Kim SY, Lohmueller KE, Albrechtsen A, Li Y, Korneliussen T, Tian G, Grarup N,
   using next-generation sequencing data}. {\em BMC Bioinformatics\/}, {\bf 12},
   231.
 
+\bibitem[\protect\citeauthoryear{Kinziger, Hellmair, Hankin, \& Garza}{Kinziger
+  {\em et~al.\/}}{2013}]{kinziger2013contemporary}
+Kinziger AP, Hellmair M, Hankin DG, Garza JC (2013) Contemporary population
+  structure in Klamath River basin Chinook salmon revealed by analysis of
+  microsatellite genetic data. {\em Transactions of the American Fisheries
+  Society\/}, {\bf 142}, 1347--1357.
+
 \bibitem[\protect\citeauthoryear{Kopelman, Mayzel, Jakobsson, Rosenberg, \&
   Mayrose}{Kopelman {\em et~al.\/}}{2015}]{kopelman2015clumpak}
 Kopelman NM, Mayzel J, Jakobsson M, Rosenberg NA, Mayrose I (2015) Clumpak: a
@@ -441,6 +448,10 @@ Urawa S, Sato S, Crane PA, Agler B, Josephson R, Azumaya T (2009)
 Von~Bargen J, Smith CT, Rueth J (2015) Development of a Chinook salmon sex
   identification SNP assay based on the growth hormone pseudogene. {\em Journal
   of Fish and Wildlife Management\/}, {\bf 6}, 213--219.
+
+\bibitem[\protect\citeauthoryear{Wang}{Wang}{2004}]{wang2004sibship}
+Wang J (2004) Sibship reconstruction from genetic data with typing errors. {\em
+  Genetics\/}, {\bf 166}, 1963--1979.
 
 \bibitem[\protect\citeauthoryear{Wang}{Wang}{2023}]{wang2023estimating}
 Wang J (2023) Estimating current effective sizes of large populations from a
