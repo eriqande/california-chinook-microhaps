@@ -184,7 +184,7 @@ fbmet5 <- fbmet4 %>%
     Code = abbrv,
     `Location Name$^2$` = map_text,
     Run = run_timing_for_table,
-    `Reporting Unit$^4$` = repunit,
+    `Reporting Unit$^3$` = repunit,
     `ESU$^4$` = ESU,
     `$N$` = N,
     `$N_\\mathrm{day}^5$` = N_date
