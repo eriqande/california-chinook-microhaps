@@ -531,14 +531,27 @@ AllSims <- tibble(
   Qsims = Qsims
 ) %>% 
   unnest(Qsims) %>%
-  select(condition, ckmr_sim_group, true_relat, logl_ratio)
+  select(condition, ckmr_sim_group, true_relat, logl_ratio) %>%
+  mutate(  # change the names around
+    group = str_replace(ckmr_sim_group, "^ck-", ""),
+    group = case_match(
+      group,
+      "LF" ~ "CHLF",
+      "IGH" ~ "IGHF",
+      "SONC" ~ "SO-NCal-Coast",
+      "CCC" ~ "Cent-Cal-Coast",
+      .default = group
+    ),
+    .before = ckmr_sim_group
+  ) %>%
+  mutate(group = factor(group, levels = c("SO-NCal-Coast", "IGHF", "TRH", "Cent-Cal-Coast", "SRW", "BCS", "MDS", "FRH", "CVF", "CHLF")))
 ```
 
 Now, we can plot all of those.  Let's see if we can get all four onto one page easily enough.
 ```{r}
 asg <- ggplot(AllSims, aes(x = logl_ratio, fill = true_relat)) +
   geom_density(alpha = 0.5) +
-  facet_wrap(~ ckmr_sim_group + condition, ncol = 1) +
+  facet_wrap(~ group + condition, ncol = 1) +
   theme_bw() +
   labs(fill = "True\nRelationship") +
   xlab("PO vs U Log-likelihood Ratio")

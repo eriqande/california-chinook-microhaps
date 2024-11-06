@@ -1,4 +1,4 @@
-\begin{thebibliography}{2}
+\begin{thebibliography}{3}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Christensen, Leong, Sakhrani, Biagi, Minkley,
@@ -14,5 +14,12 @@ Christensen KA, Leong JS, Sakhrani D, Biagi CA, Minkley DR, Withler RE, Rondeau
 Thompson NF, Anderson EC, Clemento AJ, Campbell MA, Pearse DE, Hearsey JW,
   Kinziger AP, Garza JC (2020) A complex phenotype in salmon controlled by a
   simple change in migratory timing. {\em Science\/}, {\bf 370}, 609--613.
+
+\bibitem[\protect\citeauthoryear{Untergasser, Cutcutache, Koressaar, Ye,
+  Faircloth, Remm, \& Rozen}{Untergasser {\em
+  et~al.\/}}{2012}]{untergasser2012primer3}
+Untergasser A, Cutcutache I, Koressaar T, Ye J, Faircloth BC, Remm M, Rozen SG
+  (2012) Primer3—new capabilities and interfaces. {\em Nucleic Acids
+  Research\/}, {\bf 40}, e115--e115.
 
 \end{thebibliography}
