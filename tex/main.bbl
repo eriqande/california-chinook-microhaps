@@ -1,4 +1,4 @@
-\begin{thebibliography}{76}
+\begin{thebibliography}{77}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -304,6 +304,13 @@ Mago{\v{c}} T, Salzberg SL (2011) FLASH: fast length adjustment of short reads
 McKinney GJ, Seeb JE, Seeb LW (2017) Managing mixed-stock fisheries: genotyping
   multi-SNP haplotypes increases power for genetic stock identification. {\em
   Canadian Journal of Fisheries and Aquatic Sciences\/}, {\bf 74}, 429--434.
+
+\bibitem[\protect\citeauthoryear{Meek, Baerwald, Stephens, Goodbla, Miller,
+  Tomalty, \& May}{Meek {\em et~al.\/}}{2016}]{meek2016sequencing}
+Meek MH, Baerwald MR, Stephens MR, Goodbla A, Miller MR, Tomalty KM, May B
+  (2016) Sequencing improves our ability to study threatened migratory species:
+  Genetic population assignment in California's Central Valley Chinook salmon.
+  {\em Ecology and Evolution\/}, {\bf 6}, 7706--7716.
 
 \bibitem[\protect\citeauthoryear{Meek, Stephens, Goodbla, May, \&
   Baerwald}{Meek {\em et~al.\/}}{2020}]{meek2020identifying}
