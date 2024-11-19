@@ -1,4 +1,4 @@
-\begin{thebibliography}{77}
+\begin{thebibliography}{78}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -199,6 +199,11 @@ Hasselman DJ, Anderson EC, Argo EE, Bethoney ND, Gephard SR, Post DM,
 Healey M (1991) Life history of Chinook salmon ({em/ Oncorhynchus
   tshawytscha}), {\em in:\/} {\em Pacific salmon life histories\/}, 311--394,
   University of British Columbia Press Vancouver.
+
+\bibitem[\protect\citeauthoryear{Hedrick \& Hedgecock}{Hedrick \&
+  Hedgecock}{1994}]{hedrick1994effective}
+Hedrick PW, Hedgecock D (1994) Effective population size in winter-run chinook
+  salmon. {\em Conservation Biology\/}, {\bf 8}, 890--892.
 
 \bibitem[\protect\citeauthoryear{Hendricks, Anderson, Antao, Bernatchez,
   Forester, Garner, Hand, Hohenlohe, Kardos, Koop {\em et~al.\/}}{Hendricks
