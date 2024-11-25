@@ -262,7 +262,7 @@ wnw_prepped <- my_mh_prep(wnw_lite, chrom_lengths)
 
 mh_plot <- plot_mh(wnw_prepped$snps, wnw_prepped$axisdf) +
   xlab("Position along chromosome") +
-  ylab("Absolute value of allele frequency difference, spring-run vs. fall-run")
+  ylab("Absolute value of allele frequency difference, winter-run vs.\ non-winter-run")
 
 mh_plot
 ```
@@ -311,7 +311,7 @@ Let's plot a big long version of the full plot so we can
 see the points and point density better.
 ```{r}
 ggsave(mh_plot + ylim(0.5, 1.0), filename = output_list$mh_plot,
-       height = , width = 12)
+       height = 7, width = 12)
 
 file.copy(from = output_list$mh_plot, to = output_list$mh4tex, overwrite = TRUE)
 ```

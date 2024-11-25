@@ -1,4 +1,4 @@
-\begin{thebibliography}{78}
+\begin{thebibliography}{79}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -474,6 +474,14 @@ Wang J (2023) Estimating current effective sizes of large populations from a
 Waples RS (1991) Pacific salmon, {\em Oncorhynchus spp.}, and the definition of
   ``species'' under the Endangered Species Act. {\em Marine Fisheries
   Review\/}, {\bf 53}, 11--22.
+
+\bibitem[\protect\citeauthoryear{Waples, Ford, Nichols, Kardos, Myers,
+  Thompson, Anderson, Koch, McKinney, Miller {\em et~al.\/}}{Waples {\em
+  et~al.\/}}{2022}]{waples2022implications}
+Waples RS, Ford MJ, Nichols K, Kardos M, Myers J, Thompson TQ, Anderson EC,
+  Koch IJ, McKinney G, Miller MR, {\em et~al.\/} (2022) Implications of
+  large-effect loci for conservation: A review and case study with Pacific
+  salmon. {\em Journal of Heredity\/}, {\bf 113}, 121--144.
 
 \bibitem[\protect\citeauthoryear{Waples \& Waples}{Waples \&
   Waples}{2011}]{waples2011inbreeding}
