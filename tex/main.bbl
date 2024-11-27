@@ -1,4 +1,4 @@
-\begin{thebibliography}{79}
+\begin{thebibliography}{80}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -84,6 +84,15 @@ Beacham TD, Wallace CG, Jonsen K, McIntosh B, Candy JR, Horst K, Lynch C,
   replacement for coded-wire tagging in large-scale assessments of marine
   Chinook salmon fisheries in British Columbia, Canada. {\em Evolutionary
   Applications\/}, {\bf 14}, 1365--1389.
+
+\bibitem[\protect\citeauthoryear{Bertho, Herpin, Jouanno, Yano, Bobe,
+  Parrinello, Journot, Guyomard, Muller, Swanson {\em et~al.\/}}{Bertho {\em
+  et~al.\/}}{2022}]{bertho2022nonfunctional}
+Bertho S, Herpin A, Jouanno E, Yano A, Bobe J, Parrinello H, Journot L,
+  Guyomard R, Muller T, Swanson P, {\em et~al.\/} (2022) A nonfunctional copy
+  of the salmonid sex-determining gene (sdY) is responsible for the
+  “apparent” XY females in Chinook salmon, Oncorhynchus tshawytscha. {\em
+  G3\/}, {\bf 12}, jkab451.
 
 \bibitem[\protect\citeauthoryear{Beulke, Abad{\'\i}a-Cardoso, Pearse, Goetz,
   Thompson, Anderson, \& Garza}{Beulke {\em

@@ -92,12 +92,12 @@ same river basin as the highly endangered and phenotypically distinct winter-run
 
 Here, we present a reference baseline for Chinook salmon, focusing on the regional scale of
 rivers within the state of California, and particularly targeted to the complex population
-structure of Chinook salmon within California's Central Valley (CCV). Chinook salmon of the two main CCV river basins---the
+structure of Chinook salmon within the California Central Valley (CCV). Chinook salmon of the two main CCV river basins---the
 Sacramento and the San Joaquin---exhibit the greatest run-timing diversity
 within the species.  With four recognized ecotypes, delineated primarily on the basis of run timing
 (fall-, late-fall-, winter-, and spring-run), adult Chinook salmon can be found migrating or residing
 in freshwater every month of the year in California \citep{fisher1994past}.  Our previous work \citep{thompson2020complex} documented
-a strong association between these ecotypes and the alleles carried near the GREB1L and ROCK1 genes
+a strong association between these ecotypes in the CCV and the alleles carried near the GREB1L and ROCK1 genes
 in a section of chromosome 28 that we termed the region of strongest association (RoSA), a pattern
 also observed in other river basins of the West Coast \citep[summarized in][]{waples2022implications}.  
 
@@ -255,16 +255,17 @@ Specific Primers respectively.  We then dropped any loci that produced genotypes
 frequently inconsistent with genotypes produced with the SNPtype assays and any loci that
 did not amplify well or those that amplified so well that they were grossly over-represented
 among the reads on the sequencer.  We
-used freebayes \citep{garrison2012haplotype} to identify all variants on the fragment (not just the SNPs targeted by the original TaqMan assays).  This allows us to score each locus as a
+used FreeBayes \citep{garrison2012haplotype} to identify all variants on the fragment (not just the SNPs targeted by the original TaqMan assays).  This allows us to score each locus as a
 microhaplotype \citep{baetscher2018microhaplotypes} when multiple variants occur in the sequence.  We filtered out variants
-that were considered multinucleotide or complex variants by freebayes. The resulting genetic markers are hereafter referred to as 'SNPlicons'.
+that were considered multinucleotide or complex variants by FreeBayes. The resulting genetic markers are hereafter referred to as 'SNPlicons'.
 
 
 \subsubsection*{Identifying the Late-Fall Associated Region (LFAR) and designing markers therein}
 
 To identify loci with large allele frequency differences between late-fall and fall-run Chinook salmon,
 we first conducted a simple case-control GWAS using the low-coverage whole-genome sequencing
-data of \citet{thompson2020complex}, mapped to Otsh\_v1.0.  We conducted
+data of \citet{thompson2020complex}, mapped to the Otsh\_v1.0 Chinook salmon assembly
+(GenBank accession GCA\_002872995.1).  We conducted
 two separate association-study comparisons.
 The first involved the 16 late-fall-run fish as cases with 16 fall-run fish from the Feather River Hatchery as controls.
 The second involved the same 16 late-fall fish as cases, but used 16 fall-run fish from the San
@@ -346,8 +347,8 @@ Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmo
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-We include a novel marker that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this marker through examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex}.
-This marker characterizes genetic sex in diverse California salmon populations more accurately than previously published marker assays \citep{von2015development}.
+We include a novel amplicon that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this amplicon to target the SNP described by \citet{bertho2022nonfunctional} that differentiates the functional {\em sdY} and a nonfunctional {\em sdY} pseudogene.  Examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex} shows that this
+marker characterizes genetic sex in diverse California salmon populations more accurately than previously published \citep{von2015development} marker assays.
 And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
 coho salmon and Chinook salmon.  This is helpful when samplers have unwittingly
 collected coho salmon.
@@ -361,7 +362,8 @@ been used previously without certainty about their location in the genome.
 After designing and validating an amplicon-sequencing approach to type both of these
 groups of markers we identified their locations within the genome by mapping the
 consensus sequences (roughly 100--300 bp) around the markers
-to both the Chinook salmon version 1 (Otsh\_v1.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002872995.1/}) and version 2  (Otsh\_v2.0; \url{https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018296145.1/}) genome assemblies,
+to both the Chinook salmon version 1 (Otsh\_v1.0, GenBank accession GCA\_002872995.1)
+and version 2  (Otsh\_v2.0, GenBank accession GCA\_018296145.1) genome assemblies,
 using both bwa-mem \citep{bwa-mem2009} and the BLAST-like Alignment tool \citep{kent2002blat}.
 A similar mapping exercise was performed for the remaining markers so that we can
 report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
@@ -387,7 +389,7 @@ For evaluation of candidate loci, dual-barcoded sequences were used
 to identify individual tissue samples using the MiSeq analysis software (Illumina).
 The paired-end sequence reads were joined together using Fast Length Adjustment
 of SHort reads \citep[FLASH:~][]{magovc2011flash}) and mapped to an indexed sequence reference created from the Stacks target loci (for the novel microhaplotypes, SNPlicons and RoSA markers) or from the entire Otsh\_v1.0 genome
-(for the LFAR, WRAP, VGLL3, and Six6 markers) using BWA mem\citep{bwa-mem2009}. Mapped reads were converted to BAM files using SAMtools \citep{li2009sequence} and freebayes \citep{garrison2012haplotype} was used to call variants.
+(for the LFAR, WRAP, VGLL3, and Six6 markers) using BWA mem\citep{bwa-mem2009}. Mapped reads were converted to BAM files using SAMtools \citep{li2009sequence} and FreeBayes \citep{garrison2012haplotype} was used to call variants.
 
 For genotyping of baseline samples, final filtering at each locus required a read depth of 20 and a read depth ratio of 0.30 (i.e., for heterozygotes the lower read depth haplotype must have 30\% of the total reads at that locus). MICROHAPLOT was used to call alleles and genotype processing was performed with R scripts.
 
@@ -771,7 +773,7 @@ In California, only the Sacramento and  Klamath basins have documented spring-ru
 salmon and their historical occurrence in other basins has been unclear. Although all fish
 sampled from coastal basins in our study were phenotypically fall run, we did identify one copy of the early-lineage
 RoSA haplotype in the Eel River. Moreover, we identified three additional copies of a
-recombinant haplotype that carries half of the RoSA SNPs from both the E and L lineages in the Eel and Russian rivers. No other clear recombinants were identified in the study populations, indicating that it arose in the California Coastal Chinook Salmon lineage, and providing further evidence of past presence of RoSA haplotypes associated with early migration.
+recombinant haplotype that carries half of the RoSA SNPs from both the E and L lineages in the Eel and Russian rivers. No other clear recombinants were identified in the study populations, indicating that it might have arisen in the California Coastal Chinook Salmon lineage, and providing further evidence of past presence of RoSA haplotypes associated with early migration.
 
 
 
