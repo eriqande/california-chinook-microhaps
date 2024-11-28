@@ -1,4 +1,4 @@
-\begin{thebibliography}{80}
+\begin{thebibliography}{79}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[\protect\citeauthoryear{Abad{\'\i}a-Cardoso, Anderson, Pearse, \&
@@ -30,6 +30,7 @@ Anderson E, Thompson E (2002) A model-based method for identifying species
 Anderson EC, Garza JC (2005) A description of full parental genotyping, {\em
   Technical report\/}, Unpublished report on file with the National Oceanic and
   Atmospheric Administration. Seattle, WA.
+  \url{{https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=67528b8c6ebf8afd79d9129344e489e1bbe238e2}}.
 
 \bibitem[\protect\citeauthoryear{Anderson \& Garza}{Anderson \&
   Garza}{2006}]{anderson2006power}
@@ -90,9 +91,9 @@ Beacham TD, Wallace CG, Jonsen K, McIntosh B, Candy JR, Horst K, Lynch C,
   et~al.\/}}{2022}]{bertho2022nonfunctional}
 Bertho S, Herpin A, Jouanno E, Yano A, Bobe J, Parrinello H, Journot L,
   Guyomard R, Muller T, Swanson P, {\em et~al.\/} (2022) A nonfunctional copy
-  of the salmonid sex-determining gene (sdY) is responsible for the
-  “apparent” XY females in Chinook salmon, Oncorhynchus tshawytscha. {\em
-  G3\/}, {\bf 12}, jkab451.
+  of the salmonid sex-determining gene ({\em sdY}) is responsible for the
+  “apparent” XY females in Chinook salmon, {\em Oncorhynchus tshawytscha}.
+  {\em G3\/}, {\bf 12}, jkab451.
 
 \bibitem[\protect\citeauthoryear{Beulke, Abad{\'\i}a-Cardoso, Pearse, Goetz,
   Thompson, Anderson, \& Garza}{Beulke {\em
@@ -114,7 +115,7 @@ Bjorkstedt EP, Spence BC, Garza JC, Hankin DG, Fuller D, Jones WE, Smith JJ,
   et~al.\/}}{2015}]{campbell2015genotyping}
 Campbell NR, Harmon SA, Narum SR (2015) Genotyping-in-Thousands by sequencing
   (GT-seq): A cost effective SNP genotyping method based on custom amplicon
-  sequencing. {\em Molecular ecology resources\/}, {\bf 15}, 855--867.
+  sequencing. {\em Molecular Ecology Resources\/}, {\bf 15}, 855--867.
 
 \bibitem[\protect\citeauthoryear{Catchen, Hohenlohe, Bassham, Amores, \&
   Cresko}{Catchen {\em et~al.\/}}{2013}]{catchen2013stacks}
@@ -126,28 +127,28 @@ Catchen J, Hohenlohe PA, Bassham S, Amores A, Cresko WA (2013) Stacks: an
   Lu, \& Ruden}{Cingolani {\em et~al.\/}}{2012}]{cingolani2012program}
 Cingolani P, Platts A, Coon M, Nguyen T, Wang L, Land S, Lu X, Ruden D (2012) A
   program for annotating and predicting the effects of single nucleotide
-  polymorphisms, SnpEff: SNPs in the genome of Drosophila melanogaster strain
-  w1118; iso-2; iso-3. {\em Fly\/}, {\bf 6}, 80--92.
+  polymorphisms, SnpEff: SNPs in the genome of {\em Drosophila melanogaster}
+  strain w1118; iso-2; iso-3. {\em Fly\/}, {\bf 6}, 80--92.
 
 \bibitem[\protect\citeauthoryear{Clemento, Abad{\'\i}a-Cardoso, Starks, \&
   Garza}{Clemento {\em et~al.\/}}{2011}]{clemento2011discovery}
 Clemento A, Abad{\'\i}a-Cardoso A, Starks H, Garza J (2011) Discovery and
-  characterization of single nucleotide polymorphisms in Chinook salmon,
-  Oncorhynchus tshawytscha. {\em Molecular Ecology Resources\/}, {\bf 11},
+  characterization of single nucleotide polymorphisms in Chinook salmon, {\em
+  Oncorhynchus tshawytscha}. {\em Molecular Ecology Resources\/}, {\bf 11},
   50--66.
 
 \bibitem[\protect\citeauthoryear{Clemento, Crandall, Garza, \&
   Anderson}{Clemento {\em et~al.\/}}{2014}]{clemento2014evaluation}
 Clemento AJ, Crandall ED, Garza JC, Anderson EC (2014) Evaluation of a single
   nucleotide polymorphism baseline for genetic stock identification of Chinook
-  Salmon (Oncorhynchus tshawytscha) in the California Current large marine
-  ecosystem. {\em Fishery Bulletin\/}, {\bf 112}.
+  Salmon ({\em Oncorhynchus tshawytscha}) in the California Current large
+  marine ecosystem. {\em Fishery Bulletin\/}, {\bf 112}.
 
 \bibitem[\protect\citeauthoryear{DeSaix, Rodriguez, Ruegg, \& Anderson}{DeSaix
   {\em et~al.\/}}{2024}]{desaixINPRESSpopulation}
 DeSaix MG, Rodriguez MD, Ruegg KC, Anderson EC (2024) Population assignment
   from genotype likelihoods for low-coverage whole-genome sequencing data. {\em
-  Methods in Ecology and Evolution\/}, to appear.
+  Methods in Ecology and Evolution\/}, {\bf 15}, 493--510.
 
 \bibitem[\protect\citeauthoryear{Falush, Stephens, \& Pritchard}{Falush {\em
   et~al.\/}}{2003}]{falush2003inference}
@@ -156,7 +157,7 @@ Falush D, Stephens M, Pritchard JK (2003) Inference of population structure
   frequencies. {\em Genetics\/}, {\bf 164}, 1567--1587.
 
 \bibitem[\protect\citeauthoryear{Fisher}{Fisher}{1994}]{fisher1994past}
-Fisher FW (1994) Past and present status of Central Valley chinook salmon. {\em
+Fisher FW (1994) Past and present status of Central Valley Chinook salmon. {\em
   Conservation Biology\/}, {\bf 8}, 870--873.
 
 \bibitem[\protect\citeauthoryear{Fry}{Fry}{1961}]{fry1961king}
@@ -183,8 +184,8 @@ Garza JC, Anderson E (2007) Large scale parentage inference as an alternative
 Gilbey J, Coughlan J, Wennevik V, Prod{\"o}hl P, Stevens JR, Garcia~de Leaniz
   C, Ensing D, Cauwelier E, Cherbonnel C, Consuegra S, {\em et~al.\/} (2018) A
   microsatellite baseline for genetic stock identification of European Atlantic
-  salmon (Salmo salar L.). {\em ICES Journal of Marine Science\/}, {\bf 75},
-  662--674.
+  salmon ({\em Salmo salar} L.). {\em ICES Journal of Marine Science\/}, {\bf
+  75}, 662--674.
 
 \bibitem[\protect\citeauthoryear{Goudet \& Jombart}{Goudet \&
   Jombart}{2022}]{hierfstat}
@@ -205,13 +206,13 @@ Hasselman DJ, Anderson EC, Argo EE, Bethoney ND, Gephard SR, Post DM,
   Sciences\/}, {\bf 73}, 951--963.
 
 \bibitem[\protect\citeauthoryear{Healey}{Healey}{1991}]{healey1991life}
-Healey M (1991) Life history of Chinook salmon ({em/ Oncorhynchus
+Healey M (1991) Life history of Chinook salmon ({\em Oncorhynchus
   tshawytscha}), {\em in:\/} {\em Pacific salmon life histories\/}, 311--394,
   University of British Columbia Press Vancouver.
 
 \bibitem[\protect\citeauthoryear{Hedrick \& Hedgecock}{Hedrick \&
   Hedgecock}{1994}]{hedrick1994effective}
-Hedrick PW, Hedgecock D (1994) Effective population size in winter-run chinook
+Hedrick PW, Hedgecock D (1994) Effective population size in winter-run Chinook
   salmon. {\em Conservation Biology\/}, {\bf 8}, 890--892.
 
 \bibitem[\protect\citeauthoryear{Hendricks, Anderson, Antao, Bernatchez,
@@ -240,10 +241,9 @@ Hillary R, Bravington M, Patterson T, Grewe P, Bradford R, Feutry P, Gunasekera
 \bibitem[\protect\citeauthoryear{Horn, Hess, Harmon, Hess, Delomas, Campbell,
   \& Narum}{Horn {\em et~al.\/}}{2023}]{horn2023multigeneration}
 Horn RL, Hess M, Harmon S, Hess J, Delomas TA, Campbell MR, Narum S (2023)
-  Multigeneration Pedigrees to Monitor Hatchery Broodstock Composition and
-  Genetic Variation of Spring/Summer Chinook Salmon in the Columbia River
-  Basin. {\em North American Journal of Fisheries Management\/}, {\bf 43},
-  794--820.
+  Multigeneration pedigrees to monitor hatchery broodstock composition and
+  genetic variation of spring/summer Chinook almon in the Columbia River basin.
+  {\em North American Journal of Fisheries Management\/}, {\bf 43}, 794--820.
 
 \bibitem[\protect\citeauthoryear{Kent}{Kent}{2002}]{kent2002blat}
 Kent WJ (2002) BLAT—the BLAST-like alignment tool. {\em Genome Research\/},
@@ -279,8 +279,8 @@ Koressaar T, Remm M (2007) Enhancements and modifications of primer design
 
 \bibitem[\protect\citeauthoryear{Korneliussen, Albrechtsen, \&
   Nielsen}{Korneliussen {\em et~al.\/}}{2014}]{korneliussen_angsd_2014}
-Korneliussen TS, Albrechtsen A, Nielsen R (2014) {ANGSD}: Analysis of Next
-  Generation Sequencing Data. {\em {BMC} Bioinformatics\/}, {\bf 15}, 356.
+Korneliussen TS, Albrechtsen A, Nielsen R (2014) {ANGSD}: Analysis of next
+  generation sequencing data. {\em {BMC} Bioinformatics\/}, {\bf 15}, 356.
 
 \bibitem[\protect\citeauthoryear{Lange, Papp, Sinsheimer, Sripracha, Zhou, \&
   Sobel}{Lange {\em et~al.\/}}{2013}]{lange2013mendel}
@@ -298,7 +298,7 @@ Li H, Durbin R (2009) {Fast and accurate short read alignment with
   et~al.\/}}{2009}]{li2009sequence}
 Li H, Handsaker B, Wysoker A, Fennell T, Ruan J, Homer N, Marth G, Abecasis G,
   Durbin R, Subgroup GPDP (2009) The sequence alignment/map format and
-  SAMtools. {\em bioinformatics\/}, {\bf 25}, 2078--2079.
+  SAMtools. {\em Bioinformatics\/}, {\bf 25}, 2078--2079.
 
 \bibitem[\protect\citeauthoryear{Lindley, Grimes, Mohr, Peterson, Stein,
   Anderson, Botsford, Bottom, Busack, Collier {\em et~al.\/}}{Lindley {\em
@@ -343,8 +343,8 @@ Milner GB, Teel DJ, Utter FM (1982) Gentic Identification Study Annual Progress
 \bibitem[\protect\citeauthoryear{Milner, Teel, Utter, \& Winans}{Milner {\em
   et~al.\/}}{1985}]{milner1985genetic}
 Milner GB, Teel DJ, Utter FM, Winans GA (1985) A genetic method of stock
-  identification in mixed populations of Pacific salmon, Oncorhynchus spp. {\em
-  Marine Fisheries Review\/}, {\bf 47}, 1--8.
+  identification in mixed populations of Pacific salmon, {\em Oncorhynchus
+  spp}. {\em Marine Fisheries Review\/}, {\bf 47}, 1--8.
 
 \bibitem[\protect\citeauthoryear{Moran \& Anderson}{Moran \&
   Anderson}{2019}]{moran2019bayesian}
@@ -372,7 +372,7 @@ Nandor GF, Longwill JR, Webb DL (2010) Overview of the coded wire tag program
 
 \bibitem[\protect\citeauthoryear{Pella \& Masuda}{Pella \&
   Masuda}{2006}]{pella2006gibbs}
-Pella J, Masuda M (2006) The gibbs and split merge sampler for population
+Pella J, Masuda M (2006) The Gibbs and split merge sampler for population
   mixture analysis from genetic data with incomplete baselines. {\em Canadian
   Journal of Fisheries and Aquatic Sciences\/}, {\bf 63}, 576--596.
 
@@ -461,8 +461,8 @@ Untergasser A, Cutcutache I, Koressaar T, Ye J, Faircloth BC, Remm M, Rozen SG
   Azumaya}{Urawa {\em et~al.\/}}{2009}]{urawa2009stock}
 Urawa S, Sato S, Crane PA, Agler B, Josephson R, Azumaya T (2009)
   Stock-specific ocean distribution and migration of chum salmon in the Bering
-  Sea and North Pacific Ocean. {\em N. Pac. Anadr. Fish Comm. Bull\/}, {\bf 5},
-  131--146.
+  Sea and North Pacific Ocean. {\em North Pacific Anadromous Fish Commission
+  Bulletins\/}, {\bf 5}, 131--146.
 
 \bibitem[\protect\citeauthoryear{Von~Bargen, Smith, \& Rueth}{Von~Bargen {\em
   et~al.\/}}{2015}]{von2015development}
@@ -484,14 +484,6 @@ Waples RS (1991) Pacific salmon, {\em Oncorhynchus spp.}, and the definition of
   ``species'' under the Endangered Species Act. {\em Marine Fisheries
   Review\/}, {\bf 53}, 11--22.
 
-\bibitem[\protect\citeauthoryear{Waples, Ford, Nichols, Kardos, Myers,
-  Thompson, Anderson, Koch, McKinney, Miller {\em et~al.\/}}{Waples {\em
-  et~al.\/}}{2022}]{waples2022implications}
-Waples RS, Ford MJ, Nichols K, Kardos M, Myers J, Thompson TQ, Anderson EC,
-  Koch IJ, McKinney G, Miller MR, {\em et~al.\/} (2022) Implications of
-  large-effect loci for conservation: A review and case study with Pacific
-  salmon. {\em Journal of Heredity\/}, {\bf 113}, 121--144.
-
 \bibitem[\protect\citeauthoryear{Waples \& Waples}{Waples \&
   Waples}{2011}]{waples2011inbreeding}
 Waples RS, Waples RK (2011) Inbreeding effective population size and parentage
@@ -506,7 +498,7 @@ Waters CD, Clemento A, Aykanat T, Garza JC, Naish KA, Narum S, Primmer CR
 
 \bibitem[\protect\citeauthoryear{Weir \& Cockerham}{Weir \&
   Cockerham}{1984}]{weir1984estimating}
-Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of
+Weir BS, Cockerham CC (1984) Estimating $F$-statistics for the analysis of
   population structure. {\em Evolution\/}, 1358--1370.
 
 \bibitem[\protect\citeauthoryear{Wilmot, Kondzela, Guthrie~III, Moles,
@@ -520,7 +512,7 @@ Wilmot RL, Kondzela CM, Guthrie~III CM, Moles A, Martinson E, Helle JH (1999)
 \bibitem[\protect\citeauthoryear{Yoshiyama, Fisher, \& Moyle}{Yoshiyama {\em
   et~al.\/}}{1998}]{yoshiyama1998historical}
 Yoshiyama RM, Fisher FW, Moyle PB (1998) Historical abundance and decline of
-  chinook salmon in the Central Valley region of California. {\em North
+  Chinook salmon in the Central Valley region of California. {\em North
   American Journal of Fisheries Management\/}, {\bf 18}, 487--521.
 
 \end{thebibliography}

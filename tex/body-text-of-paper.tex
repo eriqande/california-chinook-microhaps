@@ -140,7 +140,7 @@ Names of each location are followed by the location codes (Table~\ref{tab:sample
 Abbreviations used in location names as follows:
 R. = River; Ck. = Creek; H. = Hatchery; NFH = National Fish Hatchery.}
 \begin{center}
-\includegraphics[width=\columnwidth]{images/map-crop.pdf}
+\includegraphics[width=0.48\textwidth]{images/map-crop.pdf}
 \end{center}
 \caption[\mapcap]{\mapcap}
 \label{fig:map}
@@ -571,7 +571,7 @@ markers.  Frequencies are given for the alleles most common amongst late-fall Ch
 copies available for estimating the allele frequency. Genome coordinates of SNPs are from Otsh\_v2.0.}
 \label{tab:lfar-freqs}
 {\footnotesize
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}} lrrrr}
+\begin{tabular*}{0.48\textwidth}{@{\extracolsep{\fill}} lrrrr}
 \hline\hline
 & \multicolumn{2}{c}{\underline{Chr34:954,054}} & \multicolumn{2}{c}{\underline{Chr34:1,151,868}} \\
 Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
@@ -631,7 +631,7 @@ $\bar{H}_\mathrm{obs}$ are expected and observed heterozygosity, respectively. P
 codes are as given in Table~\ref{tab:samples}}
 \label{tab:pg-summ}
 {\footnotesize
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}} lrrrrr}
+\begin{tabular*}{0.48\textwidth}{@{\extracolsep{\fill}} lrrrrr}
 \hline\hline
 \input{inputs/popgen-summary.tex}
 \end{tabular*}
@@ -672,7 +672,7 @@ All individuals were assigned here, using a maximum-scaled-likelihood rule to re
 then to collection within reporting unit as described in the text. For the assignment matrix resulting
 when only fish with a scaled likelihood $>0.80$ to reporting unit are assigned, see Figure~\ref{fig:eighty}}
 \begin{center}
-\includegraphics[width=\columnwidth]{images/gsi_and_fst_fig-crop.pdf}
+\includegraphics[width=0.48\textwidth]{images/gsi_and_fst_fig-crop.pdf}
 \end{center}
 \caption[\gsicap]{\gsicap}
 \label{fig:gsi}
@@ -695,7 +695,7 @@ by CLUMPAK out of 20 replicates for each value of $K$, the assumed number of
 subpopulations. $K$ value is listed at lower right of each barplot, followed by the number
 of replicate runs of structure that converged to this major mode.}
 \begin{center}
-\includegraphics[width=\columnwidth]{images/clumpak-crop.pdf}
+\includegraphics[width=0.48\textwidth]{images/clumpak-crop.pdf}
 \end{center}
 \caption[\structcap]{\structcap}
 \label{fig:struct}
@@ -777,6 +777,16 @@ recombinant haplotype that carries half of the RoSA SNPs from both the E and L l
 
 \subsection*{Power for relationship inference}
 
+The `CKMRsim' power analyses for this set of markers demonstrates that they have ample variation
+for accurate identification of parent-offspring (PO) and full-sibling (FS) pairs in almost all
+realistic situations. The predicted false positive rates from unrelated pairs for both the
+parent-offspring (PO) and full-sibling (FS) relationships are
+exceedingly low for all population groups, even when using stringent false negative thresholds as
+low as 0.05 (Figure~\ref{fig:fprs}a).
+For example, the false positive rate for FS identification is less than one error in 10 million
+comparisons of potential siblings in the California Chinook salmon population with the lowest
+heterozygosity (SRW) at a false negative rate of 0.05. 
+
 %%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
 \newcommand{\fprcap}{\footnotesize False positive rates (FPRs) as a function of false negative
@@ -798,15 +808,6 @@ is the estimated standard error of the mean of the Monte Carlo sample.  This als
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%
 
-The `CKMRsim' power analyses for this set of markers demonstrates that they have ample variation
-for accurate identification of parent-offspring (PO) and full-sibling (FS) pairs in almost all
-realistic situations. The predicted false positive rates from unrelated pairs for both the
-parent-offspring (PO) and full-sibling (FS) relationships are
-exceedingly low for all population groups, even when using stringent false negative thresholds as
-low as 0.05 (Figure~\ref{fig:fprs}a).
-For example, the false positive rate for FS identification is less than one error in 10 million
-comparisons of potential siblings in the California Chinook salmon population with the lowest
-heterozygosity (SRW) at a false negative rate of 0.05. 
 
 Half-sibling (HS) pairs cannot be accurately
 distinguished from unrelated pairs in any populations without very large false negative rates
