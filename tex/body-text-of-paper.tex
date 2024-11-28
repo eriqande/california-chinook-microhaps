@@ -96,11 +96,7 @@ structure of Chinook salmon within the California Central Valley (CCV). Chinook 
 Sacramento and the San Joaquin---exhibit the greatest run-timing diversity
 within the species.  With four recognized ecotypes, delineated primarily on the basis of run timing
 (fall-, late-fall-, winter-, and spring-run), adult Chinook salmon can be found migrating or residing
-in freshwater every month of the year in California \citep{fisher1994past}.  Our previous work \citep{thompson2020complex} documented
-a strong association between these ecotypes in the CCV and the alleles carried near the GREB1L and ROCK1 genes
-in a section of chromosome 28 that we termed the region of strongest association (RoSA), a pattern
-also observed in other river basins of the West Coast \citep[summarized in][]{waples2022implications}.  
-
+in freshwater every month of the year in California \citep{fisher1994past}.  
 
 
 In spite of their distinct phenotypes and life history patterns, the four ecotypes of Chinook salmon in the Central Valley are closely related
@@ -110,7 +106,7 @@ and with unsatisfactory power for discriminating the protected spring-run stocks
 harvested fall-run stock \citep{seeb2007development,clemento2014evaluation}.
 
 In the following, we present a new reference baseline that includes 1,636 Chinook salmon individuals
-from 17 collections, genotyped at 204 amplicon sequences \citep{baetscher2018microhaplotypes} from throughout the genome.
+from 17 collections, genotyped at 204 loci, mostly microhaplotypes \citep{baetscher2018microhaplotypes}, from throughout the genome.
 This baseline is
 highly effective for GSI within California and the markers within it provide ample power
 for PBT, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program 
@@ -166,10 +162,7 @@ designation at the Feather River Hatchery is more complicated but it is managed 
 early returning fish in May and April (expressing the spring-run life history) are visibly tagged and returned
 to the river. Subsequently in the fall, when hatchery raceways are reopened, only fish with the visible tag are included
 as spring-run broodstock, and the rest are included in the fall-run broodstock.
-This situation carries the potential for untagged spring run 
-phenotypes to be included as fall-run spawners if they were not 
-encountered during the spring trapping season.
- We sampled putative spring-run and fall-run fish 
+We sampled putative spring-run and fall-run fish 
 from these two broodstocks. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype then confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith River), Iron Gate (Klamath River) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath River); all locations where only fall-run fish have been documented.  Spring run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
 
 
@@ -320,10 +313,10 @@ the winter-run and all other ecotypes of Chinook salmon in California's Central 
 screened for regions with large allele frequency differences across large blocks of the genome, and is
 described in the supplemental text section \ref{sec:wrap-methods}.
 
-\subsubsection*{Run-timing associated markers}
+\subsubsection*{Adult-migration-timing associated markers}
 
 We include six amplicons that capture the eight  SNPs within the ``Region of Strongest Assocation'' (RoSA)
-between spring-run and fall-run fish on Chromosome 28 listed in Table~S3 of \citet{thompson2020complex}.
+between spring-run and fall-run fish, near the ROCK1 and GREB1L genes,  on Chromosome 28 listed in Table~S3 of \citet{thompson2020complex}.
 We add three more amplicons in the same RoSA region to the panel, as well as one more amplicon that
 allows genotyping of snp670329, which was discovered and described by \citet{thompson2019anthropogenic}.
 Including all these markers in the panel allows them to be routinely typed, creating
@@ -347,8 +340,8 @@ Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmo
 them both to provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
-We include a novel amplicon that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this amplicon to target the SNP described by \citet{bertho2022nonfunctional} that differentiates the functional {\em sdY} and a nonfunctional {\em sdY} pseudogene.  Examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex} shows that this
-marker characterizes genetic sex in diverse California salmon populations more accurately than previously published \citep{von2015development} marker assays.
+We include an assay from a novel locus that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this assay to target the SNP described by \citet{bertho2022nonfunctional} that differentiates the functional {\em sdY} and a nonfunctional {\em sdY} pseudogene.  Examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex} shows that this
+marker characterizes genetic sex in diverse California salmon populations more accurately than previously published assays  \citep{von2015development}.
 And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
 coho salmon and Chinook salmon.  This is helpful when samplers have unwittingly
 collected coho salmon.
@@ -378,9 +371,8 @@ uniformity of read depths across all loci. Sample normalization was
 performed using the SequalPrep Normalization Plate Kit (Applied Biosystems) according
 to the manufacturer's instructions. Samples were pooled by plate
 and then purified using Agencourt AMPure XP magnetic beads.
-Libraries were originally quantified by qPCR with the NEBNext Library Quant Kit for Illumina (New
-England BioLabs); however more recently we have quanitifed our libraries
-with the Qubit dsDNA HS Assay Kit (Thermo Fisher Scientific)
+Libraries were quantified either by qPCR with the NEBNext Library Quant Kit for Illumina (New
+England BioLabs) or with the Qubit dsDNA HS Assay Kit (Thermo Fisher Scientific)
 before dilution and pooling for sequencing.
 All samples were sequenced on a MiSeq using $2\times 75$-cycle paired-end sequencing protocols.
 Primer sequences and concentrations for making the primer pool are in Supplemental Data~1.
@@ -594,13 +586,13 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 
 Though the winter run fish are easily identified, we undertook an additional effort to
 try to find markers that could be diagnostic for the winter run, distinguishing the
-winter run from all other groups of Chinook salmon in the CCV.  We found
-a number of SNPs that were fixed for alternate alleles between the 16 winter-run fish
-and 84 non-winter run fish that we had sequenced; however after designing assays for many of these
-SNPs and testing them in a much larger sample, we did not find any truly diagnostic loci.
-Nonetheless three markers from that effort are included in
-the reference baseline.  The process of discovering them is described in the
-supplemental text section \ref{sec:wrap-methods}.
+winter run from all other groups of Chinook salmon in the CCV. Initial examination of sequence data 
+in the 16 winter-run fish and 84 non-winter run fish revealed
+a number of SNPs that were potentially diagnostic, but none were fixed for alternative alleles 
+in a larger sample.
+Nonetheless, three of these markers from that effort had large frequency differences
+between the groups and are included in the reference baseline baseline.  The process of 
+discovering them is described in the supplemental text section \ref{sec:wrap-methods}.
 
 \subsection*{Localizing markers within the genome}
 
@@ -763,17 +755,21 @@ misassignment rates of FRHS fish to the CV-Spring, and is also evident in the
 STRUCTURE results.   We note, however, that the RoSA markers provide
 the differential signal necessary to distinguish
 Feather River spring-migrating fish from the other CCV stocks with a predominantly fall-run
-genomic background. This is evident when the assignment matrix is enumerated in
+genomic background. 
+
+FRHS fish are produced by selecting spring-tagged fish that again return in fall, 
+when the hatchery ladder reopens. This results in untagged spring run, fish not 
+encountered during the spring trapping season, being used as broodstock for the fall-run program.
+This is evident when the assignment matrix is enumerated in
 terms of RoSA genotypes (Figure~\ref{fig:rosa-gsi}). In this context, it is clear that the ``fall-run'' hatchery
 program in the Feather River generates many spring-run fish and RoSA heterozygotes.
 Similarly, in other regions, such as the Trinity River, the RoSA markers are the only reliable means to distinguish fall-
 and spring-run fish, as they otherwise share genomic background.
 
 In California, only the Sacramento and  Klamath basins have documented spring-run
-salmon and their historical occurrence in other basins has been unclear. Although all fish
-sampled from coastal basins in our study were phenotypically fall run, we did identify one copy of the early-lineage
-RoSA haplotype in the Eel River. Moreover, we identified three additional copies of a
-recombinant haplotype that carries half of the RoSA SNPs from both the E and L lineages in the Eel and Russian rivers. No other clear recombinants were identified in the study populations, indicating that it might have arisen in the California Coastal Chinook Salmon lineage, and providing further evidence of past presence of RoSA haplotypes associated with early migration.
+salmon and their historical occurrence in other basins has been unclear; however
+we identified three additional copies of a
+recombinant haplotype that carries half of the RoSA SNPs from both the E and L lineages in the Eel and Russian rivers. No other clear recombinants were identified in the study populations, suggesting that it arose in the California Coastal Chinook Salmon lineage, and providing further evidence of past presence of RoSA haplotypes associated with early migration.
 
 
 
@@ -911,7 +907,7 @@ Russian River, which is consistent with its location, at the southernmost edge o
 Coastal Chinook salmon distribution and proximate to the mouth of the Sacramento River 
 (the Golden Gate). In the Central Valley, the clustering results emphasize the genetic 
 distinction of the SWR population, which is likely at least partially due to 
-the extreme bottleneck that it passed through in the 1980's and 1990's \citep{hedrick1994effective}. The inclusion 
+the extreme bottleneck that it passed through in the 1980s and 1990s \citep{hedrick1994effective}. The inclusion 
 of the LFAR markers also resulted in the clear distinction of the CHLF group, which 
 is coincident with the long-known phenotypic distinction of this population, but represents a novel 
 genetic result. Moreover, at K = 7, the fall-run reporting group breaks into two clusters, 
