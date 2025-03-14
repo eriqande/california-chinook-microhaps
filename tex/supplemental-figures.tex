@@ -1,22 +1,5 @@
 %!TEX root = supplement.tex
 
-%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-\includegraphics[width=\textwidth]{images/lfar-assoc-faceted.jpg}
-\caption[
-	Negative log base 10 of association $p$-values for
-	individual SNPs for late-fall versus fall run
-]{
-	\footnotesize Negative log base 10 of association $p$-values for
-	individual SNPs for late-fall versus fall run.  $x$ axis shows position in genome (in megabases),
-	with color alternating by chromosome, as indicated by numbers above the $x$-axis. ``Unk'' refers
-	to unplaced scaffolds in the Otsh\_v1.0 genome assembly \citep{christensen2018chinook}. The 
-	upper panel is the comparison between late-fall and Feather River Hatchery fall, while the lower 
-	panel is the comparison of late-fall to San Joaquin River fall. 
-}
-\label{fig:lfar-assoc}
-\end{figure}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%% 
@@ -31,6 +14,50 @@ named chromosome/linkage group in the assembly.}
 \label{fig:genome-locations}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+\includegraphics[width=\textwidth]{images/lfar-assoc-faceted-min-0.png}
+\caption[
+	Negative log base 10 of association $p$-values for
+	individual SNPs for late-fall versus fall run
+]{
+	\footnotesize Negative log base 10 of association $p$-values for
+	individual SNPs for late-fall versus fall run.  $x$ axis shows position in genome (in megabases),
+	with color alternating by chromosome, as indicated by numbers above the $x$-axis. ``Unk'' refers
+	to unplaced scaffolds in the Otsh\_v1.0 genome assembly \citep{christensen2018chinook}. The 
+	upper panel is the comparison between late-fall and Feather River Hatchery fall, while the lower 
+	panel is the comparison of late-fall to San Joaquin River fall.  The dashed line corresponds to a
+	significance threshold of $5 \times 10^{-8}$.  The only SNPs exceeding that threshold in both
+	comparisons are the ones atop the prominent peaks on chromosome 34.
+}
+\label{fig:lfar-assoc}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+\includegraphics[width=\textwidth]{images/lfar-candidates.pdf}
+\caption[
+	Candidates chosen for assay design for the late-fall associated region
+]{
+	\footnotesize Positions (on $x$ axis) and absolute allele frequency difference
+	between whole-genome sequenced fall-run and late-fall run fish (on $y$ axis)
+	of 49 candidate SNPs for which amplicons were designed.  Gray points are SNPs that
+	were not candidates.  Colors of points denote the reason each SNP was chosen
+	as a candidate.  See main text ``Methods" for further explanation of categories.
+}
+\label{fig:lfar-candi}
+\end{figure}
+
+
+
+
 
 
 

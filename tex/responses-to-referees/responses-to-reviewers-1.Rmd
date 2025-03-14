@@ -1,0 +1,169 @@
+---
+title: "EVA-2025-003-RA Responses to Reviewers"
+output: pdf_document
+date: "2025-03-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Reviewer 1
+
+Authors present on the development of a new set of markers, with many in close proximity to additional SNPs that can be used to assemble microhaplotypes. The marker set shows high discrimination power between the multiple ecotypes present with a large data set and fits well within the scope of the journal. Overall, the study is of excellent quality however, I have the following comments below.
+
+### Major Comments
+
+* I’m confused by the amount of sequencing and a clear purpose of each sequencing run that should be clarified. There was ddRAD to identify novel polymorphisms/microhaplotypes, the second run using a using PCR-GBS type sequencing has an unclear purpose. Was this on the full population? Another “amplicon sequencing” run was performed to convert SNPtype polymorphisms, which sounds similar to the second sequencing run of ddRAD polymorphisms but uses different terminology. Was this part of the previous run? Was this run a few samples or the full population? I presume these were different runs but maybe they were the same. The GT-seq method, does this include all samples and the full set of markers to this point?
+
+* Authors provide considerable detail on sample location in the methods but only provide the sample number in the introduction. I believe it would be useful to have summary sentences of Table 1 that include number sites for spring, fall, etc run, and the number of samples within each ecotype, total samples within the methods, etc.
+
+    - _Thank you for this suggestion.  We added the following to the end of the first paragraph in the Population Sampling portion of the
+Methods section:_
+"Of the 1594 total fish samples from 17 different collections, 724 fish from 10 collections were of the Fall run ecotype,
+498 fish from 5 collections were Spring run, and 261 and 111 fish were of the Winter run and Late-fall run ecotypes, 
+respectively,  each represented by a single collection."
+
+* Is there any LOD threshold for your GWAS that allowed identifying the chr34 peak? 
+    - _We updated our treatment of this topic to note that we relied upon the commonly used
+    GWAS $p$-value threshold of $5 \times 10^{-8}$.  We also added an additional
+    supplemental figure that shows all the candidates chosen for followup within and
+    near that peak._
+
+* In addition, L239-240 implies you were you only interested in right side of the peak. I would assume you were interested in up and downstream of the peak unless I missed something. In addition, please clarify why 2.2 Mb selected. Is this an LD block? Does this mean 2.2 Mb in each direction or total?
+    - _This is a good question.  It turns out that the main peak of association is at the
+    beginning of chromosome 34, so there is no flanking region to the left of the peak. To
+    clarify why those candidate SNPs in the flanking region were chosen we now state:_ 
+    "The final condition was implemented in order to gather several SNPs with
+    large allele frequency differences that were adjacent to, but not directly
+    within, the main peak of association, as we had hoped that those SNPs might
+    enable us to learn about recombination in the region."  
+
+* The writing of the manuscript is largely well written but makes high use of words such as “we” or “us”, which although stylistic, makes the manuscript longer than needed in some cases such as “we then dropped” or “this allows us”. In many cases these can be removed (examples in minor comments).
+
+* There is also use of informal language e.g. “amplified so well” or unnecessary words such as “then” that could be removed.
+
+* I commend the use of the distribution of log-likelihood ratio for relationship to show the power of haplotypes vs SNPs and would argue this could be elevated to a full figure, potentially in a condensed form, maybe less panels somehow?
+
+* If possible, I think it would also be good to show how much of an improvement the discrimination power improved from the old marker data. In theory, this data has already been generated for the full population if you strip out the novel SNPs of the current study.
+
+* It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.
+
+
+
+### Minor Comments
+
+- L117-119: There are a lot of clauses in this sentence, consider: “We present a new reference baseline that includes 1,636 Chinook salmon individuals from 17 collections that were genotyped at 204 loci distributed throughout the genome. The Baetscher reference is also inappropriate in this sentence. If you want to expand with additional sentences that these are predominately fragments that can be scored as haplotypes and the reason behind this (the power) the reference would be appropriate. It may also be worth including how haplotypes are being used in other organisms.
+
+    - _We whittled that sentence down._
+
+- L119-122: Similar long sentence, consider: “This baseline is highly effective for GSI within California and provides ample power for BST, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program.
+    - _We used your edit._
+
+- L147-148: Consider: “therefore the samples could be categorized” instead of “so the samples there were easily categorized”
+    - _Done._
+
+- L191: Italicize de novo
+    - _Fixed._
+
+- L207-210: Informal sentence, consider: “Loci were removed that were frequently inconsistent with SNPtype assays, had poor amplification, or over amplified and were subsequently over-represented in the sequencing library”.
+    - _We changed that sentence to:_ "Loci were removed that were frequently inconsistent with SNPtype assays,
+had poor amplification, or had excessive amplification and were subsequently over-represented in the sequencing library."
+
+- L210-212: Unnecessary words, consider: “FreeBayes was used to identify all SNPs (additional to TaqMan assays) along the fragment which facilitated scoring fragment microhaplotypes when multiple SNPs were present along the read (Baetscher et al. 2018)”. Since MNP and complex variants were not included, consider just using SNPs where appropriate to avoid confusion with boarder term of variants.
+    - _We used your suggested edit and removed discussion of MNPs and complex variants._
+
+- L217: Define GWAS since you defined SNP
+    - _Done_
+    
+- L296 & L317: I’m not sure of the difference between the microhaplotype markers and SNPlicon targets. I presumed they are the same thing after it was stated that microhaplotypes would “hereafter referred to as SNPlicons” but this term is rarely used again, please decide whether you want to keep this term and avoid using both names or clarify if these are different.
+    - _We updated the introduction of the term SNPlicon to specifically state that it refers to the microhaplotypes
+    that were obatined from sequencing around the sites of the Taq-Man assays that were previously used.
+    We feel it is quite important to retain information about the provenance of these markers as it could
+    facilitate merging amplicon-sequenced data with previously collected Taq-Man data, so we have retained
+    the terminology._
+
+- L316: Remove the double bracket/parentheses
+    - _Done_
+
+- L319: Package references only need to used on the first mention of the package
+    - _Eliminated._
+
+- L386-390: I had a hard time following this sentence, please clarify.
+    - _This was just a technical statement about the way that CKMRsim works because
+    of the fact that physical linkage in the absence of LD has no effect on the likelihoods
+    for parent-offspring pairs and unrelated pairs.  However since simulation with
+    physical linkage in PO and U relationships yields identical results to those without
+    physical linkage, we just simplify the manuscript by not mentioning that technical
+    detail that can be confusing._
+
+- L402 & 416: Inconsistent use of “Figure” or “Fig.”. Supplemental figures are also mentioned out of order
+    - _We changed that single occurrence of Fig. to Figure. Also, thanks for catching that
+    mis-ordered supplemental figure.  We have renumbered them correctly._  
+
+- L447: What do you mean by mapped identically? This would imply there is no polymorphism along the locus. You can either remove the word or say “uniquely mapped” if I understand what you mean correctly.
+    - _This was meant to say that they were mapped by both bwa mem and blat
+    to exactly the same location in the genome. We updated the text to be more clear._
+
+- L448: Use of BLAT, you did not define this at L299
+    - _Fixed._
+
+- L486: Not sure how easily this it to recolour, but “red” looks more bright pink and then you also have another pink for BCS. Maybe easier to just say it is a different colour.
+    - _We chose not to try to name the colors from the default CLUMPAK palette. Rather we simply
+    refer to the collections where the changes are apparent._
+
+- L511-L514: I do not agree. Although though it is a much lower rate, they still misassign
+    - _We rephrased that to be correct._
+
+- L576-577: strong statement when this has not been tested. Consider altering the strength of the statement such “hypothesize this will be error free”
+    - _We edited this as suggested._
+
+- Figure 4. Avoid method and interpretation sentences in caption and use in main text instead
+
+## Reviewer 2
+
+This study develops a microhaplotype panel (based on the GT-seq method) to create a training set to identify different populations of genetic stock and relationships between individuals in America Salmon. My comments relating to this manuscript are outlined below:
+
+### Major Comments
+
+* Lines 399-444: My biggest compliant is the paper states that it creates a “baseline” for GSI and PBT analysis but it is not always clear what this final baseline is and only at the end of the introduction does it state what this baseline contains (in terms of number of animals and number of loci). I feel this needs to also be stated in the abstract. In addition, in the results section it is not easy for work out how many markers made into the final reference baseline, and I think this information should be included in a table that also shows how markers from each source of information. I’m assuming that this is what is being used in the subsequent analysis.
+
+* Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.
+
+### Minor Comments
+
+- Line 48: “… West Coast” should be “West Coast of the USA”?
+    - _Fixed_
+
+- Line 66: The term “reference baselines” is used through the manuscript but it is quite vague what this means. Reading the manuscript, it would seem to me that the reference baseline has two parts (1) “a multihaplotype marker/SNP set” and (2) “a reference dataset for training the GSI and PBT methods”. I think the authors define the term “reference baselines” here in the introduction.
+
+- Introduction – The paper seems to rely heavily on the work by Thompson et al (2020) in the methods, but this is not mentioned in the introduction. The authors should make a comment towards of the introduction that the work depends on some of the data and results from this paper
+
+- Line 181: “a de novo assembly was performed”. How was this performed? More details are needed.
+
+- Line 214: The use of the term “SNPlicons” seems a little inappropriate. My understanding is the authors are using more than just the information at the SNP and are scoring microhaplotype, so I feel the name is a little misleading.
+    - _We provide more explanation of which markers/microhaplotypes are referred to as the SNPlicons.  Since
+    this terminology is already used in the distributed version of the baseline that is being
+    used by several labs in California, we felt it best to leave the terminology as is._
+
+- Line 443: The word “baseline” is duplicated.
+
+    - _Fixed_
+
+- Line 516: “… half of those (10) were the incorrect assignments”. I found this a little confusing. Are you saying that 10 of the discarded assignments were from the 24 incorrect assignments reported in line 501? This sentence could possibly do with a rephasing.
+    - _Edited for clarity_
+
+- Caption of Table 3: “N is the number of fish …” should be “N is the average number of fish …”
+    - _Fixed_
+
+- Figure 1 and 2: The colours for “spring run” and “Late-fall run” are very difficult to separate for a colour-blind person. Since the groups are not in a specific order on the graph, it is very hard work to out what is what. I’d recommend the authors use a selection of colours that will work for colour-blind people.
+
+- Line 589: “unprecedented” is an over-statement as there is no independent validation set. The authors should use a word that less forceful.
+    - _Changed to "excellent"_
+
+- Sentence at lines 645-647. Can the authors provide a reference to back up this statement.
+
+- The online data and scripts (thank you for providing these) needs a proper readme file describing what the folders and files relate to.
+
