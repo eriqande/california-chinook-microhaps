@@ -202,6 +202,25 @@ write_delim(fbmet5, delim = "&", eol = "\\tabularnewline\n", file = output_list$
 ```
 
 
+## Get a quick summary of number of collections and samples by ecotype
+
+One of the reviewers wanted summaries in the text.  That's a great idea.
+Here we get the numbers that we need.  
+```{r}
+# total fish:
+sum(fbmet4$N)
+```
+
+```{r}
+# numbers of samples and collection by ecotype
+fbmet4 %>%
+  group_by(`Run Timing`) %>%
+  summarise(
+    num_collections = n(),
+    num_samples = sum(N)
+  )
+```
+
 # Get a version with no LFAR
 
 We might want to do a run with no LFAR in there just to see how much
