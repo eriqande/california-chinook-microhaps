@@ -1,0 +1,540 @@
+---
+title: "Late Fall Associated Region: Genome Wide Association Study and Marker Selection"
+author: "Eric C. Anderson"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+
+
+# Introduction
+
+Here we do a GWAS to find a genomic region that is substantially differentiated between
+the late-fall and fall runs in the Central Valley, and then we identify several
+candidate sites to target for amplicon sequencing.
+
+
+
+# Input and Output Paths
+
+```{r}
+start_time <- Sys.time()
+
+# inputs:
+input_list <- list(
+  chr34_late_fall_mafs = "stored_results/5Mb_Chr34-late-fall.mafs.gz",
+  chr34_cv_fall_mafs = "stored_results/5Mb_Chr34-cv-fall.mafs.gz",
+  gwas_lf_v_sanjo = "stored_results/lfar-gwas/lf_v_sanjo-NC_037130.1.lrt0.gz",
+  gwas_lf_v_frhf = "stored_results/lfar-gwas/lf_v_frhf-NC_037130.1.lrt0.gz",
+  ots34_snpeff = "stored_results/thompson2020-vcf/ots34-5Mb-snpEff.vcf.gz",
+  pvals = "stored_results/stored_p_vals.rds"
+)
+# outputs:
+output_list <- list(
+  late_fall_ids = "outputs/007/late-fall-ids.txt",
+  cv_fall_ids = "outputs/007/cv-fall-ids.txt",
+  candidates_for_assays = "outputs/007/candidates_for_assays.csv"
+)
+# you can create the necessary output directories like this:
+dump <- lapply(output_list, function(x)
+  dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
+)
+```
+
+
+# GWAS
+
+This is all executed with a Snakefile and associated files that reside in the
+repository at: `SnakemakeSubDirs/cga-late-fall-bam-assoc`.  The contents of that
+directory were originally part of another GitHub repo---simply `eriqande/cga-late-fall-bam-assoc`---but
+have been inserted here for ease of archiving.
+
+The figure created by that Snakefile is included in the paper.  We also have saved
+the likelihood ratios for the various markers on Chromosome 34 (NC_037130.1)
+for both the Late-fall vs San Joaquin fall
+and the Late-Fall vs Feather River fall comparisons in `stored_results` so that we can have
+those when visualizing allele frequencies.
+
+Additionally, information for all markers with a p-value > 3 in both the SanJo-vs-LateFall and 
+the FeatherRiverHatcheryFall-vs-LateFall comparisons was saved in `stored_results/stored_p_vals.rds`
+for use now.
+
+## Investigate GWAS pvalues
+
+```{r}
+library(tidyverse)
+library(vcfR)
+
+# read in the pvals and label the comparisons FRFH and SanJo and then pivot that 
+# so we can compare values from the two analyses at each marker
+pvals <- read_rds(input_list$pvals) %>%
+  mutate(comparison = ifelse(comparison == "Late Fall versus Feather River Hatchery Fall", "FRHF", "SanJo")) %>%
+  select(-(Major:Frequency), -(mh_label:xpos), -cgroup) %>%
+  pivot_wider(
+    names_from = comparison,
+    values_from = c(LRT, neg_log10_p)
+  )
+
+# here are the total number of SNPs in each comparison:
+FRH_snps <- 13477607
+SJ_snps <- 12752546
+
+# now, we can look for those that have have log10 pvals in both of the comparisons.
+# maybe just plot them first:
+ggplot(pvals, aes(x = neg_log10_p_FRHF, y = neg_log10_p_SanJo)) +
+  geom_point() +
+  geom_hline(yintercept = -log10(5e-8), linetype = "dashed") +
+  geom_vline(xintercept = -log10(5e-8), linetype = "dashed")
+```
+
+So, that is only a single SNP in both:
+```{r}
+pvals %>%
+  filter(neg_log10_p_FRHF > -log10(5e-8), neg_log10_p_SanJo > -log10(5e-8))
+```
+
+Now, let's consider a Bonferroni correction:
+```{r}
+pv2 <- pvals %>%
+  mutate(
+    bonFRHF = (10 ^ -neg_log10_p_FRHF) * FRH_snps,
+    bonSJ = (10 ^ -neg_log10_p_SanJo) * SJ_snps,
+  ) %>%
+  arrange(bonFRHF)
+
+pv2
+```
+
+So, that is only a single SNP that would be "significant" under a Bonferroni correction,
+in the FRFH comparison.  
+
+Likewise only a single SNP is "significant" at a Bonferroni corrected 0.05 level
+in the SJ comparison, hich we show by sorting the above table on the SanJo
+values:
+```{r}
+pv2 %>%
+  arrange(bonSJ)
+```
+
+
+# Marker Selection
+
+This was originally done in
+`/Users/eriq/Documents/git-repos/further-chinook-wgs/101-design-late-fall-assays.html`
+and it has been transferred here, now.
+
+Mac originally ran the association analysis between Late Fall and the two fall run groups in
+the Central Valley (Feather and San Joaquin), finding significant differences
+on Chromosome 34 (NC_037130.1).   We have seen the same thing with the GWAS just described.
+
+Accordingly, we will investigate a 5 Mb chunck of Chromosome 34 to:
+
+1. confirm those markers and explore patterns of differentiation in the region
+2. See if the differentiation corresponds to annotated variants of large effect
+3. identify candidate markers that we should be able to type in many more individuals.
+We will provide sequences flanking these candidates so that
+Anthony can design primers for them.
+
+
+
+
+## Overview of allele frequency differences in the region
+
+We will simply compare the allele frequencies estimated in the CV fall-run vs the late-fall
+run using ANGSD.  I will do this in a 5 Mb chunk for a little context.
+
+### Get the IDs.
+```{r, message=FALSE}
+
+
+# grab the meta data from the Science paper off of GitHub 
+nooks <- read_csv("https://raw.githubusercontent.com/eriqande/thompson-et-al-2020-chinook-salmon-migration-timing/master/data/wgs-chinook-samples.csv") 
+
+# write out the names of the late-fall fish
+nooks %>%
+  filter(Population == "Coleman Hatchery Late Fall") %>%
+  pull(vcf_name) %>%
+  cat(., sep = "\n", file = output_list$late_fall_ids)
+
+# same for the fall-run fish in the CV:
+nooks %>%
+  filter(Population %in% c("Feather River Hatchery Fall", "San Joaquin River Fall")) %>%
+  pull(vcf_name) %>%
+  cat(., sep = "\n", file = output_list$cv_fall_ids)
+```
+
+### Extract 5 Mb and the two sets of indivs
+
+We show the code but don't actually do it, here.
+
+```{sh, eval=FALSE}
+bcftools view -S outputs/007/late-fall-ids.txt -Oz stored_results/thompson2020-vcf/NC_037130.1.vcf.gz NC_037130.1:1-5000000 > outputs/007/late-fall.vcf.gz
+bcftools view -S outputs/007/cv-fall-ids.txt -Oz stored_results/thompson2020-vcf/NC_037130.1.vcf.gz NC_037130.1:1-5000000 > outputs/007/cv-fall.vcf.gz
+```
+
+### Run ANGSD to estimate allele frequencies
+
+Here is the code used.  We don't do it here, because in and update from angsd 0.920
+to 0.938 it broke.  But I have the estimated allele freqs in stored results.
+
+```{sh, eval=FALSE}
+cd outputs/007
+angsd -vcf-gl late-fall.vcf.gz  -fai ../../inputs/Otsh_v1.0_genomic.fna.fai -nind 16 -domaf 3 -out late-fall 2> late-fall.redirect.stderr
+angsd -vcf-gl cv-fall.vcf.gz  -fai ../../inputs/Otsh_v1.0_genomic.fna.fai -nind 32 -domaf 3 -out cv-fall 2> cv-fall.redirect.stderr
+```
+
+### Read the estimated allele freqs in and analyse them
+
+```{r, message=FALSE}
+af1 <- list(
+  late_fall = read_tsv(input_list$chr34_late_fall_mafs),
+  cv_fall = read_tsv(input_list$chr34_cv_fall_mafs)
+) %>%
+  bind_rows(.id = "run") %>%
+  pivot_wider(names_from = run, values_from = c(knownEM, unknownEM, nInd)) %>%
+  mutate(abs_diff = abs(knownEM_late_fall - knownEM_cv_fall))
+```
+
+Let's only bother with ones that have 8 or more indivs with reads in late fall and 16 or more in cv-fall, and
+then we can plot them.
+```{r}
+af2 <- af1 %>%
+  filter(nInd_late_fall >= 8 & nInd_cv_fall >= 16)
+
+ggplot(af2, aes(x = position, y = abs_diff)) +
+  geom_point(alpha = 0.4)
+```
+
+That is pretty cool.  It shows that characteristic pattern near 800 Kb that we saw around GREB1L,
+where there a lots of SNPs with large allele frequency differences, and lots with very small
+allele frequency differences, but very few with intermediate differences.  
+
+One thing I want to confirm is that all the SNPs with small allele freq differences
+in that region are actually at low frequency in both groups.  We can do that by
+coloring the points by the max frequency (between the two groups) of the minor
+allele---that is the allele that is at lowest _average_ frequency in the two populations.
+
+```{r}
+af3 <- af2 %>%
+  mutate(is_maf = (knownEM_cv_fall + knownEM_late_fall) < 0.5,
+         max_maf = pmax(ifelse(is_maf, knownEM_late_fall, 1 - knownEM_late_fall),
+                        ifelse(is_maf, knownEM_cv_fall, 1 - knownEM_cv_fall))
+         )
+
+mmp <- ggplot(af3, aes(x = position, y = abs_diff, color = max_maf)) +
+  geom_point() +
+  scale_color_viridis_c()
+mmp
+```
+
+
+
+And, now, let us also do a version in which the high max_mafs are printed on top, so that we can see them if they exist...
+```{r}
+mmp_sort <- ggplot(af3 %>% arrange(max_maf), 
+                   aes(x = position, y = abs_diff, color = max_maf)) +
+  geom_point() +
+  scale_color_viridis_c()
+mmp_sort
+```
+
+
+Outstanding.  It is clear that there is a fairly large haplotype/region
+that is differentiated between fall and late fall there in the first
+2 Mb of the chromosome.
+
+## Display some of the highly associated SNPs there
+
+The GWAS turned up a number of highly associated SNPs.  Let's add circles for some
+of the ones with the largest likelihood ratio statistic. 
+
+We will take the top 6 from each of the comparisons:
+```{r}
+lfvsj <- read_tsv(input_list$gwas_lf_v_sanjo) %>%
+  arrange(desc(LRT))
+lfvfrhf <- read_tsv(input_list$gwas_lf_v_frhf) %>%
+  arrange(desc(LRT))
+
+# now get the top 6 from each for illustration
+top6_from_each <- list(
+  lfvsj %>% slice(1:6),
+  lfvfrhf %>% slice(1:6)
+) %>%
+  bind_rows() %>%
+  arrange(desc(LRT)) %>%
+  filter(!duplicated(Position))
+
+# print those out
+top6_from_each
+```
+
+
+So, add those to the plot
+```{r}
+top6freqs <- af3 %>% semi_join(top6_from_each, by = c("position" = "Position"))
+mmp_sort +
+  geom_point(
+    data = top6freqs,
+    shape = 21,
+    size = 3, 
+    color = "black"
+    )
+```
+
+That shows us that there are a lot of other markers with substantial allele freq
+diffs in this region, but the association test puts thew big circles up as the most significant, perhaps
+because of the sample sizes.  It sort of reinforces my informal belief that many insights
+can come from looking at absolute allele freq diffs, at least in these sorts of
+cases where you have a haplotypic region with
+very large allele freq differences).
+
+## Annotate the variants
+
+Before we start designing assays and things, I want to look for large-effect mutations.
+We have the annotations for the positions in these 5 Mb of Ots34 in the stored results
+(from the Science paper), so we will use them here:
+
+First we read in the annotations:
+```{r}
+ann_vcf <- read.vcfR(input_list$ots34_snpeff)
+
+avt <- vcfR2tidy(ann_vcf, info_only = TRUE)
+
+# get column heading for the snpEff output
+ann_column_names <- avt$meta %>%
+  filter(Tag == "INFO", ID == "ANN") %>%
+  pull(Description) %>%
+  str_replace_all(., pattern = "^.* '| +|'", "") %>%
+  str_split(., "\\|") %>%
+  pluck(1)
+
+anns <- avt$fix %>%
+  select(CHROM, POS, REF, ALT, ANN) %>%
+  separate(ANN, into = ann_column_names, sep = "\\|")
+  
+```
+I don't think we need to worry about the discarded pieces there.
+
+
+Now, we can join those annotations onto the allele frequencies and plot them,
+coloring by predicted effect:
+
+```{r}
+af3_ann <- left_join(af3, anns, by = c("position" = "POS")) %>%
+  mutate(Annotation_Impact_f = factor(Annotation_Impact,
+                                      levels = c("HIGH", "LOW", "MODERATE", "MODIFIER"))) %>%
+  arrange(desc(Annotation_Impact_f))
+
+imp_col <- ggplot(af3_ann, aes(x = position, y = abs_diff, colour = Annotation_Impact)) +
+  geom_point() +
+  scale_colour_manual(values = c(HIGH = "red", LOW = "green", MODERATE = "orange", MODIFIER = "gray90")) +
+  theme_bw()
+imp_col
+```
+
+So, there are a few that we would want to be sure to hit.  
+
+## Finding candidates for assay design
+
+When I originally did this, I also used a hack to include indels in here.  I spare
+the reader from the gory details of that.
+
+We could rank things by allele frequency difference, but I would also like
+to incorporate an estimate of the variance in these absolute frequency
+differences.  The variance in that difference will be the sum of the
+two variances, so it is easy to calculate.  We don't really know what the
+sample size is, but I am going to throw out as an approximation that each
+individual in the `nInd` field represents a sample of about 1.2 gene copies.
+
+We will estimate the variances from each different estimate and then calculate
+two standard deviations below the actual estimate and have that as a "lower
+bound" on the absolute value of the allele frequency difference.
+
+```{r}
+# here is a function for computing the lower bound on the absolute alle freq diff
+lub <- function(f1, f2, n1, n2, s = 1.2) {
+  var <- (f1 * (1 - f1) / (n1 * s)) + (f2 * (1 - f2) / (n2 * s))
+  sd <- sqrt(var)
+  
+  abs(f1 - f2) - 2 * sd
+}
+  
+saind2 <- af3_ann %>%
+  mutate(abs_diff_lb = lub(knownEM_late_fall, knownEM_cv_fall, nInd_late_fall, nInd_cv_fall))
+```
+
+Plot those to make sure they look right, and denote the most highly associated ones
+so that we can see those. 
+```{r}
+top6again <- saind2 %>%
+  semi_join(top6_from_each, by = c("position" = "Position"))
+
+ggplot(saind2, aes(x = abs_diff, y = abs_diff_lb, colour = max_maf)) +
+  geom_point() +
+  scale_colour_viridis_c() +
+  geom_point(data = top6again, fill = NA, colour = "black", size = 3, shape = 21)
+```
+
+
+All right.  When I look at that, I think to myself, The ones I would want to design
+assays for (for distinguishing fall-run from late-fall), would be:
+
+1. (1) The ones with the highest association values
+2. (2) The ones with an abs_diff > 0.75 and an abs_diff "lower bound" above 0.5.  
+3. (4) Then, for any remaining ones we might want to do, I would choose things with an
+abs_diff > 0.5, and abs_diff_lb > 0.25, and a max_maf as close to 1 as possible.  
+4. (8) Annotation_Impact %in% c("Moderate", "High")
+
+We will designate those with a bit mask, with bits being 2 raised to their number 
+minus 1 (as given in the parentheses, above).
+
+**Another Category**  
+I will also add another category of candidate, which is out in the flanks and might
+be interesting for assessing LD out there.
+
+* (16) Position > 2.2 Mb and abs_diff > 0.48 and abs_diff_lb > 0.25
+
+Mark them.
+```{r}
+assay_candi <- saind2 %>%
+  mutate(candi_category = 1 * position %in% top6_from_each$Position +
+           2 * (abs_diff > 0.75 & abs_diff_lb > 0.5) +
+           4 * (abs_diff > 0.5 & abs_diff_lb > 0.25 & max_maf > 0.98) + 
+           8 * (Annotation_Impact %in% c("MODERATE", "HIGH") & (abs_diff > 0.5)) +
+           16 * (abs_diff > 0.48 & abs_diff_lb > 0.20 & position > 2.2e6)) %>%
+  select(chromo:max_maf, Annotation_Impact_f:candi_category, everything())
+           
+# how many?
+assay_candi %>%
+  count(candi_category)
+```
+
+Just to be explicit about what these candi_categories mean:
+
+* 0 : not selected for any reason
+* 1 : Hi-assoc (from Mac)
+* 2 : abs_diff > 0.75 & abs_diff_lb > 0.5
+* 3 : 1 and 2
+* 4 : (abs_diff > 0.5 & abs_diff_lb > 0.25 & max_maf > 0.98)
+* 7 : 1 and 2 and 4
+* 8 : (Annotation_Impact %in% c("MODERATE", "HIGH") & (abs_diff > 0.5)) )
+* 16 : abs_diff > 0.48 & abs_diff_lb > 0.20 & position > 2.2e6
+* 20 : 4 and 16
+
+
+Plot them on a plot like the above so we can see them.
+```{r}
+ggplot(mapping = aes(x = abs_diff, y = abs_diff_lb, colour = factor(candi_category))) +
+  geom_point(data = assay_candi %>% filter(candi_category == 0), colour = "gray90") + 
+  geom_point(data = assay_candi %>% filter(candi_category > 0)) +
+  theme_bw() +
+  scale_color_brewer(palette = "Dark2")
+
+```
+
+
+And see where those candidates live:
+```{r}
+ggplot(mapping = aes(x = position, y = abs_diff, colour = factor(candi_category))) +
+  geom_point(data = assay_candi %>% filter(candi_category == 0), colour = "gray90") + 
+  geom_point(data = assay_candi %>% filter(candi_category > 0)) +
+  theme_bw() +
+  scale_color_brewer(palette = "Dark2")
+```
+
+
+So, we have good candidates across a couple Mb.  That is great.
+
+Let's make a plot of that for the supplement:
+```{r}
+assay_candi4fig <- assay_candi %>%
+  mutate(
+    candi_cat = case_match(
+      candi_category,
+      0 ~ NA_character_,
+      1 ~ "1: One of the 10 SNPs with lowest p-values",
+      2 ~ "2: |d| > 0.75 with lower confidence interval >0.5",
+      3 ~ "3: 1 and 2",
+      4 ~ "4: |d| > 0.5 with lower CI  >0.25 and near fixed in one group",
+      7 ~ "7: 1 and 2 and 4",
+      8 ~ "8: snpEff annotation of High or Moderate",
+      16 ~ "16: |d| > 0.48 with lower CI  >0.2 and position >2.2 Mb",
+      20 ~ "20: 4 and 16"
+    ),
+    `Candidate Marker Category` = factor(
+      candi_cat,
+      levels = c(
+        "1: One of the 10 SNPs with lowest p-values",
+        "2: |d| > 0.75 with lower confidence interval >0.5",
+        "3: 1 and 2",
+        "4: |d| > 0.5 with lower CI  >0.25 and near fixed in one group",
+        "7: 1 and 2 and 4",
+        "8: snpEff annotation of High or Moderate",
+        "16: |d| > 0.48 with lower CI  >0.2 and position >2.2 Mb",
+        "20: 4 and 16"
+      ))
+  )
+  
+
+
+g <- ggplot(mapping = aes(x = position, y = abs_diff, colour = `Candidate Marker Category`)) +
+  geom_point(data = assay_candi4fig %>% filter(candi_category == 0), colour = "gray90") + 
+  geom_point(data = assay_candi4fig %>% filter(candi_category > 0)) +
+  theme_bw() +
+  scale_color_brewer(palette = "Dark2") +
+  xlab("Position on Chromosome 34 (Mb)") +
+  ylab("|d|, Absolute Difference in Allele Frequency")
+
+ggsave(g, filename = "tex/images/lfar-candidates.pdf", width = 8, height = 5)
+```
+
+## Preparing an assay order
+
+We prepare assay order information for these 49 good candidates, and handed that
+to Anthony, along with the sequences, to design primers.  
+
+That process involved some custom scripts and Primer3.  Once the candidates
+came back, they were tested in a variety of Chinook samples and it was found that
+only 8 gave reliable amplicons that mapped reliably, etc.  And those
+are used in the ensuing work.  
+
+Here, print out the actual candidates:
+```{r}
+actual_candidates <- assay_candi %>%
+  filter(candi_category > 0) %>% 
+  arrange(position)
+
+
+# write that out for fun:
+write_csv(actual_candidates, file = output_list$candidates_for_assays)
+```
+
+
+
+# Citations
+
+::: {#refs}
+:::
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+
+
+
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
+
+
