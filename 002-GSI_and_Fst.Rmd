@@ -221,6 +221,31 @@ fbmet4 %>%
   )
 ```
 
+# Let's also just do a summary of the number of markers of different kinds
+
+```{r}
+# get the distinct loci in it
+loci_tib <- read_csv("tex/supp_data/Supp-Data-1-Amplicon-info.csv")
+
+# now, pull out their specifiers and count
+loc_table <- loci_tib %>%
+  mutate(
+    spec = str_sub(AmpliconName, 5, 8),
+    num_snps = str_count(SNPLocationsInAmpliconSequence, ",") + 1L
+  ) %>%
+  group_by(spec) %>%
+  summarise(num_amplicons = n(), num_variants = sum(num_snps)) %>%
+  arrange(desc(num_amplicons)) %>%
+  rename(
+    Type = spec,
+    `N (amplicons)` = num_amplicons,
+    `N (variants)` = num_variants
+  )
+
+# just write this out and then stick it in the doc
+write.table(loc_table, sep = "&", na = "", quote = FALSE, row.names = FALSE)
+```
+
 # Get a version with no LFAR
 
 We might want to do a run with no LFAR in there just to see how much

@@ -14,16 +14,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Authors present on the development of a new set of markers, with many in close proximity to additional SNPs that can be used to assemble microhaplotypes. The marker set shows high discrimination power between the multiple ecotypes present with a large data set and fits well within the scope of the journal. Overall, the study is of excellent quality however, I have the following comments below.
 
+_Thank you for your comments and suggestions.  We have addressed all of them, as
+detailed below, and we are pleased with how this has improved the manuscript._
+
 ### Major Comments
 
-* I’m confused by the amount of sequencing and a clear purpose of each sequencing run that should be clarified. There was ddRAD to identify novel polymorphisms/microhaplotypes, the second run using a using PCR-GBS type sequencing has an unclear purpose. Was this on the full population? Another “amplicon sequencing” run was performed to convert SNPtype polymorphisms, which sounds similar to the second sequencing run of ddRAD polymorphisms but uses different terminology. Was this part of the previous run? Was this run a few samples or the full population? I presume these were different runs but maybe they were the same. The GT-seq method, does this include all samples and the full set of markers to this point?
+* **I’m confused by the amount of sequencing and a clear purpose of each sequencing run that should be clarified. There was ddRAD to identify novel polymorphisms/microhaplotypes, the second run using a using PCR-GBS type sequencing has an unclear purpose. Was this on the full population? Another “amplicon sequencing” run was performed to convert SNPtype polymorphisms, which sounds similar to the second sequencing run of ddRAD polymorphisms but uses different terminology. Was this part of the previous run? Was this run a few samples or the full population? I presume these were different runs but maybe they were the same. The GT-seq method, does this include all samples and the full set of markers to this point?**
+
+    - **Should be able to just add a few sentences to make this more clear.**
 
 * Authors provide considerable detail on sample location in the methods but only provide the sample number in the introduction. I believe it would be useful to have summary sentences of Table 1 that include number sites for spring, fall, etc run, and the number of samples within each ecotype, total samples within the methods, etc.
-
     - _Thank you for this suggestion.  We added the following to the end of the first paragraph in the Population Sampling portion of the
 Methods section:_
-"Of the 1594 total fish samples from 17 different collections, 724 fish from 10 collections were of the Fall run ecotype,
-498 fish from 5 collections were Spring run, and 261 and 111 fish were of the Winter run and Late-fall run ecotypes, 
+"Of the 1594 total fish samples from 17 different populations, 724 fish from 10 collections were of the fall run ecotype,
+498 fish from 5 collections were spring run, and 261 and 111 fish were of the winter run and late-fall run ecotypes, 
 respectively,  each represented by a single collection."
 
 * Is there any LOD threshold for your GWAS that allowed identifying the chr34 peak? 
@@ -33,23 +37,33 @@ respectively,  each represented by a single collection."
     near that peak._
 
 * In addition, L239-240 implies you were you only interested in right side of the peak. I would assume you were interested in up and downstream of the peak unless I missed something. In addition, please clarify why 2.2 Mb selected. Is this an LD block? Does this mean 2.2 Mb in each direction or total?
-    - _This is a good question.  It turns out that the main peak of association is at the
+    - _It turns out that the main peak of association is at the
     beginning of chromosome 34, so there is no flanking region to the left of the peak. To
     clarify why those candidate SNPs in the flanking region were chosen we now state:_ 
-    "The final condition was implemented in order to gather several SNPs with
-    large allele frequency differences that were adjacent to, but not directly
-    within, the main peak of association, as we had hoped that those SNPs might
-    enable us to learn about recombination in the region."  
+    "The final condition was implemented in order to gather several SNPs with large allele frequency differences
+    that were adjacent to, but not directly within, the main peak of association, so as to possibly learn about
+    recombination in the region."  
 
 * The writing of the manuscript is largely well written but makes high use of words such as “we” or “us”, which although stylistic, makes the manuscript longer than needed in some cases such as “we then dropped” or “this allows us”. In many cases these can be removed (examples in minor comments).
+    - _We addressed all the examples in the minor comments and also removed additional instances of the
+    use of such language where it was practical._
 
 * There is also use of informal language e.g. “amplified so well” or unnecessary words such as “then” that could be removed.
+    - _Following this suggestion, we removed many occurrences of "then" and "as well as"_
 
-* I commend the use of the distribution of log-likelihood ratio for relationship to show the power of haplotypes vs SNPs and would argue this could be elevated to a full figure, potentially in a condensed form, maybe less panels somehow?
+* **I commend the use of the distribution of log-likelihood ratio for relationship to show the power of haplotypes vs SNPs and would argue this could be elevated to a full figure, potentially in a condensed form, maybe less panels somehow?**
 
-* If possible, I think it would also be good to show how much of an improvement the discrimination power improved from the old marker data. In theory, this data has already been generated for the full population if you strip out the novel SNPs of the current study.
+    - **I am planning to break one population out into a single panel and show different logl-ratios
+    for different relationships.  Probably a 2x2 or 2x2 grid. Intend to leave the others in the
+    supplement as is.**
 
-* It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.
+* **If possible, I think it would also be good to show how much of an improvement the discrimination power improved from the old marker data. In theory, this data has already been generated for the full population if you strip out the novel SNPs of the current study.**
+    - **We could do this for the 78 SNPlicons plus 16 other single-SNPs, but it would be a little hard. We might just
+    say no.**
+    
+
+* **It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.**
+    - **Should be easy to throw a few citations in probably in a paragraph in the discussion.**
 
 
 
@@ -121,6 +135,8 @@ had poor amplification, or had excessive amplification and were subsequently ove
     - _We edited this as suggested._
 
 - Figure 4. Avoid method and interpretation sentences in caption and use in main text instead
+    - _We removed the final few sentences from Fig. 4's caption and edited them appropriately
+    to include them in the text in the Results section._
 
 ## Reviewer 2
 
@@ -128,9 +144,21 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 
 ### Major Comments
 
-* Lines 399-444: My biggest compliant is the paper states that it creates a “baseline” for GSI and PBT analysis but it is not always clear what this final baseline is and only at the end of the introduction does it state what this baseline contains (in terms of number of animals and number of loci). I feel this needs to also be stated in the abstract. In addition, in the results section it is not easy for work out how many markers made into the final reference baseline, and I think this information should be included in a table that also shows how markers from each source of information. I’m assuming that this is what is being used in the subsequent analysis.
+* Lines 399-444: My biggest compliant is the paper states that it creates a “baseline” for GSI and PBT analysis but it is not always clear what this final baseline is and only at the end of the introduction does it state what this baseline contains (in terms of number of animals and number of loci). I feel this needs to also be stated in the abstract. 
+    - _As per reviewer \#1's suggestion, the methods now includes textual comment on the
+    number of samples from each collection. Additionally, we have added several sentences
+    in the third paragraph of the introduction to define the terms reference data set and
+    baseline, and we have also added a summary in the abstract
+    on the total number of amplicons, individuals and populations in the reference data set._
+    
+* In addition, in the results section it is not easy for work out how many markers made into the final reference baseline, and I think this information should be included in a table that also shows how markers from each source of information. I’m assuming that this is what is being used in the subsequent analysis.
+    - _Excellent suggestion.  This information now appears in the new Table 2 which shows the total number of
+    amplicons and the total number of variant sites within each amplicon for each of several
+    groups of markers that correspond to the different sources of information._
 
-* Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.
+
+* **Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.**
+    - **Gotta still see what he is talking about here.**
 
 ### Minor Comments
 
@@ -138,10 +166,15 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
     - _Fixed_
 
 - Line 66: The term “reference baselines” is used through the manuscript but it is quite vague what this means. Reading the manuscript, it would seem to me that the reference baseline has two parts (1) “a multihaplotype marker/SNP set” and (2) “a reference dataset for training the GSI and PBT methods”. I think the authors define the term “reference baselines” here in the introduction.
+    - _Thank you.  The paper really needed this.  We now have a paragraph in the 
+    introduction that defines these terms_
 
-- Introduction – The paper seems to rely heavily on the work by Thompson et al (2020) in the methods, but this is not mentioned in the introduction. The authors should make a comment towards of the introduction that the work depends on some of the data and results from this paper
+- Introduction – The paper seems to rely heavily on the work by Thompson et al (2020) in the methods, but this is not mentioned in the introduction. The authors should make a comment towards of the introduction that the work depends on some of the data and results from this paper.
+    - _Added a clause in the last paragraph of the introduction about this._
 
-- Line 181: “a de novo assembly was performed”. How was this performed? More details are needed.
+- Line 181: "a de novo assembly was performed". How was this performed? More details are needed.
+    - _We clarified that that we used ustacks from the Stacks program to assemble the reads into
+    RAD loci._
 
 - Line 214: The use of the term “SNPlicons” seems a little inappropriate. My understanding is the authors are using more than just the information at the SNP and are scoring microhaplotype, so I feel the name is a little misleading.
     - _We provide more explanation of which markers/microhaplotypes are referred to as the SNPlicons.  Since
@@ -158,12 +191,17 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 - Caption of Table 3: “N is the number of fish …” should be “N is the average number of fish …”
     - _Fixed_
 
-- Figure 1 and 2: The colours for “spring run” and “Late-fall run” are very difficult to separate for a colour-blind person. Since the groups are not in a specific order on the graph, it is very hard work to out what is what. I’d recommend the authors use a selection of colours that will work for colour-blind people.
+- **Figure 1 and 2: The colours for “spring run” and “Late-fall run” are very difficult to separate for a colour-blind person. Since the groups are not in a specific order on the graph, it is very hard work to out what is what. I’d recommend the authors use a selection of colours that will work for colour-blind people.**
+
+    - **Planning to just cross-hatch the light blue of the late fall**
 
 - Line 589: “unprecedented” is an over-statement as there is no independent validation set. The authors should use a word that less forceful.
     - _Changed to "excellent"_
 
-- Sentence at lines 645-647. Can the authors provide a reference to back up this statement.
+- **Sentence at lines 645-647. Can the authors provide a reference to back up this statement.**
 
-- The online data and scripts (thank you for providing these) needs a proper readme file describing what the folders and files relate to.
+- **The online data and scripts (thank you for providing these) needs a proper readme file describing what the folders and files relate to.**
+
+    - **Gonna make a README and store the htmls in the docs/ folder like
+    we did for the Science paper.**
 

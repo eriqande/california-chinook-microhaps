@@ -31,6 +31,21 @@ Since that time, with the development of novel molecular markers, and, now
 with increasing capacity to sequence genomic material, the scope and scale of GSI
 has expanded considerably.
 
+A critical ingredient for GSI is the {\em reference data set}, which consists of individuals
+sampled from across a range of populations and with each individual genotyped using the same
+panel of genetic markers.  When individuals of unknown origin are genotyped
+at the same panel of genetic markers, the availability of the reference data set
+makes it possible to do inference regarding the population of origin of the
+unknown individuals.  Such reference data sets have seen widespread use and
+development in salmon management, where they are often called
+``genetic baselines," and defined as, ``databases of genotypes from
+breeding populations"\citep{seeb2007development}.  Throughout, we will
+use ``reference" or ``reference data set'' and ``baseline'' interchangeably; however,
+a key point to keep in mind is that as genetic technologies
+evolve over time, reference data sets continue to be developed and
+refined to exploit the new technologies.  
+
+
 By using greater numbers of more variable markers than the allozymes available
 in the 1980s it is possible to accurately
 identify the population of origin of individual fish, rather than simply estimating
@@ -109,6 +124,7 @@ We present a new reference baseline that includes 1,636 Chinook salmon individua
 This baseline is highly effective for GSI within California and provides ample power for PBT, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program 
 \citep{garza2007large,beacham2021parentage}.
 We describe how we identified and compiled the markers, including several new markers
+identified through re-analysis of the whole genome sequencing data of \citet{thompson2020complex},
 that are particularly effective at distinguishing between closely related groups of fish,
 such as late-fall and fall-run Chinook salmon in the CCV.  We also provide a comprehensive analysis of this
 set of markers for inference of parents and siblings within different groups of populations.
@@ -119,13 +135,13 @@ set of markers for inference of parents and siblings within different groups of 
 
 \subsection*{Population Sampling}
 
-We compiled samples of fish for the reference baselines from 13 locations within California, and one
+Samples of fish for the reference baseline were compiled from 13 locations within California, and one
 within Oregon. This set of populations and stocks includes all of the previously described lineages of Chinook salmon in the southern portion of the range and most of the populations that are known to have significant genetic differentiation in this region.
 These locations included sites in the two
 main tributaries (the Sacramento River and the San Joaquin River) within
 California's Central Valley, and the two main tributaries (Klamath and Trinity Rivers) in the Klamath basin in Northern California, and
 three rivers of the California coast (Russian, Eel, and Smith).
-Of the 1594 total fish samples from 17 different collections, 724 fish from 10 collections were of the fall run ecotype,
+Of the 1594 total fish samples from 17 different populations, 724 fish from 10 collections were of the fall run ecotype,
 498 fish from 5 collections were spring run, and 261 and 111 fish were of the winter run and late-fall run ecotypes, 
 respectively,  each represented by a single collection.
 (Figure~\ref{fig:map}, Table~\ref{tab:samples}).
@@ -153,7 +169,7 @@ Stone National Fish Hatchery for supplementation (released as juveniles into the
 sampling of this population was performed by hatchery staff during spawning. In Central Valley rivers with both
 spring-run and fall-run ecotypes (i.e. Mill, Deer and Butte Creeks), previous research has documented different  (but overlapping) ranges of spawning time (Julian date) for each ecotype \citep{fry1961king,yoshiyama1998historical}.
 As such, sampling targeted carcasses found in each of these
-rivers at times representative of their run-timing designation, which we were able to further confirm using their genotypes
+rivers at times representative of their run-timing designation, which were further confirmed using their genotypes
 within the region of strongest association (RoSA) on chromosome 28 \citep{thompson2020complex}.
 In the San Joaquin River, in 2016, at the time of sampling, only
 fall-run Chinook salmon adults were found, therefore the samples could be categorized.  Run-timing
@@ -161,8 +177,8 @@ designation at the Feather River Hatchery is more complicated but it is managed 
 early returning fish in May and April (expressing the spring-run life history) are visibly tagged and returned
 to the river. Subsequently in the fall, when hatchery raceways are reopened, only fish with the visible tag are included
 as spring-run broodstock, and the rest are included in the fall-run broodstock.
-We sampled putative spring-run and fall-run fish 
-from these two broodstocks. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype then confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith River), Iron Gate (Klamath River) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath River); all locations where only fall-run fish have been documented.  Spring run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
+Putative spring-run and fall-run fish 
+from these two broodstocks were sampled. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith River), Iron Gate (Klamath River) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath River); all locations where only fall-run fish have been documented.  Spring run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
 
 
 
@@ -199,28 +215,28 @@ $^5N_\mathrm{day}$: the number of samples for which the specific sampling day wa
 \subsection*{Genetic Markers}
 
 The genetic markers in the baseline include newly discovered microhaplotypes, SNP assays
-that were translated into amplicons, markers associated with phenotypes, as well
-as species- and sex-specific markers.
+that were translated into amplicons, markers associated with phenotypes, and
+species- and sex-specific markers.
 These genetic markers were compiled from several different
 efforts, as detailed in the sections below.
 
 \subsubsection*{Novel microhaplotype discovery}
 
-We identified candidate loci with multiple single-nucleotide polymorphisms (SNPs) among multiple
-populations using reduced-representation genome sequencing of 2--4 Chinook salmon, each, from a number of
+Candidate loci with multiple single-nucleotide polymorphisms (SNPs) among multiple
+populations were identified using reduced-representation genome sequencing of 2--4 Chinook salmon, each, from a number of
 populations ranging from California to British
 Columbia and the interior Columbia River (Table~\ref{tab:ascert-panel}).
 Genomic DNA was extracted using Qiagen DNeasy 96 Blood and Tissue Kits on a BioRobot 3000
-(Qiagen, Inc). We used double-digest restriction-site associated DNA sequencing (ddRAD) with different size selections (400 bp and 500 bp
-fragments) to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
+(Qiagen, Inc). Double-digest restriction-site associated DNA sequencing (ddRAD) with different size selections (400 bp and 500 bp
+fragments) were used to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
 \citet{peterson2012double} with the modifications described in \citep{baetscher2018microhaplotypes}.
 Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing.
 
 Stacks v1.45 \citep{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome
-at the time, a {\em de novo} assembly was performed.  Initial filtering retained RAD loci with two or more SNPs present
+at the time, the ustacks module of Stacks were used to assemble reads {\em de novo} into RAD loci.  Initial filtering retained RAD loci with two or more SNPs present
 in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
 4,794 retained in the data with 500 bp size selection.
-Gene regions were then selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation amongst the winter run and at least one other population.
+Gene regions were selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation amongst the winter run and at least one other population.
 A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is diminished in amplicons larger than 100 bp. Primer3
 software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
 
@@ -231,7 +247,7 @@ Subsequently, alignmets were sorted with SAMtools \citep{li2009sequence} and pro
 FreeBayes \citep{garrison2012haplotype} for variant calling.
 FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci, including
-assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng {\em et al.}, DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, as well as those clearly violating Hardy-Weinberg equilibrium within populations were removed.
+assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducted in MICROHAPLOT (Ng {\em et al.}, DOI: 10.5281/zenodo.820110).  Loci that produced more than two haplotypes within an individual, and those clearly violating Hardy-Weinberg equilibrium within populations were removed.
 
 
 \subsubsection*{Conversion of existing SNPtype assays}
@@ -240,8 +256,8 @@ A number of SNP markers from an earlier discovery effort \citep{clemento2011disc
 been validated as useful for GSI
 and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
 using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (Standard BioTools Inc., South San Francisco, CA).
-In order to type these markers using amplicon sequencing, we followed the methods in
-\citet{campbell2015genotyping} and added the Illumina small RNA sequencing primer and
+These markers were typed using amplicon sequencing, following the methods in
+\citet{campbell2015genotyping} with the addition of the Illumina small RNA sequencing primer and
 read 2 sequencing primer to the SNPtype Specific Target Amplification Primer and Locus
 Specific Primers respectively.  Loci were removed that were frequently inconsistent with SNPtype assays,
 had poor amplification, or had excessive amplification and were subsequently over-represented in the sequencing library.  FreeBayes \citep{garrison2012haplotype} was used to identify all SNPs (additional to the TaqMan-assay targets) along the fragment, which facilitated scoring fragment microhaplotypes when multiple SNPs were present along the read \citep{baetscher2018microhaplotypes}. The resulting genetic markers are hereafter referred to as `SNPlicons' to record their origin as TaqMan assays in a previous
@@ -250,8 +266,8 @@ baseline.
 
 \subsubsection*{Identifying the Late-Fall Associated Region (LFAR) and designing markers therein}
 
-To identify loci with large allele frequency differences between late-fall and fall-run Chinook salmon,
-we first conducted a simple case-control genome-wide association study (GWAS) using the low-coverage whole-genome sequencing
+Loci with large allele frequency differences between late-fall and fall-run Chinook salmon,
+were identified with a simple case-control genome-wide association study (GWAS) using the low-coverage whole-genome sequencing
 data of \citet{thompson2020complex}, mapped to the Otsh\_v1.0 Chinook salmon assembly
 (GenBank accession GCA\_002872995.1).  We conducted
 two separate association-study comparisons.
@@ -266,10 +282,10 @@ controls,
 {\tt \{bamlist\} } is the path to the text file holding paths to the binary alignment map (BAM) files
 of aligned sequence data, one for each individual, ordered as in {\tt \{ybin\}}.
 
-We surveyed the GWAS $p$-values relative to the commonly used significance threshold for
+The GWAS $p$-values were compared relative to the commonly used significance threshold for
 GWAS of $5\times 10^{-8}$ \citep{chen2021revisiting}.  Only a single site exceeded that threshold in both comparisons and it occurred
 atop a peak in association scores on chromosome 34 (see
-Results). From this peak we identified candidates for follow-up genotyping by including the 10
+Results). Candidates for follow-up genotyping were identified in the peak by including the 10
 SNPs in that peak with the lowest association $p$-values, and supplementing those with additional SNPs that
 showed:
 \begin{itemize}
@@ -281,13 +297,13 @@ with either fall-run or late-fall run being nearly fixed for one of the alleles,
 genomic  coordinate $> 2.2$~Mb.
 \end{itemize}
 The final condition was implemented in order to gather several SNPs with large allele frequency differences
-that were adjacent to, but not directly within, the main peak of association, as we had hoped that those SNPs
-might enable us to learn about recombination in the region.  
+that were adjacent to, but not directly within, the main peak of association, so as to possibly learn about
+recombination in the region.  
 
-For the candidate markers found by the above process, we designed amplification primers using
+We designed amplification primers for the candidates using
 Primer3 \citep{koressaar2007enhancements,untergasser2012primer3} and tested amplification in a
 subset of Chinook salmon
-samples. The primer pairs that amplified sequence that reliably mapped back to the association-peak region were then typed
+samples. The primer pairs that amplified sequence that reliably mapped back to the association-peak region were typed
 in a separate collection of 1,638 Sacramento River Chinook salmon sampled from the fish trap below Keswick Dam, including 1,169 winter run, 281 spring
 run, and 188 fall/late-fall run. We divided the fish identified
 from the 125-locus genetic
@@ -295,8 +311,8 @@ stock identification data set of \citet{thompson2020complex}  as fall/late-fall 
 to their sampling date at Keswick:  99 fish arriving before Dec 26 were classified as fall run and 89 fish arriving after Dec 26 were
 classified as late-fall run.   The allele frequencies of the target SNPs at the remaining amplicons
 were
-estimated for each of these four groups: winter, spring, fall, and late-fall, and we retained
-amplicons showing large allele frequency differences between late-fall fish and all other runs.
+estimated for each of these four groups: winter, spring, fall, and late-fall, and
+amplicons showing large allele frequency differences between late-fall fish and all other runs were retained.
 
 
 \subsubsection*{Winter-run associated polymorphisms (WRAPs)}
@@ -306,7 +322,7 @@ genomic regions that might provide diagnostic markers for the Sacramento winter-
 Chinook salmon.  This ecotype is highly differentiated from all other Chinook salmon populations
 throughout its genome, which complicates the process of finding diverged genome regions using
 a simple association study, with only 16 samples, as done to identify the LFAR.  Consequently we pursued a bespoke
-analysis to find regions we could expect to have large allele frequency differences between
+analysis to find regions expected to have large allele frequency differences between
 the winter-run and all other ecotypes of Chinook salmon in California's Central Valley.   This analysis
 screened for regions with large allele frequency differences across large blocks of the genome, and is
 described in the supplemental text section \ref{sec:wrap-methods}.
@@ -319,7 +335,7 @@ We add three more amplicons in the same RoSA region to the panel, as well as one
 allows genotyping of snp670329, which was discovered and described by \citet{thompson2019anthropogenic}.
 Including all these markers in the panel allows them to be routinely typed, creating
  a database for understanding the spatial and temporal
-distribution of the alleles in this genomic region; however we have omitted these markers for calculating likelihoods for
+distribution of the alleles in this genomic region; however these markers are omitted from likelihood calculations for
 GSI, since their distribution across populations in the Feather River has been clearly and evidently
 influenced by hatchery practices (see Results), it is not necessary to include them for accurate assignment,
 and because the 12 SNPs within these three amplicons are typically in profound linkage disequilibrium (LD)
@@ -333,15 +349,15 @@ typically assumes markers are not in LD within the component populations of the 
 
 The baseline also includes three amplicons with genetic variation
 in two genes, VGLL3 and SIX6,
-that have been found to be associated with phenotypes related to reproductive maturity in both
-Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmonids. We include
-them both to provide additional variation for population genetic analyses and to
+found to be associated with phenotypes related to reproductive maturity in both
+Atlantic \citep{barson2015sex} and Pacific \citep{waters2021heterogeneous} salmonids. They
+provide additional variation for population genetic analyses and to
 monitor populations for potential phenotypic patterns.
 
 We include an assay from a novel locus that targets the sex-determining region ({\em sdY}) on the Y chromosome in Chinook salmon. We designed this assay to target the SNP described by \citet{bertho2022nonfunctional} that differentiates the functional {\em sdY} and a nonfunctional {\em sdY} pseudogene.  Examination of whole-genome sequence data in multiple populations of California Chinook salmon \citep{thompson2020complex} shows that this
 marker characterizes genetic sex in diverse California salmon populations more accurately than previously published assays  \citep{von2015development}.
-And, finally, we include marker Ots\_coho001\_05\_32691399 which is fixed for alternate alleles in
-coho salmon and Chinook salmon.  This is helpful when samplers have unwittingly
+Finally, marker Ots\_coho001\_05\_32691399, which is fixed for alternate alleles in
+coho salmon and Chinook salmon, is included to diagnose when samplers have unwittingly
 collected coho salmon.
 
 \subsection*{Localizing markers within the genome}
@@ -356,7 +372,7 @@ consensus sequences (roughly 100--300 bp) around the markers
 to both the Chinook salmon version 1 (Otsh\_v1.0, GenBank accession GCA\_002872995.1)
 and version 2  (Otsh\_v2.0, GenBank accession GCA\_018296145.1) genome assemblies,
 using both bwa mem \citep{bwa-mem2009} and the BLAST-like Alignment tool, BLAT \citep{kent2002blat}.
-A similar mapping exercise was performed for the remaining markers so that we can
+A similar mapping exercise was performed for the remaining markers to
 report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
 
 
@@ -368,7 +384,7 @@ multiplexed with primer concentrations ranging from 0.083 uM to 0.5 uM to increa
 uniformity of read depths across all loci. Sample normalization was
 performed using the SequalPrep Normalization Plate Kit (Applied Biosystems) according
 to the manufacturer's instructions. Samples were pooled by plate
-and then purified using Agencourt AMPure XP magnetic beads.
+and purified using Agencourt AMPure XP magnetic beads.
 Libraries were quantified either by qPCR with the NEBNext Library Quant Kit for Illumina (New
 England BioLabs) or with the Qubit dsDNA HS Assay Kit (Thermo Fisher Scientific)
 before dilution and pooling for sequencing.
@@ -391,9 +407,7 @@ Each locus was assessed for the presence of null alleles using the R package `wh
 Basic data summaries were calculated for each population/collection
 in the reference baseline
 using simple operations in the R programming language, Version 4.3
-\citep{rcore}. We started with a simple tally of the number of alleles
-found at each locus.  To provide a summary of the genetic variation and
-missing data we further summarized:
+\citep{rcore}. Summaries provided are:
 \begin {itemize}
 \item the average over loci of the number of fish
 in which each locus was successfully genotyped, $\bar{N}$;
@@ -410,19 +424,19 @@ estimated allele frequencies, $\bar{H}_\mathrm{exp}$; and
 loci of the fraction of heterozygous genotypes, $\bar{H}_\mathrm{obs}$.
 \end{itemize}
 When subsampling each collection to the minimum number of genotyped
-fish across all collections at a locus, we subsampled individuals without
+fish across all collections at a locus, individuals were subsampled without
 replacement, taking the average of 1,000 different random subsamples.
 
 We calculated \citet{weir1984estimating}'s pairwise $F_\mathrm{ST}$ between
 all collections, using the {\footnotesize\tt pp.fst} function from the R
-package `hierfstat' \citep{hierfstat}. Finally, we evaluated population
-structure in the data by performing unsupervised clustering 
+package `hierfstat' \citep{hierfstat}. Population
+structure in the data was evaluated
 using the program STRUCTURE \citep{pritchard2000inference,falush2003inference}.
 For this analysis, we omitted the run-timing associated markers.
 We performed 20 replicate runs at each value of the assumed number of
 subpopulations, $K$, in $\{2, 3, 4, 5, 6, 7\}$
 using default settings of the program.  STRUCTURE output was
-a summarized and visualized using CLUMPAK
+summarized and visualized using CLUMPAK
 \citep{kopelman2015clumpak}.
 
 
@@ -433,8 +447,8 @@ a summarized and visualized using CLUMPAK
 \subsection*{Power for genetic stock identification and population assignment}
 
 To assess the power of the marker panel for GSI, we used the R package
-`rubias' \citep{moran2019bayesian}.  We used the function {\tt self\_assign()}
-to perform assignment of each individual in the reference baseline to one of the
+`rubias' \citep{moran2019bayesian}.  The function {\tt self\_assign()} was used
+to assign each individual in the reference baseline to one of the
 collections within the baseline.  Each fish was removed from the reference baseline
 when calculating the likelihood that it originated from the collection it actually belongs
 to, using a classical leave-one-out approach to eliminate the inflated estimates of
@@ -450,7 +464,8 @@ scaled likelihood greater than 0.8 were assigned.
 
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
-the RoSA.  For this we identified the RoSA genotype \citep[EE, EL, or LL, see~][]{thompson2020complex} from the concordance of the genotypes
+the RoSA.  RoSA genotype \citep[EE, EL, or LL, see~][]{thompson2020complex}
+was assessed from the concordance of the genotypes
 at all 8 markers described in \citep{thompson2020complex}, requiring that no genotypes be missing
 within an individual from any of those 8 markers, and discarding data from 12 individuals
 in which the E or L haplotypes had clearly recombined.
@@ -464,11 +479,11 @@ the R package `CKMRsim'
 (\url{https://github.com/eriqande/CKMRsim})
 to estimate the false-positive rates (FPRs) expected at
 different values of the false negative rate (FNR) for a variety of different pairwise
-relationships in different populations.  For these purposes, we divided the
-collections into 10 different groups.  The members of each group are
+relationships in different populations.  For these purposes, collections were divided into
+10 different groups.  The members of each group are
 relatively, genetically similar, but the groups do not necessarily correspond to reporting
-units, because, in some cases, we desired FPRs and FNRs for a single
-collection.   For all cases, we assumed that the genotyping error rate
+units, because, in some cases, FPRs and FNRs are desired for a single
+collection.   The assumed genotyping error rate
 was 1\% per locus and the genotyping error model was the default
 "True-genotype-independent" model.
 
@@ -496,21 +511,46 @@ of the markers, as described above.
 
 \subsection*{Genetic Markers}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+\caption{\footnotesize  Summary of amplicons in the reference data set.  Source denotes
+which discovery effort yielded the amplicon. N (amplicon) is the number of amplicons
+and N (variant) is the total number of variant sites routinely assayed within the sequence of each
+amplicon.  Source abbreviations are as follows: mhap = novel microhaplotype discovery, scon = conversion of existing SNPtype
+assays, rosa = adult-migration-timing associated markers, wrap = winter-run associated
+polymorphisms, lfar = late-fall-run associated polymorphisms, sixx and vgll = amplicons
+targeting the SIX6 and VGLL3 genes, respectively, sexy = sexID marker, coho =
+distinguishes coho from Chinook salmon. The $^*$ denotes markers routinely
+excluded from likelihood calculations for GSI.}
+\label{tab:loci-summ}
+{
+\begin{tabular*}{0.48\textwidth}{@{\extracolsep{\fill}} lrr}
+\hline\hline
+Type&N (amplicon)&N (variant)\tabularnewline
+\hline
+\input{inputs/amplicon-summary.tex}
+\end{tabular*}
+}
+\vspace*{-2.3ex}\hrule width0.48\textwidth
+\vspace*{0.3ex}\hrule width0.48\textwidth
+\end{table}
+%%%%%%%%%%%%%%%
+
 A summary, which includes genomic location, consensus sequence, and primer sequences,
 of all the amplicons used in the baseline is available
 in Data Supplement~1.  An overview of genomic coordinates is found in Figure~\ref{fig:genome-locations}
 
 \subsubsection*{Additional microhaplotype discovery}
 
-We tested the 229 candidates from our novel microhaplotype discovery process and
-initially retained the 125 markers described in \citep{thompson2020complex}
+Of 229 tested candidates from our novel microhaplotype discovery process
+125 markers were retained \citep{thompson2020complex}
 for use in stock identification within
 the Klamath Basin.  However, further evaluation of those markers in other
-populations led us to remove some of the markers.
-Twelve loci appeared to have null alleles in the winter-run population and were removed.
-Additionally, two loci were monomorphic in the winter-run, even though they contained
-multiple alleles in other populations, and an additional 5 amplicons were deemed
-difficult to score in routine application of the baseline, and were removed, leaving 106
+populations led the removal of
+twelve loci with apparent null alleles in the winter-run population, two that were monomorphic
+in the winter-run, despite having
+multiple alleles in other populations, and an additional 5 loci that were
+difficult to score in routine application of the baseline. This left 106
 novel microhaplotype amplicons in the current panel.
 
 
@@ -535,11 +575,11 @@ the San Joaquin River (Figure~\ref{fig:lfar-assoc}).
 
 The Manhattan plot of Figure~\ref{fig:lfar-assoc} shows sporadic SNPs with low association
 $p$-values.  These are not shared between the two different late-fall to fall comparisons, and
-sites that we investigated were concentrated in areas of poor mapping, suggesting that their
+were concentrated in areas of poor mapping, suggesting that their
 $p$-values were artifactual.  By contrast, a large number of sites near the prominent peak on
 chromosome 34 had large allele frequency differences between late-fall and fall run.  Taking the
 10 SNPs with the lowest association $p$-values, and including additional ones from the filtering criteria given in the
-Methods, yielded 49 candidate markers for which we designed primers for amplication (Figure~\ref{fig:lfar-candi}).  Only 8
+Methods, yielded 49 candidate markers for which we designed primers for amplification (Figure~\ref{fig:lfar-candi}).  Only 8
 of these 49 primer pairs yielded reliable amplification and mapping.   Of these 8, two of the SNPs
 showed inconsistent genotyping and were removed from consideration.  Of the remaining 6, only 3
 showed marked allele frequency differences ($> 0.7$) between late-fall and fall run.  These three
@@ -570,19 +610,18 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 \input{inputs/lfar-freqs.tex}
 \end{tabular*}
 }
-\vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
+\vspace*{-2.3ex}\hrule width0.48\textwidth
+\vspace*{0.3ex}\hrule width0.48\textwidth
 \end{table}
 %%%%%%%%%%%%%%%
 
 \subsubsection*{Winter-run-associated polymorphisms}
 
-Though the winter run fish are easily identified, we undertook an additional effort to
-try to find markers that could be diagnostic for the winter run, distinguishing the
-winter run from all other groups of Chinook salmon in the CCV. Initial examination of sequence data 
+Initial examination of sequence data 
 in the 16 winter-run fish and 84 non-winter run fish revealed
-a number of SNPs that were potentially diagnostic, but none were fixed for alternative alleles 
+a number of SNPs that were potentially diagnostic, but none were fixed for alternate alleles 
 in a larger sample.
-Nonetheless, three of these markers from that effort had large frequency differences
+Nonetheless, three of these markers had large frequency differences
 between the groups and are included in the reference baseline.  The process of 
 discovering them is described in the supplemental text section \ref{sec:wrap-methods}.
 
@@ -630,7 +669,8 @@ codes are as given in Table~\ref{tab:samples}}
 \input{inputs/popgen-summary.tex}
 \end{tabular*}
 }
-\vspace*{-2.3ex}\hrule\vspace*{0.3ex}\hrule
+\vspace*{-2.3ex}\hrule width0.48\textwidth
+\vspace*{0.3ex}\hrule width0.48\textwidth
 \end{table}
 %%%%%%%%%%%%%%%
 The average number of fish with non-missing data in each population varied from
@@ -663,7 +703,7 @@ subsampling individuals from each collection to the minimum number of observed a
 at the locus.  In ({\bf b}), for self-assignment tallies, the row corresponds
 to the true source collection and the column corresponds to the assigned collection.
 All individuals were assigned here, using a maximum-scaled-likelihood rule to reporting unit and
-then to collection within reporting unit as described in the text. For the assignment matrix resulting
+to collection within reporting unit as described in the text. For the assignment matrix resulting
 when only fish with a scaled likelihood $>0.80$ to reporting unit are assigned, see Figure~\ref{fig:eighty}}
 \begin{center}
 \includegraphics[width=0.48\textwidth]{images/gsi_and_fst_fig-crop.pdf}
@@ -788,11 +828,8 @@ using importance sampling of unrelated pairs of individuals being incorrectly ca
 full-sibling (FS) or half-sibling (HS) pairs.  {\bf (b)}  FPRs calculated using regular Monte Carlo
 sampling of avuncular pairs (AN: aunt-niece, uncle-nephew, etc.) or full-siblings (FS) or half-siblings (HS) being
 incorrectly categorized as parent-offspring (PO); as well as FPRs of parent-offspring (PO) pairs or half-sibling (HS)
-pairs being incorrectly inferred as full siblings (FS).  In both {\em a} and {\em b}, 100,000 Monte Carlo replicates
-were simulated.  Importance sampling allows estimation of very small false positive rates for unrelated pairs, but
-cannot be applied to truly related pairs.  Consequently, it is difficult to accurately estimate small probabilities
-($10^{-4}$ or less) in {\bf b}, as indicated by the error bars, which represent the estimate $\pm 2s$ where $s$
-is the estimated standard error of the mean of the Monte Carlo sample.  This also is the reason that many of the lines terminate.   }
+pairs being incorrectly inferred as full siblings (FS).  In both {\bf a} and {\bf b}, 100,000 Monte Carlo replicates
+were simulated.}
 \begin{center}
 \includegraphics[width=\textwidth]{images/fpr-fnr-figure-crop.pdf}
 \end{center}
@@ -812,14 +849,23 @@ in the past.  However, a small fraction of pairs will be more recently related, 
 kin pairs from target relationships (like PO and FS) must be accounted for.  `CKMRsim' provides
 facilities for assessing error rates between different kin groups, and results for these are
 summarised in (Figure~\ref{fig:fprs}b). Here, again, focusing on the results for the genetically
-depauperate SRW, and using an FNR of 0.1 we see that the chance of incorrectly
+depauperate SRW, and using an FNR of 0.1, the chance of incorrectly
 categorizing an HS as an FS,  or an FS as a PO is less than 1 in 100. Likewise, 
 we can expect PO to be misidentified as FS at a rate of around 1 in 500, and 
 HS or Aunts/Uncles to be misidentified as parents at a rate less than 1 in 1000.
 Though these rates are much higher than the FPRs for unrelated pairs, they should be
 compared to the number of actual non-target kin pairs expected.  For example, in a salmon
 population, the number of full aunts or uncles of a fish is unlikely to exceed 50, 
-at later life stages,  so a FPR of  $<$0.001 is comfortably low in that case.  
+at later life stages,  so a FPR of  $<$0.001 is comfortably low in that case.
+Estimation of
+error rates between different kin-categories cannot be done in `CKMRsim' using
+importance sampling. Consequently, it is difficult to accurately estimate the small
+probabilities ($10^{-4}$ or less) in Figure~\ref{fig:fprs}b, as indicated by the error bars,
+which represent the estimate $\pm2s$ where s is the estimated standard error of the
+mean of the Monte Carlo sample.  However, as noted above, because there are
+far fewer related pairs than unrelated pairs, it is not typically essential to
+have accurate estimates of very low FPRs for related pairs.  
+
 
 The presence of multiple alleles at many of these loci improves power for
 kin inference compared to a marker panel using only a single SNP at each
@@ -869,7 +915,7 @@ under the US Endangered Species Act. It is also the source of household water fo
 tens of millions of California residents and millions of acres of arguably
 the most productive and valuable agriculture area in North America. As such, accurate identification of the distinct 
 ecotypes of CCV Chinook salmon is of utmost importance for monitoring and
-evaluation of individual ecotypes, as well as designing and implementing
+evaluation of individual ecotypes, and for designing and implementing
 effective conservation and management actions. This has been challenging,
 given the recent common ancestors of these ecotypes \citep{clemento2014evaluation}, and
 ongoing migration between subbasins where different ecotypes predominate.
@@ -918,7 +964,7 @@ and early migrating steelhead ({\em O. mykiss}) persist in the basin \citep{bjor
 discovered several recombinant RoSA haplotypes in both of the CCC populations that indicate a long-standing
 presence of both the early- and late-migrating haplotypes in these populations. This is consistent with the
 idea that early-migrating populations arise through migration of small numbers of individuals carrying 
-E-lineage haplotypes, in either heterozygous or homozygous form, which are then positively selected
+E-lineage haplotypes, in either heterozygous or homozygous form, which are subsequently positively selected
 when appropriate habitat conditions exist. A similar pattern of recombination, due to long-standing
 co-occurence of the E and L haplotypes in heterozygotes, has been previously documented in the Klamath 
 River \citep{thompson2020complex}.
@@ -941,7 +987,7 @@ Previous genetic marker sets for California Chinook salmon had sufficient power 
 parent-offspring relationships, but only when both parents were sampled and genotyped.
 This marker set considerably increases the capacity for relationship inference in California
 salmon, by providing sufficient power for parent-offspring relationship inference, when only
-one parent is sampled, as well as identifying pairs of full siblings when no parents are sampled.
+one parent is sampled, and identifying pairs of full siblings when no parents are sampled.
 Groups of full siblings larger than two can be identified even more accurately than expressed in Figure~\ref{fig:fprs},
 when using statistical approaches that account for the joint relationships between more than two individuals,
 such as COLONY \citep{wang2004sibship}.
@@ -979,6 +1025,6 @@ of the samples analyzed here, including staff from the California Department of 
 National Marine Fisheries Service, US Fish and Wildlife Service, US Army Corps of Engineers and 
 Pacific States Marine Fisheries Commission. We also thank Elena Correa, Nicole Anderson and Libby
 Gilbert-Horvath for contributions to data collection. The manuscript was improved by comments from
-Jeff Rodzen. USDA is an equal opportunity provider and employer. Mention of trade names
+Jeff Rodzen and from two anonymous referees. USDA is an equal opportunity provider and employer. Mention of trade names
 or commercial products in this publication is solely for the purpose of providing specific
 information and does not imply recommendation or endorsements by the U.S. Department of Agriculture.
