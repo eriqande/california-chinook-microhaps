@@ -272,9 +272,17 @@ labels_1line <- labels %>%
   filter(rank == max(rank)) %>%
   ungroup()
 
+# define the shapes
+point_shapes <- c(
+  `Fall run` = 21,
+  `Spring run` = 22,
+  `Winter run` = 23,
+  `Late-fall run` = 24
+)
+
 mm <- base_map + 
   geom_segment(data = labels, aes(x = tip_long, y = tip_lat, xend = label_long, yend = label_lat), colour = "black", linewidth = 0.4) +
-  geom_point(data = labels, aes(x = label_long + bit + (1 - hjust * 2) * kick * (rank - 1), y = label_lat, fill = run_timing), shape = 21, size = 3.5) +
+  geom_point(data = labels, aes(x = label_long + bit + (1 - hjust * 2) * kick * (rank - 1), y = label_lat, fill = run_timing, shape = run_timing), size = 3.5) +
   geom_label(
     data = labels_1line,
     aes(
@@ -288,6 +296,7 @@ mm <- base_map +
     lineheight = 0.85
   ) +
   scale_fill_manual(values = run_time_colors) +
+  scale_shape_manual(values = point_shapes) +
   theme_bw() +
   theme(
     panel.border = element_rect(colour = "black", linewidth = 1),
@@ -346,7 +355,7 @@ ggsave(final_map, filename = output_list$map, width = 5, height = 3.5)
 CALL <- paste("pdfcrop ", output_list$map, collapse = " ")
 system(CALL)
 
-file.copy(from = output_list$cropmap, to = output_list$texmap)
+file.copy(from = output_list$cropmap, to = output_list$texmap, overwrite = TRUE)
 
 
 
@@ -365,7 +374,7 @@ rc_col_tib <- enframe(run_time_colors) %>%
 for(r in 1:nrow(rc_col_tib)) {
   tmp <- rc_col_tib[r,]
   g <- ggplot(tmp, aes(x = 1, y = 1)) +
-    geom_point(shape = 21, fill = tmp$value, size = 3.5) +
+    geom_point(shape = point_shapes[tmp$name], fill = tmp$value, size = 3.5) +
     theme_void()
   ggsave(g, filename = tmp$file)
   
