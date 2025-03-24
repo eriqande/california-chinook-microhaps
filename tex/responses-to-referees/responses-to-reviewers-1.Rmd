@@ -51,15 +51,22 @@ respectively,  each represented by a single collection."
 * There is also use of informal language e.g. “amplified so well” or unnecessary words such as “then” that could be removed.
     - _Following this suggestion, we removed many occurrences of "then" and "as well as"_
 
-* **I commend the use of the distribution of log-likelihood ratio for relationship to show the power of haplotypes vs SNPs and would argue this could be elevated to a full figure, potentially in a condensed form, maybe less panels somehow?**
+* I commend the use of the distribution of log-likelihood ratio for relationship to show the power of haplotypes vs SNPs and would argue this could be elevated to a full figure, potentially in a condensed form, maybe less panels somehow?
+    - _We appreciate the referee's feedback on this.  In response, we have created a
+    new figure in the paper itself that examines the distribution of log-likelihood
+    ratios only in the Feather River Hatchery.  This figure distinguishes between
+    different log-likelihood ratios (PO/U, FS/U, and HS/U) and nicely shows the
+    advantages of using microhaplotypes for relationship inference. We have also left
+    the original figure in the supplement for any readers curious about the effect
+    in different collections._ 
 
-    - **I am planning to break one population out into a single panel and show different logl-ratios
-    for different relationships.  Probably a 2x2 or 2x2 grid. Intend to leave the others in the
-    supplement as is.**
 
-* **If possible, I think it would also be good to show how much of an improvement the discrimination power improved from the old marker data. In theory, this data has already been generated for the full population if you strip out the novel SNPs of the current study.**
-    - **We could do this for the 78 SNPlicons plus 16 other single-SNPs, but it would be a little hard. We might just
-    say no.**
+* If possible, I think it would also be good to show how much of an improvement the discrimination power improved from the old marker data. In theory, this data has already been generated for the full population if you strip out the novel SNPs of the current study.
+    - _After long and careful consideration of this, we determined that it would not
+    be possible to make an accurate comparison between the old and the new marker
+    data in this regard.  Unfortunately, only 78 of the original 94 TaqMan assays
+    were able to be converted into amplicon-sequenced markers, so we are not able
+    to reproduce the old marker set with the same reference samples._
     
 
 * **It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.**
@@ -198,7 +205,9 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 - Line 589: “unprecedented” is an over-statement as there is no independent validation set. The authors should use a word that less forceful.
     - _Changed to "excellent"_
 
-- **Sentence at lines 645-647. Can the authors provide a reference to back up this statement.**
+- Sentence at lines 645-647. Can the authors provide a reference to back up this statement.
+    - _We added a citation here that extensively describes the use of a Fluidigm chip-based panel for
+    parent pair allocation in Chinook salmon in California._
 
 - **The online data and scripts (thank you for providing these) needs a proper readme file describing what the folders and files relate to.**
 

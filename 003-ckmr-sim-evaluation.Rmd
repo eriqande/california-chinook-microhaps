@@ -33,7 +33,10 @@ if(exists("snakemake")) {
     ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf",
     ckmr_comp = "results/ckmr-sim-eval/cmkr-comp-figure.pdf",
     ckmr_comp_crop = "results/ckmr-sim-eval/cmkr-comp-figure-crop.pdf",
-    ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf"
+    ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf",
+    frh_comp = "results/ckmr-sim-eval/frh-comp-figure.pdf",
+    frh_comp_crop = "results/ckmr-sim-eval/frh-comp-figure-crop.pdf",
+    frh_comp_tex = "tex/images/frh-comp-figure-crop.pdf"
     
   )
 }
@@ -81,7 +84,8 @@ ckmr_sim_nests <- full_base2 %>%
 # we take its position to be the start position of the amplicon
 gen_coords <- read_csv(input_list$locus_info) %>%
   rename(Locus = AmpliconName, Chrom = Otsh_v2.0_chromosome, Pos = AmpliconStartPos) %>%
-  select(Locus, Chrom, Pos)
+  select(Locus, Chrom, Pos) %>%
+  filter(!str_detect(Locus, "sexy"))
 
 
 
@@ -102,7 +106,7 @@ ckmr_afreqs_ready <- function(X, GC2) {
       -indiv,
       names_to = c("Locus", "gene_copy"),
       values_to = "Allele",
-      names_pattern = "^(.*)_([12])$"
+      names_pattern = "^(.*)_([12])$" 
     ) %>%
     filter(!is.na(Allele)) %>%
     count(Locus, Allele) %>%
@@ -112,6 +116,7 @@ ckmr_afreqs_ready <- function(X, GC2) {
       Freq = n / sum(n),
     ) %>%
     ungroup() %>%
+    filter(!is.na(Locus)) %>%  # this gets rid of the rosa stuff
     left_join(GC2, by = join_by(Locus)) %>%
     select(Chrom, Pos, Locus, Allele, Freq) %>%
     arrange(Pos, desc(Freq)) 
@@ -320,9 +325,7 @@ error_types_tib <- tribble(
 cst2 <- CST0 %>%
   mutate(scenario = str_c(mc_method, numerator, denominator, true_relat, sep = "-")) %>%
   left_join(error_types_tib, by = join_by(scenario))
-  
 
-source("R/shift_legend.R")
 
 
 # first do the importance sampling ones
@@ -349,8 +352,9 @@ g <- ggplot(cst2 %>% filter(mc_method == "IS"), aes(x = FNR, y = FPR, colour = `
       nrow = 2
       )
   )
-  
-a <- grid.arrange(shift_legend(g))
+ 
+library(lemon) 
+a <- reposition_legend(g, panel = "panel-2-3",  x = 0, y = 0, just = c(0,0))
 ```
 
 Now, let's look at the vanilla ones:
@@ -388,8 +392,7 @@ g2 <- ggplot(
   ) +
   theme(legend.direction = "horizontal")
 
-a2 <- grid.arrange(shift_legend(g2))
-
+a2 <- reposition_legend(g2, panel = "panel-2-3", x = 0, y = 0, just = c(0,0))
 ```
 
 Then cowplot it:
@@ -409,7 +412,7 @@ file.rename(from = output_list$ckmr_figure_crop, to = output_list$ckmr_figure_te
 
 # Logl Ratio Plot Comparisons
 
-Neil suggested, and Carlos and I agreed, that one way to see they improvement in
+Neil suggested, and Carlos and I agreed, that one way to see the improvement in
 relationship inference obtained by using multiallelic microhaps is to look at the
 separation of the different relationship log-likelihood ratios when using just the
 best (MAF closest to 0.5) SNP from each locus, or when using all the SNPs/alleles.
@@ -498,7 +501,7 @@ get_logl_rats <- function(X, GC2 = gen_coords) {
   # produces
   Q_link <- ckmr_simQ(C) #%>% suppressMessages()
   
-  # now extract the logl_ratios for PO vs U and return those
+  # now extract the logl_ratios
   extract_logls(Q_link, numer = c(PO = 1), denom = c(U = 1))
 }
 ```
@@ -507,7 +510,8 @@ And, with those two functions, it would appear that we have eveything we need to
 simulation results we will want.  Once again we will mclapply over the populations.
 
 ```{r}
-# collections / groups we want to do
+# collections / groups we want to do.  I originally did many, but
+# just whittled it down to include in main text following a reviewer request.
 pops <- c("ck-FRH", "ck-IGH", "ck-SRW", "ck-TRH")
 
 # let's put the microhaps and the best SNPs together in a long format.
@@ -562,4 +566,110 @@ asg <- ggplot(AllSims, aes(x = logl_ratio, fill = true_relat)) +
 # So, instead I just print the thing in the Rstudio window and export it
 # at size 13" high by 10" wide. Then I moved it to where it belongs in the tex directory.
 asg
+```
+
+
+## Making a comparison figure for the main text
+
+Reviewer one wanted to see this in the main text.  I will show just a single
+figure for FRH.  I also want to look at PO, FS, and FS versus U specifically.
+```{r}
+pop <- c("ck-FRH")
+
+# let's put the microhaps and the best SNPs together in a long format.
+input_tibbles2 <- bind_rows(
+  ckmr_sim_nests %>%
+    filter(ckmr_sim_group %in% pop) %>%
+    mutate(condition = "microhaps", .before = ckmr_sim_group),
+  ckmr_sim_nests %>%
+    filter(ckmr_sim_group %in% pop) %>%
+    mutate(tops = map(data, retain_top_snp)) %>%
+    mutate(data = tops) %>%
+    select(-tops) %>%
+    mutate(condition = "top_snps", .before = ckmr_sim_group)
+)
+
+
+# a new function that gets multiple logls out of it
+get_logl_rats_multi <- function(X, GC2 = gen_coords) {
+  
+  Y <- ckmr_afreqs_ready(X, GC2)
+  
+  C <- ckmr_create(Y) 
+  
+  # throttle text output to console
+  options(CKMRsim.discard_stdout = TRUE)
+  options(CKMRsim.linkage_verbosity = 0)
+  
+  # Simulate some Q_ij's. Suppress output messages that the CKMRsim package
+  # produces
+  Q_link <- ckmr_simQ(C) #%>% suppressMessages()
+  
+  # now extract the logl_ratios for PO, FS, or HS vs U and return those
+  list(
+    POU = extract_logls(Q_link, numer = c(PO = 1), denom = c(U = 1)),
+    FSU = extract_logls(Q_link, numer = c(FS = 1), denom = c(U = 1)),
+    HSU = extract_logls(Q_link, numer = c(HS = 1), denom = c(U = 1))
+  ) %>%
+    bind_rows(.id = "ratio_type")
+}
+
+
+
+Qsims2 <- lapply(input_tibbles2$data, get_logl_rats_multi)
+
+AllSims2 <- tibble(
+  condition = input_tibbles2$condition,
+  ckmr_sim_group = input_tibbles2$ckmr_sim_group,
+  Qsims = Qsims2
+) %>% 
+  unnest(Qsims) %>%
+  filter(  # only keep the relevant ones
+    (ratio_type == "POU" & true_relat %in% c("U", "PO")) |
+      (ratio_type == "FSU" & true_relat %in% c("U", "FS")) |
+      (ratio_type == "HSU" & true_relat %in% c("U", "HS"))
+  )
+```
+
+Now, we make a picture of that.
+```{r}
+library(ggpattern)
+AS3 <- AllSims2 %>%
+  mutate(
+    ratio_type = case_match(
+      ratio_type,
+      "POU" ~ "Parent-offspring versus Unrelated log-likelihood ratio",
+      "FSU" ~ "Full-sibling versus Unrelated log-likelihood ratio",
+      "HSU" ~ "Half-sibling versus Unrelated log-likelihood ratio"
+    ),
+    ratio_type = factor(
+      ratio_type,
+      levels = c(
+        "Parent-offspring versus Unrelated log-likelihood ratio",
+        "Full-sibling versus Unrelated log-likelihood ratio",
+        "Half-sibling versus Unrelated log-likelihood ratio"
+      )
+    )
+  ) %>%
+  rename(`True\nRelationship` = true_relat)
+
+g8 <- ggplot(AS3, aes(x = logl_ratio, fill = `True\nRelationship`, alpha = condition)) +
+  geom_density() +
+  scale_alpha_manual(values = c(microhaps = 0.7, top_snps = 0.3)) +
+  facet_wrap(~ratio_type, ncol = 1, scales = "free") +
+  xlab("Log-likelihood Ratio") +
+  ylab("Density") +
+  theme_bw() +
+  theme(legend.position = "top") +
+  guides(alpha = "none")
+  
+
+ggsave(g8, filename = output_list$frh_comp, width = 4, height = 6)
+
+# let's crop that down for use, too
+CALL <- paste("pdfcrop ", output_list$frh_comp, collapse = " ")
+system(CALL)
+
+file.rename(from = output_list$frh_comp_crop, to = output_list$frh_comp_tex)
+
 ```

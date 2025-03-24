@@ -236,14 +236,21 @@ Stacks v1.45 \citep{catchen2013stacks} was used to analyze the ddRAD sequence da
 at the time, the ustacks module of Stacks were used to assemble reads {\em de novo} into RAD loci.  Initial filtering retained RAD loci with two or more SNPs present
 in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
 4,794 retained in the data with 500 bp size selection.
-Gene regions were selected that (1) contained multiple SNPs within a 100 bp window, and (2) showed haplotype variation amongst the winter run and at least one other population.
-A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is diminished in amplicons larger than 100 bp. Primer3
-software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
 
-These gene regions were PCR-amplified and sequenced on a MiSeq sequencer using a $2\times 75$-cycle kit.
+The 8,725 discovered RAD loci were filtered down to a set of markers suitable for conversion
+to amplicon sequencing assays. Gene regions were selected from the RAD loci that (1) contained multiple SNPs within a 100 bp window,
+and (2) showed haplotype variation amongst the winter run and at least one other population.
+A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is
+diminished in amplicons larger than 100 bp. Primer3
+software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
+These 229 gene regions were then tested for PCR-amplification and consistency.  This step included
+amplification in thousands of samples from a number of different collections of Chinook salmon for sampled
+for several projects, with
+subsequent sequencing on a
+MiSeq sequencer using a $2\times 75$-cycle kit.
 The sequences from each locus were mapped to the {\em de novo} reference sequences (produced by Stacks) with
 the Burrows-Wheeler aligner using the mem algorithm \citep{bwa-mem2009}. 
-Subsequently, alignmets were sorted with SAMtools \citep{li2009sequence} and provided to
+Subsequently, alignments were sorted with SAMtools \citep{li2009sequence} and provided to
 FreeBayes \citep{garrison2012haplotype} for variant calling.
 FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
 or greater and a read depth of 10 or higher. Further filtering and analysis of the loci, including
@@ -873,9 +880,28 @@ amplicon.  To provide a visual display of the difference afforded by using
 microhaplotypes compared to single SNPs in this data set, we show the
 distribution of log-likelihood ratios for different relationships using our microhaplotype-scored
 amplicons, versus using the most heterozygous single SNP from each
-amplicon (\ref{fig:ckmr-comp}).  The figures show a considerable increase
-in separation between the relationships categories from calling genotypes
+amplicon for all fish from the FRH (Fig.~\ref{fig:ckmr-comp}), with results for the PO vs Unrelated
+log likelihood ratio shown for more collections in Fig.~\ref{fig:ckmr-comp-supp}.  The figures show a considerable increase
+in separation between the relationship categories from calling genotypes
 as microhaplotypes in these amplicons.
+%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+\newcommand{\fprcap}{\footnotesize The distribution of log-likelihood ratios for
+fish from Feather River Hatchery when scoring markers as microhaplotypes versus as
+single SNPs.  Three different likelihood ratios are shown in the three panels.  The opacity
+of the distributions indicates the marker type: the more opaque setting indicates markers
+scored as microhaplotypes; the more transparent setting indicates the use of only the most
+heterozygous SNP from amongst all SNPs in the microhaplotype.  Evidently, scoring the markers
+as microhaplotypes produces more separation between the distributions for the relationships of PO, FS, or HS, against
+the relationship of unrelated (U).}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{images/frh-comp-figure-crop.pdf}
+\end{center}
+\caption[\fprcap]{\fprcap}
+\label{fig:ckmr-comp}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%
+
 
 While there is not a currently available method \citep[like that of][]{anderson2006power}) for estimating error rates in
 inference of parent-offspring trios with multiallelic marker data, given the substantial amount of statistical power for identifying
@@ -984,7 +1010,7 @@ River \citep{thompson2020complex}.
 
 
 Previous genetic marker sets for California Chinook salmon had sufficient power for inferring
-parent-offspring relationships, but only when both parents were sampled and genotyped.
+parent-offspring relationships, but only when both parents were sampled and genotyped \citep{clemento2013creation}.
 This marker set considerably increases the capacity for relationship inference in California
 salmon, by providing sufficient power for parent-offspring relationship inference, when only
 one parent is sampled, and identifying pairs of full siblings when no parents are sampled.
