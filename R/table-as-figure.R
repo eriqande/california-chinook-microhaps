@@ -103,17 +103,25 @@ table_as_figure <- function(
     summarise(val = last(val)) %>%
     filter(val != max(val))
 
+  require(ggpattern)
+  patterns = c(`Fall_run` = "none", `Late-fall run` = "stripe", `Spring run` = "none", `Winter run` = "none")
+
   # then put these together into a big ggplot
   all_but_cell_labels <- ggplot() +
-    geom_rect(  # outer edge filled rectangles
+    geom_rect_pattern(  # outer edge filled rectangles
       data = Z,
       mapping = aes(
         xmin = xmin,
         xmax = xmax,
         ymin = ymin,
         ymax = ymax,
-        fill = external_group
-      )
+        fill = external_group,
+        pattern = external_group
+      ),
+      pattern_fill    = 'black',
+      pattern_colour  = 'black',
+      pattern_size = 0.05,
+      pattern_spacing = 0.005
     ) +
     geom_label( # outer edge labels
       data = Z,
@@ -147,6 +155,7 @@ table_as_figure <- function(
     geom_hline(yintercept = N - internal_lines_tib$val, linewidth = thick_line_width) +
     coord_cartesian(xlim = c(-1, N+1), ylim = c(-1, N+1), expand = FALSE) +
     scale_fill_manual(values = c(external_colors, internal_colors), na.value = "white") +
+    scale_pattern_manual(values = patterns) +
     theme_void() +
     theme(
       legend.position = "none",
@@ -202,12 +211,28 @@ table_as_figure <- function(
   # the legends with cowplot
   for_external_legend <- RC_groups %>%
     mutate(egf = factor(external_group, levels = unique(external_group))) %>%
-    ggplot(aes(x = egf, fill = egf)) +
-    geom_bar(color = "black") +
+    ggplot() +
+    geom_bar_pattern(
+      aes(
+        x = egf,
+        fill = egf,
+        pattern = egf
+      ),
+      color = "black",
+      pattern_fill    = 'black',
+      pattern_colour  = 'black',
+      pattern_size = 0.05,
+      pattern_spacing = 0.01
+    ) +
     scale_fill_manual(
       values = external_colors,
       name = external_color_legend_name
+    ) +
+    scale_pattern_manual(
+      values = patterns,
+      name = external_color_legend_name
     )
+
 
   for_internal_legend <- RC_groups %>%
     mutate(igf = factor(internal_group, levels = unique(internal_group))) %>%
