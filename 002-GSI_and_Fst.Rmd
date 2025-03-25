@@ -44,7 +44,8 @@ if(exists("snakemake")) {
     ass_table80_tex = "tex/images/ass-table-80-crop.pdf",
     rosa_gsi_table_crop = "results/GSI_and_Fst/rosa-gsi-table-crop.pdf",
     rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",
-    pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv"
+    pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv",
+    popgen_summ = "tex/inputs/popgen-summary.tex"
   )
 }
 
@@ -137,10 +138,6 @@ fbmet <- full_base2 %>%
   left_join(map_notations_dist1, by = join_by(abbrv, repository_name)) %>%
   group_by(abbrv, repository_name, run_timing_for_table, map_text, WATERSHED) %>%
   nest()
-
-# Remove this once I get the full meta data
-fbmet <- fbmet %>% filter(!is.na(WATERSHED))
-
 
 # then extract bits of information from the data and set sparkline paths
 fbmet2 <- fbmet %>%
@@ -869,7 +866,8 @@ We can do all of our standard population genetic summaries here using `full_base
 It is pretty standard, but I think that i am going to standardize sample sizes.
        
 ```{r}
-fbl_no_miss <- full_base2 %>%
+# first pivot and get whether each locus is Hz or not
+fbl_10 <- full_base2 %>%
   select(-starts_with("NC_037130.1")) %>%  # drop the LFARs
   pivot_longer(
     cols = c(-(indiv:sample_type)),
@@ -878,12 +876,21 @@ fbl_no_miss <- full_base2 %>%
   ) %>%
   group_by(indiv, locus) %>%
   mutate(isHz = value[1] != value[2]) %>%
-  ungroup() %>%
+  ungroup()
+
+
+# then get the proportion of missing data for each population
+miss_props <- fbl_10 %>% 
+  group_by(repunit, collection) %>%
+  summarise(fractMiss = mean(is.na(value))) %>%
+  ungroup()
+
+  
+fbl_no_miss <- fbl_10 %>%
   filter(!is.na(value) & !is.na(isHz))
 
-
 # now we just summarize by collection and locus
-simple_summaries <- fbl_no_miss %>%
+simple_summaries <-  fbl_no_miss %>%
   group_by(repunit, collection, locus) %>%
   summarise(
     num_diploids = n() / 2.0,
@@ -892,12 +899,14 @@ simple_summaries <- fbl_no_miss %>%
   ) %>%
   ungroup()
 
-
-
-# here, we get the minimum number of diploids at each locus
+# here, we get the minimum number of diploids at each locus, which we
+# use for rarefaction sampling.
 min_gene_copies <- simple_summaries %>%
   group_by(locus) %>%
   summarise(min_gc = min(num_diploids) * 2)
+
+ 
+
 
 # here is a function to take N samples of size s from a vector
 # and return the mean number of distinct elements in it:
@@ -954,7 +963,7 @@ expHz <- fbl_no_miss %>%
 locus_summaries <- simple_summaries %>%
   left_join(expHz, by = join_by(repunit, collection, locus))
 
-# and now we can summarise there into means and SDs
+# and now we can summarise these into means and SDs
 mean_Hzs_etc <- locus_summaries %>%
   group_by(repunit, collection) %>%
   summarise(
@@ -966,13 +975,14 @@ mean_Hzs_etc <- locus_summaries %>%
 # OK, join the subsampled numbers onto those
 tibble_for_paper <- subby %>%
   left_join(mean_Hzs_etc, by = join_by(repunit, collection)) %>%
+  left_join(miss_props, by = join_by(repunit, collection)) %>%
   mutate(collection = factor(collection, levels = unique(pop_labels$collection))) %>%
   arrange(collection) %>%
   ungroup() %>%
-  select(collection, mean_num_dip, mean_num_alle, mean_fract_poly, mean_expHz, mean_obsHz) %>%
+  select(collection, fractMiss, mean_num_alle, mean_fract_poly, mean_expHz, mean_obsHz) %>%
   mutate(
     collection = as.character(collection),
-    mean_num_dip = sprintf("%.1f", mean_num_dip),
+    fractMiss = sprintf("%.3f", fractMiss),
     mean_num_alle = sprintf("%.2f", mean_num_alle),
     mean_fract_poly = sprintf("%.2f", mean_fract_poly),
     mean_expHz = sprintf("%.3f", mean_expHz),
@@ -980,7 +990,7 @@ tibble_for_paper <- subby %>%
   ) %>%
   rename(
     Code = collection,
-    `$\\bar{N}$` = mean_num_dip,
+    `$M$` = fractMiss,
     `$\\bar{N}_\\mathrm{A,ss}$` = mean_num_alle,
     `$\\bar{P}_\\mathrm{poly,ss}$` = mean_fract_poly,
     `$\\bar{\\mathrm{H}}_\\mathrm{exp}$` = mean_expHz,
@@ -993,7 +1003,7 @@ tibble_for_paper$Code[1] <- sprintf("\\hline %s", tibble_for_paper$Code[1])
 write_delim(
   tibble_for_paper,
   delim = "&",
-  file = "tex/inputs/popgen-summary.tex", 
+  file = output_list$popgen_summ, 
   eol = "\\tabularnewline\n", 
   quote = "none"
 )
