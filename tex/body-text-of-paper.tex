@@ -228,10 +228,9 @@ populations ranging from California to British
 Columbia and the interior Columbia River (Table~\ref{tab:ascert-panel}).
 Genomic DNA was extracted using Qiagen DNeasy 96 Blood and Tissue Kits on a BioRobot 3000
 (Qiagen, Inc). Double-digest restriction-site associated DNA sequencing (ddRAD) with different size selections (400 bp and 500 bp
-fragments) were used to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
-\citet{peterson2012double} with the modifications described in \citep{baetscher2018microhaplotypes}.
+fragments) was used to produce a broad array of locus targets. Library preparation and sequencing methods followed those of
+\citet{peterson2012double} with the modifications described in \citet{baetscher2018microhaplotypes}.
 Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing.
-
 Stacks v1.45 \citep{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome
 at the time, the ustacks module of Stacks were used to assemble reads {\em de novo} into RAD loci.  Initial filtering retained RAD loci with two or more SNPs present
 in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
@@ -243,12 +242,12 @@ and (2) showed haplotype variation amongst the winter run and at least one other
 A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is
 diminished in amplicons larger than 100 bp. Primer3
 software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
-These 229 gene regions were then tested for PCR-amplification and consistency.  This step included
-amplification in thousands of samples from a number of different collections of Chinook salmon for sampled
-for several projects, with
-subsequent sequencing on a
-MiSeq sequencer using a $2\times 75$-cycle kit.
-The sequences from each locus were mapped to the {\em de novo} reference sequences (produced by Stacks) with
+These 229 gene regions were then tested for PCR-amplification and consistency in a separate sample
+of 288 Chinook salmon: 96 SRW fish and 48 each from the Entiat River (a Columbia River
+tributary), TRH, FRHS, and CRLF\@.  Eight GT-seq amplifications were made and these were sequenced
+on eight runs of a MiSeq sequencer
+using a $2\times 75$-cycle kit to identify problematic loci and to optimize primer dilutions.
+The sequences from each run at each locus were mapped to the {\em de novo} reference sequences (produced by Stacks) with
 the Burrows-Wheeler aligner using the mem algorithm \citep{bwa-mem2009}. 
 Subsequently, alignments were sorted with SAMtools \citep{li2009sequence} and provided to
 FreeBayes \citep{garrison2012haplotype} for variant calling.
@@ -416,8 +415,7 @@ in the reference baseline
 using simple operations in the R programming language, Version 4.3
 \citep{rcore}. Summaries provided are:
 \begin {itemize}
-\item the average over loci of the number of fish
-in which each locus was successfully genotyped, $\bar{N}$;
+\item the total fraction of missing genotypes, $M$;
 \item the average number of alleles per locus in each collection with all collections
 downsampled to the smallest number of genotyped individuals at each
 locus, $\bar{N}_\mathrm{A,ss}$;
@@ -518,6 +516,12 @@ of the markers, as described above.
 
 \subsection*{Genetic Markers}
 
+The number of markers and variants obtained from each of our discovery efforts appears in
+Table~\ref{tab:loci-summ}.  Further information, including genomic location, consensus sequence, and primer sequences,
+of all the amplicons used in the reference data set is available
+in Data Supplement~1.  A graphical overview of genomic coordinates is found in Figure~\ref{fig:genome-locations}.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
 \caption{\footnotesize  Summary of amplicons in the reference data set.  Source denotes
@@ -542,10 +546,6 @@ Type&N (amplicon)&N (variant)\tabularnewline
 \vspace*{0.3ex}\hrule width0.48\textwidth
 \end{table}
 %%%%%%%%%%%%%%%
-
-A summary, which includes genomic location, consensus sequence, and primer sequences,
-of all the amplicons used in the baseline is available
-in Data Supplement~1.  An overview of genomic coordinates is found in Figure~\ref{fig:genome-locations}
 
 \subsubsection*{Additional microhaplotype discovery}
 
@@ -903,7 +903,7 @@ the relationship of unrelated (U).}
 %%%%%%%%%%%%%%%%%%%%
 
 
-While there is not a currently available method \citep[like that of][]{anderson2006power}) for estimating error rates in
+While there is not a currently available method \citep[like that of][]{anderson2006power} for estimating error rates in
 inference of parent-offspring trios with multiallelic marker data, given the substantial amount of statistical power for identifying
 PO and FS pairs, which 
 require much more statistical power, we hypothesize that PO-trio inference with these markers will be very accurate.
@@ -925,7 +925,12 @@ This set of genetic markers includes multiallelic gene regions with high variabi
 relationship inference, gene regions identified in whole-genome sequence data
 for increased power for identification of specific populations, and markers that have
 long been in use for both GSI and PBT in California \citep{clemento2014evaluation}, by converting them
-into so-called 'SNPlicons.' This set of markers lays the foundation for a comprehensive 
+into so-called 'SNPlicons,' which are treated as multiallelic haplotypes in the presence
+of additional variation surrounding the originally assayed SNP. Our work adds to a growing
+chorus of recent studies finding that microhaplotype markers can provide additional
+power over single SNPs for both GSI \citep{mckinney2017managing,mckinney2022new,hargrove2024efficient} and
+relationship inference \citep{baetscher2018microhaplotypes,bootsma2020gt,delomas2024microhaplotypes}.
+This set of markers lays the foundation for a comprehensive 
 genetic monitoring and evaluation effort that facilitates multiple types of inference 
 and is flexible and extensible.
 

@@ -19,15 +19,16 @@ detailed below, and we are pleased with how this has improved the manuscript._
 
 ### Major Comments
 
-* **I’m confused by the amount of sequencing and a clear purpose of each sequencing run that should be clarified. There was ddRAD to identify novel polymorphisms/microhaplotypes, the second run using a using PCR-GBS type sequencing has an unclear purpose. Was this on the full population? Another “amplicon sequencing” run was performed to convert SNPtype polymorphisms, which sounds similar to the second sequencing run of ddRAD polymorphisms but uses different terminology. Was this part of the previous run? Was this run a few samples or the full population? I presume these were different runs but maybe they were the same. The GT-seq method, does this include all samples and the full set of markers to this point?**
-
-    - **Should be able to just add a few sentences to make this more clear.**
+* I’m confused by the amount of sequencing and a clear purpose of each sequencing run that should be clarified. There was ddRAD to identify novel polymorphisms/microhaplotypes, the second run using a using PCR-GBS type sequencing has an unclear purpose. Was this on the full population? Another “amplicon sequencing” run was performed to convert SNPtype polymorphisms, which sounds similar to the second sequencing run of ddRAD polymorphisms but uses different terminology. Was this part of the previous run? Was this run a few samples or the full population? I presume these were different runs but maybe they were the same. The GT-seq method, does this include all samples and the full set of markers to this point?
+    - _We added to this section to make it more clear that the ddRAD one was to find gene regions, and the
+    subsequent sequencing runs were made on amplicons from those gene regions, and we are also explicit about
+    how many fish were used in those GT-seq optimization runs._
 
 * Authors provide considerable detail on sample location in the methods but only provide the sample number in the introduction. I believe it would be useful to have summary sentences of Table 1 that include number sites for spring, fall, etc run, and the number of samples within each ecotype, total samples within the methods, etc.
     - _Thank you for this suggestion.  We added the following to the end of the first paragraph in the Population Sampling portion of the
 Methods section:_
-"Of the 1594 total fish samples from 17 different populations, 724 fish from 10 collections were of the fall run ecotype,
-498 fish from 5 collections were spring run, and 261 and 111 fish were of the winter run and late-fall run ecotypes, 
+"Of the 1636 total fish samples from 17 different populations, 727 fish from 10 collections were of the fall run ecotype,
+498 fish from 5 collections were spring run, and 111 and 300 fish were of the winter run and late-fall run ecotypes, 
 respectively,  each represented by a single collection."
 
 * Is there any LOD threshold for your GWAS that allowed identifying the chr34 peak? 
@@ -69,8 +70,9 @@ respectively,  each represented by a single collection."
     to reproduce the old marker set with the same reference samples._
     
 
-* **It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.**
-    - **Should be easy to throw a few citations in probably in a paragraph in the discussion.**
+* It may also be worth discussing other studies on other organisms that either support or do not support the utilization and increased power achieved through haplotypes over SNPs.
+    - _We have included four additional citation in the first paragraph of the discussion
+    to place this work in the context of those other investigations._
 
 
 
@@ -164,10 +166,13 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
     groups of markers that correspond to the different sources of information._
 
 
-* **Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.**
-    - **Oh crap! We were missing 42 fish from the meta-data.  When Anthony gets
-    these for me, I will include and regenerate Table 1.  I will also just do
-    proportion of missing data, instead of average num indivs.**
+* Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.
+    - _Thank you very much for noting this.  We have now corrected this problem. The table was
+    created from an old version of our metadata file that was missing entried from 42 fish.  These
+    fish are now properly included in the metadata file and the figures in Table 1 have been
+    regenerated. Also, we agree with the referee that the average number of non-missing genotypes
+    is a less useful metric than one quantified as a proportion.  Therefore we have replaced
+    the average number of non-missing genotypes with the total proportion of missing data in Table 1._
 
 ### Minor Comments
 
