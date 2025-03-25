@@ -121,9 +121,9 @@ and with unsatisfactory power for discriminating the protected spring-run stocks
 harvested fall-run stock \citep{seeb2007development,clemento2014evaluation}.
 
 We present a new reference baseline that includes 1,636 Chinook salmon individuals from 17 collections that were genotyped at 204 loci distributed throughout the genome.
-This baseline is highly effective for GSI within California and provides ample power for PBT, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program 
+This baseline is highly effective for GSI within California and provides ample power for PBT inference of other close relatives, thus enabling a highly effective and efficient integrated GSI/PBT monitoring and evaluation program 
 \citep{garza2007large,beacham2021parentage}.
-We describe how we identified and compiled the markers, including several new markers
+We describe how we developed and compiled the markers, including several new markers
 identified through re-analysis of the whole genome sequencing data of \citet{thompson2020complex},
 that are particularly effective at distinguishing between closely related groups of fish,
 such as late-fall and fall-run Chinook salmon in the CCV.  We also provide a comprehensive analysis of this
@@ -232,7 +232,7 @@ fragments) was used to produce a broad array of locus targets. Library preparati
 \citet{peterson2012double} with the modifications described in \citet{baetscher2018microhaplotypes}.
 Sequencing was performed on a MiSeq (Illumina, Inc) using $2 \times 300$-cycle paired-end sequencing.
 Stacks v1.45 \citep{catchen2013stacks} was used to analyze the ddRAD sequence data.  As there was not a well-assembled Chinook salmon genome
-at the time, the ustacks module of Stacks were used to assemble reads {\em de novo} into RAD loci.  Initial filtering retained RAD loci with two or more SNPs present
+at the time, the ustacks module of Stacks was used to assemble reads {\em de novo} into RAD loci.  Initial filtering retained RAD loci with two or more SNPs present
 in at least 10 samples. After this initial filtering, there were 3,931 RAD loci retained in the ddRAD data with 400 bp size selection and
 4,794 retained in the data with 500 bp size selection.
 
@@ -242,13 +242,13 @@ and (2) showed haplotype variation amongst the winter run and at least one other
 A 100 bp window was used because the success of multiplex PCR and MiSeq sequencing is
 diminished in amplicons larger than 100 bp. Primer3
 software \citep{untergasser2012primer3} was used to design primers for 229 gene regions that met these criteria.
-These 229 gene regions were then tested for PCR-amplification and consistency in a separate sample
+These 229 gene regions were tested for PCR-amplification and consistency in a separate sample
 of 288 Chinook salmon: 96 SRW fish and 48 each from the Entiat River (a Columbia River
 tributary), TRH, FRHS, and CRLF\@.  Eight GT-seq amplifications were made and these were sequenced
 on eight runs of a MiSeq sequencer
 using a $2\times 75$-cycle kit to identify problematic loci and to optimize primer dilutions.
 The sequences from each run at each locus were mapped to the {\em de novo} reference sequences (produced by Stacks) with
-the Burrows-Wheeler aligner using the mem algorithm \citep{bwa-mem2009}. 
+the Burrows-Wheeler (bwa) aligner using the mem algorithm \citep{bwa-mem2009}. 
 Subsequently, alignments were sorted with SAMtools \citep{li2009sequence} and provided to
 FreeBayes \citep{garrison2012haplotype} for variant calling.
 FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
@@ -266,7 +266,7 @@ These markers were typed using amplicon sequencing, following the methods in
 \citet{campbell2015genotyping} with the addition of the Illumina small RNA sequencing primer and
 read 2 sequencing primer to the SNPtype Specific Target Amplification Primer and Locus
 Specific Primers respectively.  Loci were removed that were frequently inconsistent with SNPtype assays,
-had poor amplification, or had excessive amplification and were subsequently over-represented in the sequencing library.  FreeBayes \citep{garrison2012haplotype} was used to identify all SNPs (additional to the TaqMan-assay targets) along the fragment, which facilitated scoring fragment microhaplotypes when multiple SNPs were present along the read \citep{baetscher2018microhaplotypes}. The resulting genetic markers are hereafter referred to as `SNPlicons' to record their origin as TaqMan assays in a previous
+had poor amplification, or had excessive amplification and were subsequently over-represented in the sequencing library.  FreeBayes was used to identify all SNPs (additional to the TaqMan-assay targets) along the fragment, which facilitated scoring fragment microhaplotypes when multiple SNPs were present along the read \citep{baetscher2018microhaplotypes}. The resulting genetic markers are hereafter referred to as `SNPlicons' to record their origin as TaqMan assays in a previous
 baseline.
 
 
@@ -377,7 +377,7 @@ groups of markers we identified their locations within the genome by mapping the
 consensus sequences (roughly 100--300 bp) around the markers
 to both the Chinook salmon version 1 (Otsh\_v1.0, GenBank accession GCA\_002872995.1)
 and version 2  (Otsh\_v2.0, GenBank accession GCA\_018296145.1) genome assemblies,
-using both bwa mem \citep{bwa-mem2009} and the BLAST-like Alignment tool, BLAT \citep{kent2002blat}.
+using both bwa mem and the BLAST-like Alignment tool, BLAT \citep{kent2002blat}.
 A similar mapping exercise was performed for the remaining markers to
 report their locations in both Otsh\_v1.0 and Otsh\_v2.0.
 
@@ -469,9 +469,9 @@ scaled likelihood greater than 0.8 were assigned.
 
 Finally, we investigated the matrix of assignments and misassignments
 broken down according to the genotype of the fish at the markers within
-the RoSA.  RoSA genotype \citep[EE, EL, or LL, see~][]{thompson2020complex}
+the RoSA.  RoSA genotype \citep[EE, EL, or LL, see][]{thompson2020complex}
 was assessed from the concordance of the genotypes
-at all 8 markers described in \citep{thompson2020complex}, requiring that no genotypes be missing
+at all 8 markers described in \citet{thompson2020complex}, requiring that no genotypes be missing
 within an individual from any of those 8 markers, and discarding data from 12 individuals
 in which the E or L haplotypes had clearly recombined.
 
@@ -534,16 +534,14 @@ targeting the SIX6 and VGLL3 genes, respectively, sexy = sexID marker, coho =
 distinguishes coho from Chinook salmon. The $^*$ denotes markers routinely
 excluded from likelihood calculations for GSI.}
 \label{tab:loci-summ}
-{
 \begin{tabular*}{0.48\textwidth}{@{\extracolsep{\fill}} lrr}
 \hline\hline
 Type&N (amplicon)&N (variant)\tabularnewline
 \hline
 \input{inputs/amplicon-summary.tex}
 \end{tabular*}
-}
-\vspace*{-2.3ex}\hrule width0.48\textwidth
-\vspace*{0.3ex}\hrule width0.48\textwidth
+\par\vspace*{-3.2ex}\noindent\rule{0.48\textwidth}{0.5pt}
+\par\vspace*{-2.4ex}\noindent\rule{0.48\textwidth}{0.5pt}
 \end{table}
 %%%%%%%%%%%%%%%
 
@@ -553,7 +551,7 @@ Of 229 tested candidates from our novel microhaplotype discovery process
 125 markers were retained \citep{thompson2020complex}
 for use in stock identification within
 the Klamath Basin.  However, further evaluation of those markers in other
-populations led the removal of
+populations led to the removal of
 twelve loci with apparent null alleles in the winter-run population, two that were monomorphic
 in the winter-run, despite having
 multiple alleles in other populations, and an additional 5 loci that were
@@ -617,8 +615,8 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 \input{inputs/lfar-freqs.tex}
 \end{tabular*}
 }
-\vspace*{-2.3ex}\hrule width0.48\textwidth
-\vspace*{0.3ex}\hrule width0.48\textwidth
+\par\vspace*{-2.2ex}\noindent\rule{0.48\textwidth}{0.5pt}
+\par\vspace*{-2.4ex}\noindent\rule{0.48\textwidth}{0.5pt}
 \end{table}
 %%%%%%%%%%%%%%%
 
@@ -675,8 +673,8 @@ codes are as given in Table~\ref{tab:samples}}
 \input{inputs/popgen-summary.tex}
 \end{tabular*}
 }
-\vspace*{-2.3ex}\hrule width0.48\textwidth
-\vspace*{0.3ex}\hrule width0.48\textwidth
+\par\vspace*{-2.2ex}\noindent\rule{0.48\textwidth}{0.5pt}
+\par\vspace*{-2.4ex}\noindent\rule{0.48\textwidth}{0.5pt}
 \end{table}
 %%%%%%%%%%%%%%%
 The total fraction of missing data by collection varied from a low of
@@ -926,7 +924,7 @@ relationship inference, gene regions identified in whole-genome sequence data
 for increased power for identification of specific populations, and markers that have
 long been in use for both GSI and PBT in California \citep{clemento2014evaluation}, by converting them
 into so-called 'SNPlicons,' which are treated as multiallelic haplotypes in the presence
-of additional variation surrounding the originally assayed SNP. Our work adds to a growing
+of additional variation surrounding the originally assayed SNP\@. Our work adds to a growing
 chorus of recent studies finding that microhaplotype markers can provide additional
 power over single SNPs for both GSI \citep{mckinney2017managing,mckinney2022new,hargrove2024efficient} and
 relationship inference \citep{baetscher2018microhaplotypes,bootsma2020gt,delomas2024microhaplotypes}.
