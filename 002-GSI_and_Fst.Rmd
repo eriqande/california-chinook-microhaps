@@ -86,8 +86,8 @@ full_base2 <- full_base %>%
   select(-repunit) %>%
   left_join(pop_labels %>% select(old_name, collection, repunit), by = join_by(old_name)) %>%
   select(-old_name) %>%
-  select(indiv, repunit, collection, sample_type, everything()) %>%
-  filter(!duplicated(indiv))  # necessary cuz clemento stuck mill and deer together into a single code
+  select(indiv, repunit, collection, sample_type, everything())
+
 
 # finally, get the order of collections and repunits we want
 collection_order <- unique(pop_labels$collection)
