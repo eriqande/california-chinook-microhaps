@@ -165,7 +165,9 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 
 
 * **Table 3: The values in second column (the average number of fish with observed genotypes) seem odd to me. I would have thought these values would be less than seventh column in Table 1 (column N). For example, CHLF has 379.6 in Table 3 > 261 in Table 1. Can the authors explain this? Furthermore, the proportion of individuals with observed genotypes is a more useful metric than the average number of non-missing genotypes, since there the number of fish between sampling sites is very different.**
-    - **Gotta still see what he is talking about here.**
+    - **Oh crap! We were missing 42 fish from the meta-data.  When Anthony gets
+    these for me, I will include and regenerate Table 1.  I will also just do
+    proportion of missing data, instead of average num indivs.**
 
 ### Minor Comments
 
@@ -198,9 +200,17 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 - Caption of Table 3: “N is the number of fish …” should be “N is the average number of fish …”
     - _Fixed_
 
-- **Figure 1 and 2: The colours for “spring run” and “Late-fall run” are very difficult to separate for a colour-blind person. Since the groups are not in a specific order on the graph, it is very hard work to out what is what. I’d recommend the authors use a selection of colours that will work for colour-blind people.**
+- Figure 1 and 2: The colours for “spring run” and “Late-fall run” are very difficult to separate for a colour-blind person. Since the groups are not in a specific order on the graph, it is very hard work to out what is what. I’d recommend the authors use a selection of colours that will work for colour-blind people.
 
-    - **Planning to just cross-hatch the light blue of the late fall**
+    - _We greatly appreciate this feedback and apologize for the difficulty in
+    discerning those two colors. We have introduced several changes to the figures
+    that we hope will make the distinction between those colors much easier.
+    In order to keep the color scheme consistent, as much as possible,
+    with previous publications we have employed different shapes and striping to
+    make the different run types more distinct for colour-blind people. Specifically,
+    Figure 1 (the map) now uses different colors and shapes for the different run
+    timing groups.  Figure 2 using striping across the Late-fall run group sectors
+    to clearly distinguish that color from the spring-run color._
 
 - Line 589: “unprecedented” is an over-statement as there is no independent validation set. The authors should use a word that less forceful.
     - _Changed to "excellent"_
