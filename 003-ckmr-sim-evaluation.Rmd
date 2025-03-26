@@ -21,6 +21,7 @@ start_time <- Sys.time()
 if(exists("snakemake")) {
   input_list <- snakemake@input
   output_list <- snakemake@output
+  threads <- as.numeric(snakemake@threads)
 } else {
   input_list <- list(
     final_baseline = "data/SWFSC-chinook-reference-baseline.csv.gz",
@@ -29,9 +30,9 @@ if(exists("snakemake")) {
   )
   output_list <- list(
     ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf",
-    ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf",
     frh_comp_tex = "tex/images/frh-comp-figure-crop.pdf"
   )
+  threads <- 8
 }
 
 # add the intermediates that are not really outputs
@@ -42,7 +43,8 @@ output_list <- c(
   ckmr_comp = "results/ckmr-sim-eval/cmkr-comp-figure.pdf",
   ckmr_comp_crop = "results/ckmr-sim-eval/cmkr-comp-figure-crop.pdf",
   frh_comp = "results/ckmr-sim-eval/frh-comp-figure.pdf",
-  frh_comp_crop = "results/ckmr-sim-eval/frh-comp-figure-crop.pdf"
+  frh_comp_crop = "results/ckmr-sim-eval/frh-comp-figure-crop.pdf",
+  ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf" # ggsave doesn't save this, so see code comments below
 )
 
 # you can create the necessary output directories like this:
@@ -271,7 +273,7 @@ set.seed(5)
 tmp_list <- mclapply(
   X = ckmr_sim_nests$data, 
   FUN = function(x) get_FPRs_and_FNRs(x),
-  mc.cores = 8
+  mc.cores = threads
 )
 
 ckmr_sim_results <- tibble(
@@ -536,7 +538,7 @@ input_tibbles <- bind_rows(
     mutate(condition = "top_snps", .before = ckmr_sim_group)
 )
 
-Qsims <- mclapply(input_tibbles$data, get_logl_rats, mc.cores = 8)
+Qsims <- mclapply(input_tibbles$data, get_logl_rats, mc.cores = threads)
 
 AllSims <- tibble(
   condition = input_tibbles$condition,
@@ -574,6 +576,7 @@ asg <- ggplot(AllSims, aes(x = logl_ratio, fill = true_relat)) +
 
 # So, instead I just print the thing in the Rstudio window and export it
 # at size 13" high by 10" wide. Then I moved it to where it belongs in the tex directory.
+# at tex/images/cmkr-comp-figure-crop.pdf
 asg
 ```
 
