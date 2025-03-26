@@ -1,0 +1,127 @@
+
+
+# list of the chromosomes
+CHROMS=[
+  "NC_037097.1",
+  "NC_037098.1",
+  "NC_037099.1",
+  "NC_037100.1",
+  "NC_037101.1",
+  "NC_037102.1",
+  "NC_037103.1",
+  "NC_037104.1",
+  "NC_037105.1",
+  "NC_037106.1",
+  "NC_037107.1",
+  "NC_037108.1",
+  "NC_037109.1",
+  "NC_037110.1",
+  "NC_037111.1",
+  "NC_037112.1",
+  "NC_037113.1",
+  "NC_037114.1",
+  "NC_037115.1",
+  "NC_037116.1",
+  "NC_037117.1",
+  "NC_037118.1",
+  "NC_037119.1",
+  "NC_037120.1",
+  "NC_037121.1",
+  "NC_037122.1",
+  "NC_037123.1",
+  "NC_037124.1",
+  "NC_037125.1",
+  "NC_037126.1",
+  "NC_037127.1",
+  "NC_037128.1",
+  "NC_037129.1",
+  "NC_037130.1"
+]
+
+# list of the different comparisons
+COMPS=[
+  "lf_v_sanjo",  # late fall versus San Jo
+  "lf_v_frhf",   # late fall versus FRH fall
+#  "lf_v_both"    # late fall versus FRH fall and San Jo combined
+]
+
+
+
+N = 28  # Number of unplaced groups 
+num_list = [str(i).zfill(3) for i in range(1, N+1)]
+
+
+
+rule all:
+  input:
+    expand("results/doAsso/{comp}/{chrom}.lrt0.gz", comp=COMPS, chrom=CHROMS),
+    expand("results/doAsso_unplaced/{comp}/{unp}.lrt0.gz", comp=COMPS, unp=num_list),
+    #"results/mh_plots/lfar-assoc-faceted-min-3.png",  # good for testing.  Takes less time...
+    "results/mh_plots/lfar-assoc-faceted-min-0.png",  
+
+
+rule do_asso_chrom:
+  input:
+    ybin="inputs/{comp}.ybin",
+    bamlist="inputs/{comp}.bamlist"
+  params:
+    chrom="{chrom}"
+  threads: 10
+  log:
+    "results/logs/do_asso_chrom/{comp}/{chrom}.log"
+  output:
+    "results/doAsso/{comp}/{chrom}.lrt0.gz"
+  conda:
+    "envs/angsd.yaml"
+  shell:
+    " PREFIX=$(echo {output} | sed 's/\.lrt0\.gz//g;'); "
+    " angsd -yBin {input.ybin} -r {params.chrom} "
+    " -minMapQ 30 -minQ 20 -minInd 12 -doAsso 1 -GL 1 "
+    " -doMajorMinor 1 -doMaf 1 -SNP_pval 1e-6 "
+    " -out $PREFIX  -bam {input.bamlist} -P {threads} 2>{log}"
+
+
+
+
+# doAsso on the unplaced scaffolds
+rule do_asso_unplaced:
+  input:
+    ybin="inputs/{comp}.ybin",
+    bamlist="inputs/{comp}.bamlist",
+    rf="inputs/region_files/unplaced-{unp}.txt"
+  threads: 2
+  resources:
+    mem_mb=9400
+  log:
+    "results/logs/do_asso_unplaced/{comp}/{unp}.log"
+  output:
+    "results/doAsso_unplaced/{comp}/{unp}.lrt0.gz"
+  conda:
+    "envs/angsd.yaml"
+  shell:
+    " PREFIX=$(echo {output} | sed 's/\.lrt0\.gz//g;'); "
+    " angsd -yBin {input.ybin} "
+    " -minMapQ 30 -minQ 20 -minInd 12 -doAsso 1 -GL 1 "
+    " -doMajorMinor 1 -doMaf 1 -SNP_pval 1e-6 "
+    " -rf {input.rf} "
+    " -out $PREFIX  -bam {input.bamlist} -P {threads} 2>{log}"
+   
+
+rule mh_plots:
+  input:
+    sg="inputs/scaffold_groups.tsv",
+    lf_v_frhf_lrts=expand("results/doAsso/{comp}/{chrom}.lrt0.gz", comp="lf_v_frhf", chrom=CHROMS) +
+      expand("results/doAsso_unplaced/{comp}/{unp}.lrt0.gz", comp="lf_v_frhf", unp=num_list),
+    lf_v_sanjo_lrts=expand("results/doAsso/{comp}/{chrom}.lrt0.gz", comp="lf_v_sanjo", chrom=CHROMS) +
+      expand("results/doAsso_unplaced/{comp}/{unp}.lrt0.gz", comp="lf_v_sanjo", unp=num_list),
+  params:
+    neg_log10_cutoff="{neg10}"
+  log:
+    "results/logs/mh_plots/{neg10}.log"
+  envmodules:
+    "R/4.0.3"
+  output:
+    mh_plot="results/mh_plots/lfar-assoc-faceted-min-{neg10}.png"
+  script:
+    "scripts/manhattan-plot.R"
+    

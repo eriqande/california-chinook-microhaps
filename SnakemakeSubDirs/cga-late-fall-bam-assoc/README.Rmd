@@ -1,0 +1,13 @@
+---
+title: "cga-late-fall-bam-assoc"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This simply contains a snakefile and some additional inputs to run
+doAsso in angsd on a series of different input files while breaking
+things up over chromosomes (or one of all the unplaced scaffolds).
+
