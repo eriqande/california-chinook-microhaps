@@ -30,11 +30,20 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    pdf = "results/genomic-locations-plot/gen-loc.pdf",
-    pdfcrop = "results/genomic-locations-plot/gen-loc-crop.pdf",
-    pdftex = "tex/images/genomic-locations-plot.pdf"
+    pdf = "results/genomic-locations-plot/gen-loc.pdf"
   )
 }
+
+
+# add the intermediate results/paths we need
+output_list <- c(
+  output_list,
+  pdfcrop = "results/genomic-locations-plot/gen-loc-crop.pdf",
+  pdftex = "tex/images/genomic-locations-plot.pdf"
+)
+
+
+
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)

@@ -31,24 +31,31 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    assig_table = "results/GSI_and_Fst/assignment-table-full-baseline.pdf",
-    fst_table = "results/GSI_and_Fst/full-baseline-but-no-lfar-Fst-table.pdf",
-    assig_table_lfar_all = "results/GSI_and_Fst/assignment-table-full-baseline-plus-lfar.pdf",
-    ass_table80 = "results/GSI_and_Fst/ass-table-80.pdf",
-    rosa_gsi_table = "results/GSI_and_Fst/rosa-gsi-table.pdf",
     tex_table = "tex/inputs/samples-table.tex",
-    gsi_fst_fig = "results/GSI_and_Fst/gsi_and_fst_fig.pdf",
-    gsi_fst_fig_crop = "results/GSI_and_Fst/gsi_and_fst_fig-crop.pdf",
     gsi_fst_fig_tex = "tex/images/gsi_and_fst_fig-crop.pdf",
-    ass_table80_crop = "results/GSI_and_Fst/ass-table-80-crop.pdf",
     ass_table80_tex = "tex/images/ass-table-80-crop.pdf",
-    rosa_gsi_table_crop = "results/GSI_and_Fst/rosa-gsi-table-crop.pdf",
     rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",
     pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv",
     popgen_summ = "tex/inputs/popgen-summary.tex"
   )
 }
 
+# then add the intermediates to it:
+# then add the intermediate things to it
+output_list <- c(
+  output_list,
+  assig_table = "results/GSI_and_Fst/assignment-table-full-baseline.pdf",
+  fst_table = "results/GSI_and_Fst/full-baseline-but-no-lfar-Fst-table.pdf",
+  assig_table_lfar_all = "results/GSI_and_Fst/assignment-table-full-baseline-plus-lfar.pdf",
+  ass_table80 = "results/GSI_and_Fst/ass-table-80.pdf",
+  rosa_gsi_table = "results/GSI_and_Fst/rosa-gsi-table.pdf",
+  gsi_fst_fig = "results/GSI_and_Fst/gsi_and_fst_fig.pdf",
+  gsi_fst_fig_crop = "results/GSI_and_Fst/gsi_and_fst_fig-crop.pdf",
+  ass_table80_crop = "results/GSI_and_Fst/ass-table-80-crop.pdf",
+  rosa_gsi_table_crop = "results/GSI_and_Fst/rosa-gsi-table-crop.pdf"
+)
+
+    
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)

@@ -28,18 +28,22 @@ if(exists("snakemake")) {
     locus_info = "inputs/Calif-Chinook-Amplicon-Panel-Information.csv"
   )
   output_list <- list(
-    ckmr_figure = "results/ckmr-sim-eval/fpr-fnr-figure.pdf",
-    ckmr_figure_crop = "results/ckmr-sim-eval/fpr-fnr-figure-crop.pdf",
     ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf",
-    ckmr_comp = "results/ckmr-sim-eval/cmkr-comp-figure.pdf",
-    ckmr_comp_crop = "results/ckmr-sim-eval/cmkr-comp-figure-crop.pdf",
     ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf",
-    frh_comp = "results/ckmr-sim-eval/frh-comp-figure.pdf",
-    frh_comp_crop = "results/ckmr-sim-eval/frh-comp-figure-crop.pdf",
     frh_comp_tex = "tex/images/frh-comp-figure-crop.pdf"
-    
   )
 }
+
+# add the intermediates that are not really outputs
+output_list <- c(
+  output_list,
+  ckmr_figure = "results/ckmr-sim-eval/fpr-fnr-figure.pdf",
+  ckmr_figure_crop = "results/ckmr-sim-eval/fpr-fnr-figure-crop.pdf",
+  ckmr_comp = "results/ckmr-sim-eval/cmkr-comp-figure.pdf",
+  ckmr_comp_crop = "results/ckmr-sim-eval/cmkr-comp-figure-crop.pdf",
+  frh_comp = "results/ckmr-sim-eval/frh-comp-figure.pdf",
+  frh_comp_crop = "results/ckmr-sim-eval/frh-comp-figure-crop.pdf"
+)
 
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
