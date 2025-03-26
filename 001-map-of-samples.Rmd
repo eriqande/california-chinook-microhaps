@@ -7,12 +7,10 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('tex/citation.bib')`"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
 ```
 
@@ -54,6 +52,8 @@ library(ggspatial)
 #library(ggsn)
 library(cowplot)
 library(plotly)
+library(maps) # needed for map_data()
+library(mapproj)  # making it explicit for renv
 ```
 
 # Download spatial data
@@ -387,11 +387,6 @@ for(r in 1:nrow(rc_col_tib)) {
 }
 ```
 
-
-# Citations
-
-::: {#refs}
-:::
 
 # Session Info
 

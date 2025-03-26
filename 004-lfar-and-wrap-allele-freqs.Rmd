@@ -7,12 +7,10 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('tex/citation.bib')`"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
 ```
 
@@ -246,12 +244,6 @@ wft2 <- wrap_for_table %>%
 write_delim(wft2, delim = "&", eol = "\\tabularnewline\n", file = output_list$wrap_tex_table, col_names = FALSE)
 ```
 
-  
-
-# Citations
-
-::: {#refs}
-:::
 
 # Session Info
 

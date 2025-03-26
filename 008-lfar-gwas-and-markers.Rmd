@@ -10,6 +10,11 @@ output:
 ---
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+start_time <- Sys.time()
+```
+
 # Introduction
 
 Here we do a GWAS to find a genomic region that is substantially differentiated between
@@ -21,8 +26,6 @@ candidate sites to target for amplicon sequencing.
 # Input and Output Paths
 
 ```{r}
-start_time <- Sys.time()
-
 # inputs:
 input_list <- list(
   chr34_late_fall_mafs = "stored_results/5Mb_Chr34-late-fall.mafs.gz",
@@ -34,10 +37,18 @@ input_list <- list(
 )
 # outputs:
 output_list <- list(
-  late_fall_ids = "outputs/007/late-fall-ids.txt",
-  cv_fall_ids = "outputs/007/cv-fall-ids.txt",
-  candidates_for_assays = "outputs/007/candidates_for_assays.csv"
+  lfar_candidates_tex = "tex/images/lfar-candidates.pdf"
 )
+
+# additional outputs not specified in Snakefile:
+output_list <-  c(
+  output_list,
+  late_fall_ids = "results/lfar/late-fall-ids.txt",
+  cv_fall_ids = "results/lfar/cv-fall-ids.txt",
+  candidates_for_assays = "results/lfar/candidates_for_assays.csv"
+)
+
+
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
@@ -130,7 +141,7 @@ Mac originally ran the association analysis between Late Fall and the two fall r
 the Central Valley (Feather and San Joaquin), finding significant differences
 on Chromosome 34 (NC_037130.1).   We have seen the same thing with the GWAS just described.
 
-Accordingly, we will investigate a 5 Mb chunck of Chromosome 34 to:
+Accordingly, we will investigate a 5 Mb chunk of Chromosome 34 to:
 
 1. confirm those markers and explore patterns of differentiation in the region
 2. See if the differentiation corresponds to annotated variants of large effect
@@ -146,7 +157,7 @@ Anthony can design primers for them.
 We will simply compare the allele frequencies estimated in the CV fall-run vs the late-fall
 run using ANGSD.  I will do this in a 5 Mb chunk for a little context.
 
-### Get the IDs.
+### Get the IDs
 ```{r, message=FALSE}
 
 
@@ -488,7 +499,7 @@ g <- ggplot(mapping = aes(x = position, y = abs_diff, colour = `Candidate Marker
   xlab("Position on Chromosome 34 (Mb)") +
   ylab("|d|, Absolute Difference in Allele Frequency")
 
-ggsave(g, filename = "tex/images/lfar-candidates.pdf", width = 8, height = 5)
+ggsave(g, filename = output_list$lfar_candidates, width = 8, height = 5)
 ```
 
 ## Preparing an assay order
@@ -514,19 +525,12 @@ write_csv(actual_candidates, file = output_list$candidates_for_assays)
 
 
 
-# Citations
-
-::: {#refs}
-:::
 
 # Session Info
 
 ```{r}
 sessioninfo::session_info()
 ```
-
-
-
 
 
 # Running Time

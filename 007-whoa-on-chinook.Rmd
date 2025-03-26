@@ -1,5 +1,5 @@
 ---
-title: "Running the California Microhap Baseline through `whoa` and Deciding We Should Drop Two of the Amplicons"
+title: "Running the California Microhap Baseline through `whoa` and Deciding We Could Drop Two of the Amplicons in a Future Revision of the Baseline"
 author: "Eric C. Anderson"
 date: "Last Updated: `r Sys.Date()`"
 output:
@@ -12,7 +12,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
 
 ```
@@ -30,7 +29,7 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    zs = "results/whoa/heterozygote-z-scores.pdf"
+    whoa_zs = "results/whoa/heterozygote-z-scores.pdf"
   )
 }
 
@@ -214,7 +213,7 @@ zs <- sorted_losers %>%
   theme_bw() +
   facet_wrap(~ locus, ncol = 10) 
 
-  ggsave(zs, filename = output_list$zs, width = 20, height = 30)
+  ggsave(zs, filename = output_list$whoa_zs, width = 20, height = 30)
 ```
 
 That provides a lovely perspective on things.  mhap073 and mhap093 are clearly pathological.
@@ -247,5 +246,21 @@ tib_with_dropped_plots$dropped_scatters
 
 So, what we see is that most of the really egregious ones are gone, but in some
 populations there are a few that look a little wonky, but those are only
-in a few pops.  So, I don't think we really need to toss any others.
+in a few pops.  So, I don't think we really would be called upon to toss any others
+in a future revision of the baseline.
+
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
 

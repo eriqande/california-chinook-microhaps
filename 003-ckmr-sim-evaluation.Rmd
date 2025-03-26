@@ -62,6 +62,11 @@ library(parallel)
 library(grid)
 library(gridExtra)
 
+
+# ensure that Mendel is installed into the CKMRsim package tree:
+install_mendel(Dir = system.file(package = "CKMRsim"))
+
+
 # get the full baseline with the new markers, etc.  We will toss out some
 # non-winter Sacto fish of unknown provenance
 full_base <- read_csv(input_list$final_baseline) 
@@ -676,4 +681,27 @@ system(CALL)
 
 file.rename(from = output_list$frh_comp_crop, to = output_list$frh_comp_tex)
 
+g8
+
 ```
+
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
+
+
+
+
+

@@ -7,12 +7,10 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-bibliography: "`r here::here('tex/citation.bib')`"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
 ```
 
@@ -30,7 +28,7 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    pdf = "results/genomic-locations-plot/gen-loc.pdf"
+    genome_locations_tex = "tex/images/genomic-locations-plot.pdf"
   )
 }
 
@@ -38,8 +36,8 @@ if(exists("snakemake")) {
 # add the intermediate results/paths we need
 output_list <- c(
   output_list,
-  pdfcrop = "results/genomic-locations-plot/gen-loc-crop.pdf",
-  pdftex = "tex/images/genomic-locations-plot.pdf"
+  genome_locations_pdf = "results/genomic-locations-plot/gen-loc.pdf",
+  genome_locations_crop = "results/genomic-locations-plot/gen-loc-crop.pdf"
 )
 
 
@@ -130,22 +128,18 @@ final
 
 Write the thing out to a PDF file.
 ```{r}
-ggsave(final, file = output_list$pdf, width = 7, height = 8.5)
+ggsave(final, file = output_list$genome_locations_pdf, width = 7, height = 8.5)
 ```
 
 Then pdfcrop it and put it where we can include it in the Supplement.
 ```{r}
 # let's crop that down for use, too
-CALL <- paste("pdfcrop ", output_list$pdf, collapse = " ")
+CALL <- paste("pdfcrop ", output_list$genome_locations_pdf, collapse = " ")
 system(CALL)
 
-file.copy(from = output_list$pdfcrop, to = output_list$pdftex, overwrite = TRUE)
+file.copy(from = output_list$genome_locations_crop, to = output_list$genome_locations_tex, overwrite = TRUE)
 ```
 
-# Citations
-
-::: {#refs}
-:::
 
 # Session Info
 

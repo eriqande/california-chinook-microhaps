@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
 ```
 
@@ -28,16 +27,21 @@ if(exists("snakemake")) {
   )
   # outputs:
   output_list <- list(
-    mh_plot = "results/wrap-discover/winter-v-non-winter-mh-plot_nind_ge10.pdf",
-    mh4tex = "tex/images/winter-v-non-winter-mh-plot_nind_ge10.pdf",
-    pdf = "results/genomic-locations-plot/gen-loc.pdf",
-    hundy_kb_plot = "results/wrap-discover/100-kb-intervals-plot.pdf",
+    winter_v_nonwinter_mh_tex = "tex/images/winter-v-non-winter-mh-plot_nind_ge10.pdf",
     hundy_kb4tex = "tex/images/wrap-slide-window.pdf",
-    fuv2 = "results/wrap-discover/follow_up_variants2.rds",
-    wrap61_plot = "results/wrap-discover/wrap-candi.pdf",
     wrap61_4tex = "tex/images/wrap-candi.pdf"
   )
 }
+
+# now add the intermediates
+output_list <- c(
+  output_list,
+  mh_plot = "results/wrap-discover/winter-v-non-winter-mh-plot_nind_ge10.pdf",
+  hundy_kb_plot = "results/wrap-discover/100-kb-intervals-plot.pdf",
+  wrap61_plot = "results/wrap-discover/wrap-candi.pdf",
+  fuv2 = "results/wrap-discover/follow_up_variants2.rds"
+)
+
 # you can create the necessary output directories like this:
 dump <- lapply(output_list, function(x)
   dir.create(dirname(x), recursive = TRUE, showWarnings = FALSE)
@@ -313,7 +317,7 @@ see the points and point density better.
 ggsave(mh_plot + ylim(0.5, 1.0), filename = output_list$mh_plot,
        height = 7, width = 12)
 
-file.copy(from = output_list$mh_plot, to = output_list$mh4tex, overwrite = TRUE)
+file.copy(from = output_list$mh_plot, to = output_list$winter_v_nonwinter_mh_tex, overwrite = TRUE)
 ```
 
 ## Zoom in on NC077112.1
@@ -489,11 +493,6 @@ file.copy(from = output_list$wrap61_plot, to = output_list$wrap61_4tex, overwrit
 ```{r}
 write_rds(fuv2, path = output_list$fuv2, compress = "xz")
 ```
-
-# Citations
-
-::: {#refs}
-:::
 
 # Session Info
 

@@ -12,9 +12,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_knit$set(root.dir = here::here())
 start_time <- Sys.time()
-
 ```
 
 # Input and Output Paths
@@ -1064,5 +1062,23 @@ ggsave(gbp, filename = "tex/images/num-alle-barplot.pdf", width = 4, height = 3)
 
 numa
 ```
+
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+
+# Running Time
+
+Running the code and rendering this notebook required approximately this much time:
+
+```{r}
+Sys.time() - start_time
+```
+
+
 
 
