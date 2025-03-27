@@ -1,13 +1,22 @@
 ---
-title: "EVA-2025-003-RA Responses to Reviewers"
+title: "EVA-2025-003-RA Cover Letter and Responses to Reviewers"
 output: pdf_document
-date: "2025-03-07"
+date: "2025-03-26"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Thank you for the opportunity to revise our manuscript for _Evolutionary Applications_.
+We have made a number of changes as recommended by the referees and feel that
+these have greatly improved the manuscript.  
+
+In addition to the responses to referees (below) we are uploading a version of
+the manuscript created with `latexdiff` that shows the changes we have made in
+the document since the previously submitted version.
+
+It has been a pleasure working with the journal's editorial staff.
 
 
 ## Reviewer 1
@@ -227,5 +236,5 @@ This study develops a microhaplotype panel (based on the GT-seq method) to creat
 - The online data and scripts (thank you for providing these) needs a proper readme file describing what the folders and files relate to.
 
     - A comprehensive README has been added.  The repo and its README can be viewed at:
-    [https://github.com/eriqande/california-chinook-microhaps/](https://github.com/eriqande/california-chinook-microhaps/).  This will be archived at Zenodo upon acceptance.  
+    [https://anonymous.4open.science/r/california-chinook-microhaps-A661/README.md](https://anonymous.4open.science/r/california-chinook-microhaps-A661/README.md).  This will be archived at Zenodo upon acceptance.  
 
