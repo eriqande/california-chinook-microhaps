@@ -5,12 +5,22 @@
 # for the paper and the supplement
 rule all:
     input:
+        "docs/001-map-of-samples.html",
+        "docs/002-GSI_and_Fst.html",
+        "docs/003-ckmr-sim-evaluation.html",
+        "docs/004-lfar-and-wrap-allele-freqs.html",
+        "docs/005-plotting-genome-locations-of-markers.html",
+        "docs/006-winter-run-vs-all-cv-alle-freqs.html",
+        "docs/007-whoa-on-chinook.html",
+        "docs/008-lfar-gwas-and-markers.html",
+        "docs/009-structure.html",
         texmap = "tex/images/map-crop.pdf",                             # Figure 1
         tex_table = "tex/inputs/samples-table.tex",                     # Table 1
         gsi_fst_fig_tex = "tex/images/gsi_and_fst_fig-crop.pdf",        # Figure 2
         ass_table80_tex = "tex/images/ass-table-80-crop.pdf",           # Figure S6
         rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",      # Figures S7
         pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv",  # Supp Data 2
+        num_alle_barplot = "tex/images/num-alle-barplot.pdf",           # Figure S4
         popgen_summ = "tex/inputs/popgen-summary.tex",                  # Table 4
         ckmr_figure_tex = "tex/images/fpr-fnr-figure-crop.pdf",         # Figure 4
         #ckmr_comp_tex = "tex/images/cmkr-comp-figure-crop.pdf",        # Figure S8, but ggsave fails on it so it was exported by hand
@@ -22,7 +32,8 @@ rule all:
         hundy_kb4tex = "tex/images/wrap-slide-window.pdf",              # Figure S10
         wrap61_4tex = "tex/images/wrap-candi.pdf",                      # Figure S11
         whoa_zs = "results/whoa/heterozygote-z-scores.pdf",             # Not included in final paper
-        lfar_candidates_tex = "tex/images/lfar-candidates.pdf"          # Figure S3
+        lfar_candidates_tex = "tex/images/lfar-candidates.pdf",          # Figure S3
+
 
 
 
@@ -57,7 +68,8 @@ rule GSI_and_Fst:
         ass_table80_tex = "tex/images/ass-table-80-crop.pdf",
         rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",
         pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv",
-        popgen_summ = "tex/inputs/popgen-summary.tex"
+        popgen_summ = "tex/inputs/popgen-summary.tex",
+        num_alle_barplot = "tex/images/num-alle-barplot.pdf"
     log:
         "results/logs/GSI_and_Fst.log"
     conda:
@@ -178,3 +190,16 @@ rule lfar_gwas_and_markers:
     script:
         "scripts/render-rmd-for-snakemake.R"
 
+
+
+rule structure:
+    input:
+        rmd="009-structure.Rmd"
+    output:
+        html="docs/009-structure.html"
+    log:
+        "results/logs/structure.log"
+    conda:
+        "envs/pandoc.yaml"
+    script:
+        "scripts/render-rmd-for-snakemake.R"

@@ -34,7 +34,8 @@ if(exists("snakemake")) {
     ass_table80_tex = "tex/images/ass-table-80-crop.pdf",
     rosa_gsi_table_tex = "tex/images/rosa-gsi-table-crop.pdf",
     pop_gen_by_loc_coll = "tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv",
-    popgen_summ = "tex/inputs/popgen-summary.tex"
+    popgen_summ = "tex/inputs/popgen-summary.tex",
+    num_alle_barplot = "tex/images/num-alle-barplot.pdf"
   )
 }
 
@@ -1058,7 +1059,7 @@ gbp <- ggplot(numa, aes(x = factor(num_alle), y = n)) +
   xlab("Total number of alleles") +
   ylab("Number of loci")
 
-ggsave(gbp, filename = "tex/images/num-alle-barplot.pdf", width = 4, height = 3)
+ggsave(gbp, filename = output_list$num_alle_barplot, width = 4, height = 3)
 
 numa
 ```

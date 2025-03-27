@@ -2752,7 +2752,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Assessing Power of the California Microhap
 Baseline for GSI (and calculating Fst)</h1>
 <h4 class="author">Eric C. Anderson</h4>
-<h4 class="date">Last Updated: 2025-03-26</h4>
+<h4 class="date">Last Updated: 2025-03-27</h4>
 
 </div>
 
@@ -2775,7 +2775,8 @@ Baseline for GSI (and calculating Fst)</h1>
     ass_table80_tex = &quot;tex/images/ass-table-80-crop.pdf&quot;,
     rosa_gsi_table_tex = &quot;tex/images/rosa-gsi-table-crop.pdf&quot;,
     pop_gen_by_loc_coll = &quot;tex/supp_data/Supp-Data-2-pop-gen-summaries-by-locus-and-collection.csv&quot;,
-    popgen_summ = &quot;tex/inputs/popgen-summary.tex&quot;
+    popgen_summ = &quot;tex/inputs/popgen-summary.tex&quot;,
+    num_alle_barplot = &quot;tex/images/num-alle-barplot.pdf&quot;
   )
 }
 
@@ -2901,8 +2902,8 @@ fbmet3 &lt;- fbmet2 %&gt;%
 <pre><code>## Warning: There were 2 warnings in `mutate()`.
 ## The first warning was:
 ## ℹ In argument: `ggplot = map2(...)`.
-## ℹ In group 5: `abbrv = &quot;CRHS&quot;`, `repository_name = &quot;Cole Rivers Hatchery&quot;`, `run_timing_for_table = &quot;Spring&quot;`,
-##   `map_text = &quot;Cole Rivers H., CRHS&quot;`, `WATERSHED = &quot;Rogue River&quot;`.
+## ℹ In group 5: `abbrv = &quot;CRHS&quot;`, `repository_name = &quot;Cole Rivers Hatchery&quot;`, `run_timing_for_table = &quot;Spring&quot;`, `map_text = &quot;Cole Rivers H., CRHS&quot;`,
+##   `WATERSHED = &quot;Rogue River&quot;`.
 ## Caused by warning:
 ## ! No shared levels found between `names(values)` of the manual scale and the data&#39;s fill values.
 ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</code></pre>
@@ -3815,7 +3816,7 @@ gbp &lt;- ggplot(numa, aes(x = factor(num_alle), y = n)) +
   xlab(&quot;Total number of alleles&quot;) +
   ylab(&quot;Number of loci&quot;)
 
-ggsave(gbp, filename = &quot;tex/images/num-alle-barplot.pdf&quot;, width = 4, height = 3)
+ggsave(gbp, filename = output_list$num_alle_barplot, width = 4, height = 3)
 
 numa</code></pre>
 <div data-pagedtable="false">
@@ -3827,7 +3828,7 @@ numa</code></pre>
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <pre class="r"><code>sessioninfo::session_info()</code></pre>
-<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
+<pre><code>## ─ Session info ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##  setting  value
 ##  version  R version 4.4.3 (2025-02-28)
 ##  os       macOS Monterey 12.7.5
@@ -3837,11 +3838,11 @@ numa</code></pre>
 ##  collate  en_US.UTF-8
 ##  ctype    en_US.UTF-8
 ##  tz       America/Denver
-##  date     2025-03-26
+##  date     2025-03-27
 ##  pandoc   3.6.4 @ /Users/eriq/Documents/git-repos/california-chinook-microhaps/.snakemake/conda/def120e971fb2c87a8c042b4c2c09bdb_/bin/ (via rmarkdown)
 ##  quarto   1.4.550 @ /usr/local/bin/quarto
 ## 
-## ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ─ Packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##  ! package      * version date (UTC) lib source
 ##  P bit            4.6.0   2025-03-06 [?] CRAN (R 4.4.1)
 ##  P bit64          4.6.0-1 2025-01-16 [?] CRAN (R 4.4.1)
@@ -3920,14 +3921,14 @@ numa</code></pre>
 ##  * ── Packages attached to the search path.
 ##  P ── Loaded and on-disk path mismatch.
 ## 
-## ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+## ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 <div id="running-time" class="section level1">
 <h1>Running Time</h1>
 <p>Running the code and rendering this notebook required approximately
 this much time:</p>
 <pre class="r"><code>Sys.time() - start_time</code></pre>
-<pre><code>## Time difference of 1.868796 mins</code></pre>
+<pre><code>## Time difference of 1.804486 mins</code></pre>
 </div>
 
 
