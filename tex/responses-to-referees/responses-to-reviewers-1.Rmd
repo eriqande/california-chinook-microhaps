@@ -36,8 +36,8 @@ detailed below, and we are pleased with how this has improved the manuscript._
 * Authors provide considerable detail on sample location in the methods but only provide the sample number in the introduction. I believe it would be useful to have summary sentences of Table 1 that include number sites for spring, fall, etc run, and the number of samples within each ecotype, total samples within the methods, etc.
     - _Thank you for this suggestion.  We added the following to the end of the first paragraph in the Population Sampling portion of the
 Methods section:_
-"Of the 1636 total fish samples from 17 different populations, 727 fish from 10 collections were of the fall run ecotype,
-498 fish from 5 collections were spring run, and 111 and 300 fish were of the winter run and late-fall run ecotypes, 
+"Of the 1,636 total fish samples from 17 different populations, 727 fish from 10 collections were of the fall-run ecotype,
+498 fish from 5 collections were spring run, and 111 and 300 fish were of the winter-run and late-fall-run ecotypes, 
 respectively,  each represented by a single collection."
 
 * Is there any LOD threshold for your GWAS that allowed identifying the chr34 peak? 

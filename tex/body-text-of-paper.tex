@@ -141,8 +141,8 @@ These locations included sites in the two
 main tributaries (the Sacramento River and the San Joaquin River) within
 California's Central Valley, and the two main tributaries (Klamath and Trinity Rivers) in the Klamath basin in Northern California, and
 three rivers of the California coast (Russian, Eel, and Smith).
-Of the 1636 total fish samples from 17 different populations, 727 fish from 10 collections were of the fall run ecotype,
-498 fish from 5 collections were spring run, and 111 and 300 fish were of the winter run and late-fall run ecotypes, 
+Of the 1,636 total fish samples from 17 different populations, 727 fish from 10 collections were of the fall-run ecotype,
+498 fish from 5 collections were spring run, and 111 and 300 fish were of the winter-run and late-fall-run ecotypes, 
 respectively,  each represented by a single collection.
 (Figure~\ref{fig:map}, Table~\ref{tab:samples}).
 %%%%%%%%%%%%%
@@ -178,7 +178,7 @@ early returning fish in May and April (expressing the spring-run life history) a
 to the river. Subsequently in the fall, when hatchery raceways are reopened, only fish with the visible tag are included
 as spring-run broodstock, and the rest are included in the fall-run broodstock.
 Putative spring-run and fall-run fish 
-from these two broodstocks were sampled. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith River), Iron Gate (Klamath River) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath River); all locations where only fall-run fish have been documented.  Spring run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
+from these two broodstocks were sampled. Similar to broodstock collections in the CCV, samples from spring- and fall-run fish in the Trinity River were selected on the basis of spawn timing at the Trinity River Hatchery with migration-timing ecotype confirmed by RoSA genotype. Elsewhere, adult samples were taken from live broodstock at Rowdy Creek (Smith River), Iron Gate (Klamath River) and Warm Springs (Russian River) Hatcheries and juveniles were sampled from Blue Creek (Klamath River); all locations where only fall-run fish have been documented.  Spring-run adult fish were sampled from the spring-run broodstock at Cole Rivers Hatchery on the Rogue River. Samples from the Eel River were taken from live fish ascending a ladder in the upper basin and were confirmed as fall-run ecotype by RoSA genotype. 
 
 
 
@@ -248,7 +248,7 @@ tributary), TRH, FRHS, and CRLF\@.  Eight GT-seq amplifications were made and th
 on eight runs of a MiSeq sequencer
 using a $2\times 75$-cycle kit to identify problematic loci and to optimize primer dilutions.
 The sequences from each run at each locus were mapped to the {\em de novo} reference sequences (produced by Stacks) with
-the Burrows-Wheeler (bwa) aligner using the mem algorithm \citep{bwa-mem2009}. 
+bwa mem \citep{bwa-mem2009}. 
 Subsequently, alignments were sorted with SAMtools \citep{li2009sequence} and provided to
 FreeBayes \citep{garrison2012haplotype} for variant calling.
 FreeBayes output was filtered to remove indels and retain variants with a Phred-scaled quality score of 30
@@ -261,7 +261,7 @@ assessment of Hardy-Weinberg equilibrium \citep{hardy1908mendelian} was conducte
 A number of SNP markers from an earlier discovery effort \citep{clemento2011discovery} had already
 been validated as useful for GSI
 and PBT in California \citep{clemento2014evaluation}. These markers were originally assayed
-using TaqMan (Life Technologies Corp., Carlsbad, CA) probes or SNPtype assays (Standard BioTools Inc., South San Francisco, CA).
+using TaqMan (Life Technologies Corp.) probes or SNPtype assays (Standard BioTools Inc.).
 These markers were typed using amplicon sequencing, following the methods in
 \citet{campbell2015genotyping} with the addition of the Illumina small RNA sequencing primer and
 read 2 sequencing primer to the SNPtype Specific Target Amplification Primer and Locus
@@ -623,7 +623,7 @@ Reporting Unit & freq. & $N$ & freq. & $N$ \\ \hline
 \subsubsection*{Winter-run-associated polymorphisms}
 
 Initial examination of sequence data 
-in the 16 winter-run fish and 84 non-winter run fish revealed
+in the 16 winter-run fish and 84 non-winter-run fish revealed
 a number of SNPs that were potentially diagnostic, but none were fixed for alternate alleles 
 in a larger sample.
 Nonetheless, three of these markers had large frequency differences
@@ -740,7 +740,7 @@ of replicate runs of structure that converged to this major mode.}
 \label{fig:struct}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%
-The late-fall run collection (CHLF) appears as a separate cluster at $K$ values
+The late-fall-run collection (CHLF) appears as a separate cluster at $K$ values
 as low as 4, with the inclusion of the LFAR markers.  This is notable, since accurately discriminating between the late-fall and
 fall-run Chinook salmon of the Central Valley has been impossible with previously used genetic marker sets.
 Another noteworthy feature appears at $K=7$, with STRUCTURE separating the fall-run reporting unit
@@ -763,13 +763,13 @@ with divisions amongst the stocks as defined for management, and, as seen in
 Figure~\ref{fig:gsi}b, they correspond with groups of populations that can be reliably distinguished
 from one another for population assignment.
 
-Overall, of the 1636 fish in the reference baseline, 1612 (98.5\%) were correctly
+Overall, of the 1,636 fish in the reference baseline, 1,612 (98.5\%) were correctly
 assigned to their reporting unit of origin, while 24 (1.5\%) were incorrectly assigned.
 Four of those 24 misassignments which involved fish being incorrectly assigned to
 SRW, were clearly fish from SRW that had been incorrectly sampled into a different
 collection, likely due to straying. (This is evident because SRW are so distinct that it is highly improbable they
 would be incorrectly identified).  Of the remaining 20 misassignments,  8 involved fish from the
-CHLF (late fall run) collection being misassigned to the CV-Fall reporting unit and 6 were
+CHLF (late-fall run) collection being misassigned to the CV-Fall reporting unit and 6 were
 fish from the MDS (Mill-Deer spring run) collection being assigned to the CV-Fall reporting unit.
 It is possible that some of these misassignments represent CV-Fall fish that were incorrectly
 sampled as CHLF or MDS; however, unlike with SRW,  we  cannot conclude that
@@ -779,8 +779,7 @@ While fish from CHLF were found to misassign at a rate of 2.7\% (8/300) and MDS 
 of 7.1\% (6/84) to CV-Fall, misassignment in the other direction occurs at a much lower
 rate---that is, fish from the CV-Fall are misassigned to CHLF at a rate
 of only 0.6\% (3/508) and to the CV-Spring reporting unit (to which MDS belongs) at a rate
-of only 0.4\% (2/508).
-When assignments are only accepted with a scaled likelihood greater than 0.8,
+of only 0.4\% (2/508). When assignments are only accepted with a scaled likelihood greater than 0.8,
 10 incorrect assignments and 10 correct assigments are discarded.  Thus,
 at the 0.8 threshold, the total fraction of correct assignments is 99.1\% (Figure~\ref{fig:eighty}).
 Notably with the $>$0.8 criterion, the misassignment rates from the abundant CV-Fall
@@ -878,8 +877,8 @@ amplicon.  To provide a visual display of the difference afforded by using
 microhaplotypes compared to single SNPs in this data set, we show the
 distribution of log-likelihood ratios for different relationships using our microhaplotype-scored
 amplicons, versus using the most heterozygous single SNP from each
-amplicon for all fish from the FRH (Fig.~\ref{fig:ckmr-comp}), with results for the PO vs Unrelated
-log likelihood ratio shown for more collections in Fig.~\ref{fig:ckmr-comp-supp}.  The figures show a considerable increase
+amplicon for all fish from the FRH (Figure~\ref{fig:ckmr-comp}), with results for the PO vs Unrelated
+log likelihood ratio shown for more collections in Figure~\ref{fig:ckmr-comp-supp}.  The figures show a considerable increase
 in separation between the relationship categories from calling genotypes
 as microhaplotypes in these amplicons.
 %%%%%%%%%%%%%%%%%%%%%
@@ -925,7 +924,7 @@ for increased power for identification of specific populations, and markers that
 long been in use for both GSI and PBT in California \citep{clemento2014evaluation}, by converting them
 into so-called 'SNPlicons,' which are treated as multiallelic haplotypes in the presence
 of additional variation surrounding the originally assayed SNP\@. Our work adds to a growing
-chorus of recent studies finding that microhaplotype markers can provide additional
+number of recent studies finding that microhaplotype markers can provide additional
 power over single SNPs for both GSI \citep{mckinney2017managing,mckinney2022new,hargrove2024efficient} and
 relationship inference \citep{baetscher2018microhaplotypes,bootsma2020gt,delomas2024microhaplotypes}.
 This set of markers lays the foundation for a comprehensive 
@@ -961,7 +960,7 @@ of functional genetic markers in the RoSA. Finally, although previous work has d
 GSI capabilities that distinguish the natural-spawning CCV spring-run lineages from
 each other and their fall-run counterparts with moderately high accuracy, we demonstrate
 near complete accuracy in distinguishing these 'stocks'. Moreover, the few fish that are
-apparently misidentified (Figure~\ref{fig:gsi}) are likely to be primarily migrants and not true misidentifications.
+apparently misidentified (Figure~\ref{fig:gsi},~\ref{fig:eighty}) are likely to be primarily migrants and not true misidentifications.
 For example, the three fish that were field-characterized as spring-run from Butte Creek, but are
 genetically identified as winter-run salmon clearly carry the winter-run genomic background and
 are strays from the winter-run stock, as these could not realistically be misidentified on the 
