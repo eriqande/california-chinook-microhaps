@@ -176,7 +176,7 @@ fbmet4 <- fbmet3 %>%
 fbmet5 <- fbmet4 %>%
   ungroup() %>%
   mutate(
-    `Sampling Months` = sprintf("\\raisebox{-0.12 em}{\\includegraphics[height=1.02em]{../%s}}", sparkline_path),
+    `Sampling Months` = sprintf("\\raisebox{-0.12 em}{\\includegraphics[height=1.02em]{%s}}", str_replace(sparkline_path, "tex/", "")),
     `Year Range` = sprintf("%d--%d", min_year, max_year)
   ) %>%
   select(`Mainstem River`, abbrv, map_text, run_timing_for_table, repunit, ESU, N, N_date, `Sampling Months`, `Year Range`) %>%
