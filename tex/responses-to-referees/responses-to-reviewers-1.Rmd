@@ -8,6 +8,8 @@ date: "2025-03-26"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<!--THIS DOCUMENT CAN BE RENDERED IN RMARKDOWN FOR EASIER VIEWING-->
+
 Thank you for the opportunity to revise our manuscript for _Evolutionary Applications_.
 We have made a number of changes as recommended by the referees and feel that
 these have greatly improved the manuscript.  
