@@ -21,7 +21,9 @@ Campbell, Neil F. Thompson, John Carlos Garza
   - [009-structure.Rmd](#009-structurermd)
 - [Repo Contents](#repo-contents)
 
-**Last Updated:** 2025-03-27
+**Last Updated:** 2025-04-23
+
+[![DOI](https://zenodo.org/badge/732209907.svg)](https://doi.org/10.5281/zenodo.15271275)
 
 This repository includes code, data, and some intermediate results to
 reproduce the results in Anderson et al. (“A multipurpose microhaplotype

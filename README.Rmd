@@ -2,16 +2,21 @@
 title: "california-chinook-microhaps: Data and code repository for \"A multipurpose microhaplotype panel for genetic analysis of California Chinook salmon\""
 author: "Eric C. Anderson (also repo maintainer), Anthony J. Clemento, Matthew A. Campbell, Devon E. Pearse, Anne K. Beulke, Cassie Columbus, Ellen Campbell, Neil F. Thompson, John Carlos Garza"
 output: 
+  github_document:
+    toc: true
+    toc_depth: 3
   html_document:
     toc: true
     toc_float: true
     toc_depth: 3
-  github_document:
-    toc: true
-    toc_depth: 3
 ---
 
 **Last Updated:** `r Sys.Date()`
+
+
+
+[![DOI](https://zenodo.org/badge/732209907.svg)](https://doi.org/10.5281/zenodo.15271275)
+
 
 
 ```{r setup, include=FALSE}
